@@ -26,7 +26,8 @@ body {
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     
    
-    background-image: url('../img/bg_pattern.png');
+    background-image: url('../img/background.png');
+    
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
