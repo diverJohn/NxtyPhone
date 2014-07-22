@@ -5,11 +5,31 @@
         <link rel="stylesheet" type="text/css" href="css/index.css"/>
         <script type="text/javascript" language="JavaScript">
  
+ 
+		// Handle the Register key
+		function handleRegKey()
+		{
+		 	alert("Reg key pressed!");
+		}
+
+		// Handle the Check for SW Update key
+		function handleSwUpdateKey()
+		{
+		 	alert("Check for SW Update Key pressed!");
+		}
+
+		// Handle the Teck Mode key
+		function handleTechModeKey()
+		{
+		 	alert("Tech Mode key pressed!");
+		}
+
+ 
         </script>
     </head>
     <body>
-  		<input type="button" value="Register"/>
-		<input type="button" value="Check for SW Update"/>
-		<input type="button" value="Tech Mode"/>
+  		<input type="button" value="Register" onclick="handleRegKey()"/>
+		<input type="button" value="Check for SW Update" onclick="handleSwUpdateKey()"/>
+		<input type="button" value="Tech Mode" onclick="handleTechModeKey()"/>
     </body>
 </html>
