@@ -135,4 +135,7 @@ width: 100%;
 opacity: 0.75;
 }
 
-
+li>a.tappable-active {
+    color: #fff;
+    background-color: #4286f5;
+}
