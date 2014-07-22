@@ -15,6 +15,8 @@
         John Owen
     </author>
  
+ <gap:plugin name="com.randdusing.bluetoothle" version="1.0.0" />
+ 
  <!--
     <feature name="http://api.phonegap.com/1.0/camera"/>
     <feature name="http://api.phonegap.com/1.0/contacts"/>
