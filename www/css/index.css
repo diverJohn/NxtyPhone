@@ -111,22 +111,10 @@ h1 {
 .register {
 background-color: Transparent;
 border-color: Transparent;
-}
-
-.swupdate {
-background-color: Transparent;
-border-color: Transparent;
-}
-
-.techmode {
-background-color: Transparent;
-border-color: Transparent;
-}
-
-/*
-.register {
-background-color: Transparent;
-border-color: Transparent;
+margin-left: auto;
+margin-right: auto;
+width: 100%;
+opacity: 0.75;
 }
 
 .swupdate {
@@ -135,11 +123,16 @@ border-color: Transparent;
 margin-left: auto;
 margin-right: auto;
 width: 100%;
+opacity: 0.75;
 }
 
 .techmode {
 background-color: Transparent;
 border-color: Transparent;
-float: right;
+margin-left: auto;
+margin-right: auto;
+width: 100%;
+opacity: 0.75;
 }
-*/
+
+
