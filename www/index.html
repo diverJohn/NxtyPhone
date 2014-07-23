@@ -3,7 +3,6 @@
     <head>
     
     	
-    	<script src="http://jsconsole.com/remote.js?nxty_console_debug"></script>
     	
     	
         <title>Nextivity Vision</title>
@@ -14,21 +13,21 @@
 		// Handle the Register key
 		function handleRegKey()
 		{
-		 	alert("Reg key pressed!");
+//		 	alert("Reg key pressed!");
 		 	console.log("Reg key pressed");
 		}
 
 		// Handle the Check for SW Update key
 		function handleSwUpdateKey()
 		{
-		 	alert("Check for SW Update Key pressed!");
+//		 	alert("Check for SW Update Key pressed!");
 		 	console.log("SW Update key pressed");
 		}
 
 		// Handle the Teck Mode key
 		function handleTechModeKey()
 		{
-		 	alert("Tech Mode key pressed!");
+//		 	alert("Tech Mode key pressed!");
 		 	console.log("Tech Mode key pressed");
 		}
 
@@ -37,11 +36,20 @@
     </head>
     <body>
     	<img src="img/header.png" width="100%" />
-  		<button type="button" class="register" onclick="handleRegKey()"><img src="img/button_Register.png" /></button>
-		<button type="button" class="swupdate" onclick="handleSwUpdateKey()"><img src="img/button_SwUpdate.png" /></button>
-		<button type="button" class="techmode" onclick="handleTechModeKey()"><img src="img/button_TechMode.png"/></button>
+  		<button type="button" class="mybutton" onclick="handleRegKey()"><img src="img/button_Register.png" /></button>
+		<button type="button" class="mybutton" onclick="handleSwUpdateKey()"><img src="img/button_SwUpdate.png" /></button>
+		<button type="button" class="mybutton" onclick="handleTechModeKey()"><img src="img/button_TechMode.png"/></button>
 		
+		<script src="lib/jquery-1.8.2.min.js"></script>
 		<script src="phonegap.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/bluetooth.js"></script>
+		
+		<script type="text/javascript">
+       		StartBluetooth();
+    	</script>
+    
+		
+		
     </body>
 </html>

@@ -18,7 +18,13 @@ var reconnectTimer = null;
 var iOSPlatform = "iOS";
 var androidPlatform = "Android";
 
-bluetoothle.initialize(initializeSuccess, initializeError);
+var bluetoothle;
+
+function StartBluetooth()
+{
+	console.log("starting bluetooth");
+	bluetoothle.initialize(initializeSuccess, initializeError);
+}
 
 function initializeSuccess(obj)
 {

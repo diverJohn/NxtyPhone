@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns       = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "NxtyPhone"
+        versionCode = "10"
+        version     = "1.1.0">
+ 
+    <name>Nextivity Vision</name>
+ 
+    <description>
+        Nextivity Phone App
+    </description>
+ 
+    <author email="jowen@nextivityinc.com">
+        John Owen
+    </author>
+ 
+ <!--
+    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <feature name="http://api.phonegap.com/1.0/contacts"/>
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/geolocation"/>
+    <feature name="http://api.phonegap.com/1.0/media"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <feature name="http://api.phonegap.com/1.0/notification"/>
+ -->
+ 
+<!-- <gap:plugin name="org.apache.cordova.geolocation" version="0.3.6" /> -->
+ 
+<!-- 
+<gap:plugin name="org.apache.cordova.camera" version="0.2.9" />
+<gap:plugin name="org.apache.cordova.contacts" version="0.2.9" />
+-->
+     
+</widget>

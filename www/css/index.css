@@ -108,7 +108,7 @@ h1 {
 }
 
 
-.register {
+.mybutton {
 background-color: Transparent;
 border-color: Transparent;
 margin-left: auto;
@@ -117,23 +117,7 @@ width: 100%;
 opacity: 0.75;
 }
 
-.swupdate {
-background-color: Transparent;
-border-color: Transparent;
-margin-left: auto;
-margin-right: auto;
-width: 100%;
-opacity: 0.75;
-}
 
-.techmode {
-background-color: Transparent;
-border-color: Transparent;
-margin-left: auto;
-margin-right: auto;
-width: 100%;
-opacity: 0.75;
-}
 
 li>a.tappable-active {
     opacity: 1;
