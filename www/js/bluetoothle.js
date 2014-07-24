@@ -63,9 +63,7 @@ function startScanSuccess(obj)
   {
     console.log("Scan match: " + obj.name );
     
-    var bytes = bluetoothle.getBytes(obj.advertisement);
-    console.log("Advertisement: " + bytes[0] + bytes[1] + bytes[2] + bytes[3] + bytes[4] );
-    
+  
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
 
@@ -124,7 +122,8 @@ function stopScanError(obj)
 function connectDevice(address)
 {
   console.log("Begining connection to: " + address + " with 5 second timeout");
-    var paramsObj = {"address":address};
+  
+  var paramsObj = {"address":address};
   bluetoothle.connect(connectSuccess, connectError, paramsObj);
   connectTimer = setTimeout(connectTimeout, 5000);
 }
@@ -137,7 +136,7 @@ function connectSuccess(obj)
 
     clearConnectTimeout();
 
-    tempDisconnectDevice();
+//jdo leave connected    tempDisconnectDevice();
   }
   else if (obj.status == "connecting")
   {
