@@ -5,7 +5,7 @@
 
 var addressKey = "address";
 
-var heartRateServiceAssignedNumber = "180d";
+var heartRateServiceAssignedNumber = "600AD648";
 var heartRateMeasurementCharacteristicAssignedNumber = "2a37";
 var clientCharacteristicConfigDescriptorAssignedNumber = "2902";
 var batteryServiceAssignedNumber = "180f";
@@ -32,7 +32,7 @@ function initializeSuccess(obj)
     var address = window.localStorage.getItem(addressKey);
     if (address == null)
     {
-        console.log("Bluetooth initialized successfully, starting scan for heart rate devices.");
+        console.log("Bluetooth initialized successfully, starting scan for Cel-Fi devices.");
         var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
         bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
     }
@@ -203,6 +203,9 @@ function reconnectSuccess(obj)
 
     clearReconnectTimeout();
 
+    console.log("jdo: Should be connected at this point");
+
+/*
     if (window.device.platform == iOSPlatform)
     {
       console.log("Discovering heart rate service");
@@ -214,6 +217,7 @@ function reconnectSuccess(obj)
       console.log("Beginning discovery");
       bluetoothle.discover(discoverSuccess, discoverError);
     }
+*/    
   }
   else if (obj.status == "connecting")
   {
