@@ -3,7 +3,18 @@ var app = {
 	registerEvents: function() {
 	    var self = this;
 	    	
-	  	            console.log("reg events");
+        console.log("reg events");
+        
+        // Call onDeviceReady when PhoneGap is loaded.
+	    //
+	    // At this point, the document has loaded but phonegap-1.0.0.js has not.
+	    // When PhoneGap is loaded and talking with the native device,
+	    // it will call the event `deviceready`.
+	    // 
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+  
+    
+
 	  	              	    
 //	    $(window).on('hashchange', $.proxy(this.route, this));
 	    	    
@@ -30,10 +41,18 @@ var app = {
 	        });
 	    }
 	    
-
-
 	},
+
      
+    // deviceready Event Handler
+    //
+  	// PhoneGap is now loaded and it is now safe to make calls using PhoneGap
+    //
+    onDeviceReady: function() {
+    	console.log( "device ready" );
+        StartBluetooth();
+    },   
+       
        
     showAlert: function (message, title) {
       if (navigator.notification) {
@@ -51,7 +70,7 @@ var app = {
 };
 
 
-app.initialize();
+
 
 
 
