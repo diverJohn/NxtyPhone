@@ -5,7 +5,7 @@
 
 var addressKey = "address";
 
-var heartRateServiceAssignedNumber = "D648";
+var heartRateServiceAssignedNumber = "48D6";
 //var heartRateServiceAssignedNumber =   "48D60A60";
 var heartRateMeasurementCharacteristicAssignedNumber = "2a37";
 var clientCharacteristicConfigDescriptorAssignedNumber = "2902";
@@ -57,7 +57,7 @@ function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
   {
-    console.log("Stopping scan..");
+    console.log("Scan match: Stopping scan..");
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
 
