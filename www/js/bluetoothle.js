@@ -5,8 +5,8 @@
 
 var addressKey = "address";
 
-//var heartRateServiceAssignedNumber = "600AD648";
-var heartRateServiceAssignedNumber =   "48D60A60";
+var heartRateServiceAssignedNumber = "D648";
+//var heartRateServiceAssignedNumber =   "48D60A60";
 var heartRateMeasurementCharacteristicAssignedNumber = "2a37";
 var clientCharacteristicConfigDescriptorAssignedNumber = "2902";
 var batteryServiceAssignedNumber = "180f";
