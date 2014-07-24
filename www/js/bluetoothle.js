@@ -22,6 +22,10 @@ var androidPlatform = "Android";
 
 function StartBluetooth()
 {
+
+// jdo:  clear local storage so that a scan runs every time for testing...
+window.localStorage.setItem(addressKey, "address" );
+
 	console.log("starting bluetooth");
 	bluetoothle.initialize(initializeSuccess, initializeError);
 }
