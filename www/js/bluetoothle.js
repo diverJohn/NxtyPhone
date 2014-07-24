@@ -57,12 +57,16 @@ function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
   {
-    console.log("Scan match: Stopping scan..");
+    console.log("Scan match: " + obj.name );
+    
+    console.log("keyAdvertisement: " + obj.keyAdvertisement );
+    
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
 
     window.localStorage.setItem(addressKey, obj.address);
-        connectDevice(obj.address);
+    
+    connectDevice(obj.address);
   }
   else if (obj.status == "scanStarted")
   {
