@@ -24,7 +24,7 @@ function StartBluetooth()
 {
 
 // jdo:  clear local storage so that a scan runs every time for testing...
-window.localStorage.clearsetItem(addressKey, null );
+window.localStorage.setItem(addressKey, null );
 
 	console.log("starting bluetooth");
 	bluetoothle.initialize(initializeSuccess, initializeError);
