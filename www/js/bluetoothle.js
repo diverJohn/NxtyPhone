@@ -63,7 +63,7 @@ function startScanSuccess(obj)
   {
     console.log("Scan match: " + obj.name );
     
-    console.log("keyAdvertisement: " + obj.keyAdvertisement );
+    console.log("Advertisement: " + obj.advertisement );
     
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
