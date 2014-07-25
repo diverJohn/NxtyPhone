@@ -53,7 +53,7 @@ var app = {
         StartBluetooth();
     },   
        
-       
+/*       
     showAlert: function (message, title) {
       if (navigator.notification) {
         navigator.notification.alert(message, null, title, 'OK');
@@ -61,7 +61,7 @@ var app = {
         alert(title ? (title + ": " + message) : message);
       }
     },
-
+*/
 
 	initialize: function() {
 		this.registerEvents();
