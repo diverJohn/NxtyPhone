@@ -56,9 +56,11 @@ var app = {
        
     showAlert: function (message, title) {
       if (navigator.notification) {
-        navigator.notification.alert(message, null, title, 'OK DOK');
+  		alert("navigator.notification lives");	    
+//        navigator.notification.alert(message, null, title, 'OK DOK');
       } else {
-        alert(title ? (title + ": " + message) : message);
+        alert("No navigator.notification lives");
+//        alert(title ? (title + ": " + message) : message);
       }
     },
 
