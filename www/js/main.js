@@ -53,15 +53,15 @@ var app = {
         StartBluetooth();
     },   
        
-/*       
+       
     showAlert: function (message, title) {
       if (navigator.notification) {
-        navigator.notification.alert(message, null, title, 'OK');
+        navigator.notification.alert(message, null, title, 'OK DOK');
       } else {
         alert(title ? (title + ": " + message) : message);
       }
     },
-*/
+
 
 	initialize: function() {
 		this.registerEvents();
