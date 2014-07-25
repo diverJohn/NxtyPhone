@@ -10,35 +10,16 @@
         <script type="text/javascript" language="JavaScript">
  
  
-		// Handle the Register key
-		function handleRegKey()
-		{
-		 	showAlert("Reg key pressed!", "Info");
-		 	console.log("Reg key pressed");
-		}
 
-		// Handle the Check for SW Update key
-		function handleSwUpdateKey()
-		{
-		 	alert("Check for SW Update Key pressed!");
-		 	console.log("SW Update key pressed");
-		}
-
-		// Handle the Teck Mode key
-		function handleTechModeKey()
-		{
-		 	alert("Tech Mode key pressed!");
-		 	console.log("Tech Mode key pressed");
-		}
 
  
         </script>
     </head>
     <body>
     	<img src="img/header.png" width="100%" />
-  		<button type="button" class="mybutton" onclick="handleRegKey()"><img src="img/button_Register.png" /></button>
-		<button type="button" class="mybutton" onclick="handleSwUpdateKey()"><img src="img/button_SwUpdate.png" /></button>
-		<button type="button" class="mybutton" onclick="handleTechModeKey()"><img src="img/button_TechMode.png"/></button>
+  		<button type="button" class="mybutton" onclick="app.handleRegKey()"><img src="img/button_Register.png" /></button>
+		<button type="button" class="mybutton" onclick="app.handleSwUpdateKey()"><img src="img/button_SwUpdate.png" /></button>
+		<button type="button" class="mybutton" onclick="app.handleTechModeKey()"><img src="img/button_TechMode.png"/></button>
 		
 		
 		<script src="phonegap.js"></script>

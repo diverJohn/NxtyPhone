@@ -63,9 +63,31 @@ var app = {
     },
 
 
+	// Handle the Register key
+	handleRegKey: function()
+	{
+	 	this.showAlert("Reg key pressed!", "Info");
+	 	console.log("Reg key pressed");
+	},
+
+	// Handle the Check for SW Update key
+	handleSwUpdateKey: function()
+	{
+	 	alert("Check for SW Update Key pressed!");
+	 	console.log("SW Update key pressed");
+	},
+
+	// Handle the Teck Mode key
+	handleTechModeKey: function()
+	{
+	 	alert("Tech Mode key pressed!");
+	 	console.log("Tech Mode key pressed");
+	},
+
+
 	initialize: function() {
 		this.registerEvents();
-	}
+	},
 
 };
 
