@@ -1,7 +1,7 @@
 var app = {
 
+/*
 	registerEvents: function() {
-	    var self = this;
 	    	
         console.log("reg events");
         
@@ -12,37 +12,8 @@ var app = {
 	    // it will call the event `deviceready`.
 	    // 
         document.addEventListener('deviceready', this.onDeviceReady, false);
-  
-    
-
-	  	              	    
-//	    $(window).on('hashchange', $.proxy(this.route, this));
-	    	    
-	    	    
-	    // Check of browser supports touch events...
-	    if (document.documentElement.hasOwnProperty('ontouchstart')) {
-	        // ... if yes: register touch event listener to change the "selected" state of the item
-	        $('body').on('touchstart', 'a', function(event) {
-	            $(event.target).addClass('tappable-active');
-	        });
-	        $('body').on('touchend', 'a', function(event) {
-	            $(event.target).removeClass('tappable-active');
-	        });
-	    } else {
-	            console.log("reg mouse events");
-	        // ... if not: register mouse events instead
-	        $('body').on('mousedown', 'a', function(event) {
-	            $(event.target).addClass('tappable-active');
-	            console.log("mousedown");
-	        });
-	        $('body').on('mouseup', 'a', function(event) {
-	            $(event.target).removeClass('tappable-active');
-	            console.log("mouseup");
-	        });
-	    }
-	    
 	},
-
+*/
      
     // deviceready Event Handler
     //
@@ -50,7 +21,14 @@ var app = {
     //
     onDeviceReady: function() {
     	console.log( "device ready" );
-        StartBluetooth();
+    	
+    	// Only start bluetooth if on a phone...
+    	if( window.isPhone )
+    	{
+            StartBluetooth();
+        }
+        
+        this.renderHomeView();
     },   
        
        
@@ -68,27 +46,60 @@ var app = {
 	// Handle the Register key
 	handleRegKey: function()
 	{
-	 	this.showAlert("Reg key pressed!", "Info");
 	 	console.log("Reg key pressed");
+	 	this.showAlert("Reg key pressed!", "Info");
 	},
 
 	// Handle the Check for SW Update key
 	handleSwUpdateKey: function()
 	{
-	 	alert("Check for SW Update Key pressed!");
 	 	console.log("SW Update key pressed");
+	 	this.showAlert("Check for SW Update Key pressed!", "Info");
 	},
 
 	// Handle the Teck Mode key
 	handleTechModeKey: function()
 	{
-	 	alert("Tech Mode key pressed!");
 	 	console.log("Tech Mode key pressed");
+	 	showAlert("Tech Mode key pressed!", "Info");
+	},
+
+
+	renderHomeView: function() 
+	{
+		var myHtml = 
+			"<img src='img/header.png' width='100%' />" +
+			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
+			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
+  			"<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>"
+		$('body').html(myHtml);  			
 	},
 
 
 	initialize: function() {
-		this.registerEvents();
+	
+      	if (navigator.notification) 
+      	{
+			// On a phone....
+			window.isPhone = true;
+			
+	        // Call onDeviceReady when PhoneGap is loaded.
+		    //
+		    // At this point, the document has loaded but phonegap-1.0.0.js has not.
+		    // When PhoneGap is loaded and talking with the native device,
+            // it will call the event `deviceready`.
+            // 
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+        } 
+        else 
+        {
+		  // Browser...
+          window.isPhone = false;
+		  this.onDeviceReady();
+        }
+	
+//		this.registerEvents();
+//		this.renderHomeView();
 	},
 
 };

@@ -16,10 +16,7 @@
         </script>
     </head>
     <body>
-    	<img src="img/header.png" width="100%" />
-  		<button type="button" class="mybutton" onclick="app.handleRegKey()"><img src="img/button_Register.png" /></button>
-		<button type="button" class="mybutton" onclick="app.handleSwUpdateKey()"><img src="img/button_SwUpdate.png" /></button>
-		<button type="button" class="mybutton" onclick="app.handleTechModeKey()"><img src="img/button_TechMode.png"/></button>
+
 		
 		
 		<script src="phonegap.js"></script>
@@ -34,9 +31,11 @@
 		<script src="js/bluetoothle.js"></script>
 		<script src="js/main.js"></script>
 		
-				
-		<script type="text/javascript">
-       		app.initialize();
+		<script>
+			// Wait for the document to be ready before starting...
+			$(document).ready(function() {
+       			app.initialize();
+			});
     	</script>
     
 		
