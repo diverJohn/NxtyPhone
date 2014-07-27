@@ -1,19 +1,5 @@
 var app = {
 
-/*
-	registerEvents: function() {
-	    	
-        console.log("reg events");
-        
-        // Call onDeviceReady when PhoneGap is loaded.
-	    //
-	    // At this point, the document has loaded but phonegap-1.0.0.js has not.
-	    // When PhoneGap is loaded and talking with the native device,
-	    // it will call the event `deviceready`.
-	    // 
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
-*/
      
     // deviceready Event Handler
     //
@@ -33,11 +19,9 @@ var app = {
        
        
     showAlert: function (message, title) {
-      if (navigator.notification) {
-  		alert("navigator.notification lives");	    
-        navigator.notification.alert(message, null, title, 'OK DOK');
+      if(window.isPhone) {
+        navigator.notification.alert(message, null, title, 'ok');
       } else {
-        alert("No navigator.notification lives");
         alert(title ? (title + ": " + message) : message);
       }
     },
