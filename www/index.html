@@ -2,7 +2,7 @@
 <html>
     <head>
     
-    	<script src="http://jsconsole.com/remote.js?nxty_console_debug"></script>
+
     	
     	
         <title>Cel-Fi Vision</title>
@@ -17,9 +17,14 @@
     </head>
     <body>
 
+		<script>
+		    // This is a poor man's way to test if running on a browser or app.
+		    // PhoneGap Build will add the file phonegap.js and overwrite
+		    // my local copy of phonegap.js which simply sets the var below to true. 
+            var ImRunningOnBrowser = false
+        </script>
 		
-		
-		<script src="phonegap.js"></script>
+		<script src="js/phonegap.js"></script>
 		<script src="lib/jquery-1.8.2.min.js"></script>
 
 		

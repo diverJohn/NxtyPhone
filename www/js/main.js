@@ -62,28 +62,26 @@ var app = {
 
 	initialize: function() {
 	
-//      	if (navigator.notification) 
+      	if( ImRunningOnBrowser ) 
       	{
-			// On a phone....
-			window.isPhone = true;
-			
-	        // Call onDeviceReady when PhoneGap is loaded.
-		    //
-		    // At this point, the document has loaded but phonegap-1.0.0.js has not.
-		    // When PhoneGap is loaded and talking with the native device,
+            // Browser...
+            window.isPhone = false;
+            this.onDeviceReady();
+        }
+        else 
+        {
+     alert("running on phone");
+            // On a phone....
+            window.isPhone = true;
+            
+            // Call onDeviceReady when PhoneGap is loaded.
+            //
+            // At this point, the document has loaded but phonegap-1.0.0.js has not.
+            // When PhoneGap is loaded and talking with the native device,
             // it will call the event `deviceready`.
             // 
             document.addEventListener('deviceready', this.onDeviceReady, false);
         }
-        
-/*         
-        else 
-        {
-		  // Browser...
-          window.isPhone = false;
-		  this.onDeviceReady();
-        }
-*/        
 	
 //		this.registerEvents();
 //		this.renderHomeView();
