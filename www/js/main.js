@@ -62,7 +62,7 @@ var app = {
 
 	initialize: function() {
 	
-      	if (navigator.notification) 
+//      	if (navigator.notification) 
       	{
 			// On a phone....
 			window.isPhone = true;
@@ -74,13 +74,16 @@ var app = {
             // it will call the event `deviceready`.
             // 
             document.addEventListener('deviceready', this.onDeviceReady, false);
-        } 
+        }
+        
+/*         
         else 
         {
 		  // Browser...
           window.isPhone = false;
 		  this.onDeviceReady();
         }
+*/        
 	
 //		this.registerEvents();
 //		this.renderHomeView();
