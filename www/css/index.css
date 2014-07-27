@@ -109,15 +109,30 @@ h1 {
 
 
 .mybutton {
-background-color: Transparent;
-border-color: Transparent;
-margin-left: auto;
-margin-right: auto;
-width: 100%;
-opacity: 0.75;
+    background-color: Transparent;
+    border-color: Transparent;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    opacity: 0.75;
 }
 
 
+.bt_icon {
+    background-color: Transparent;
+    border-color: Transparent;
+    position: absolute;
+    top: 75px;
+    right: 20px;
+}
+
+.reg_icon {
+    background-color: Transparent;
+    border-color: Transparent;
+    position: absolute;
+    top: 90px;
+    right: 150px;
+}
 
 li>a.tappable-active {
     opacity: 1;

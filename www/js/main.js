@@ -53,7 +53,9 @@ var app = {
 	{
 		var myHtml = 
 			"<img src='img/header_main.png' width='100%' />" +
-			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
+			"<div class='bt_icon'><img src='img/bluetooth_off.png' /></div>" +
+            "<div class='reg_icon'><img src='img/reg_no.png' /></div>" +
+   			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			"<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>"
 		$('body').html(myHtml);  			
