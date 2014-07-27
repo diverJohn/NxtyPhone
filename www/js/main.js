@@ -52,7 +52,7 @@ var app = {
 	renderHomeView: function() 
 	{
 		var myHtml = 
-			"<img src='img/header.png' width='100%' />" +
+			"<img src='img/header_main.png' width='100%' />" +
 			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			"<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>"
