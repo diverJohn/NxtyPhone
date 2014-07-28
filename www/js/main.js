@@ -9,13 +9,14 @@ var app = {
     onDeviceReady: function() {
     	console.log( "device ready" );
     	
+/*    	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
     	{
             StartBluetooth();
         }
-        
-        this.renderHomeView();
+*/        
+        renderHomeView();
     },   
        
        
@@ -79,8 +80,6 @@ var app = {
 		 	
 	        // On a phone....
 	        window.isPhone = true;
-	        
-		 	alert("after isphone");
 		 		        
 	        // Call onDeviceReady when PhoneGap is loaded.
 	        //
