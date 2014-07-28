@@ -16,7 +16,7 @@ var app = {
             StartBluetooth();
         }
         
-        this.renderHomeView();
+        app.renderHomeView();
     },   
        
        
