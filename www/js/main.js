@@ -9,14 +9,14 @@ var app = {
     onDeviceReady: function() {
     	console.log( "device ready" );
     	
-/*    	
+    	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
     	{
             StartBluetooth();
         }
-*/        
-        renderHomeView();
+        
+        this.renderHomeView();
     },   
        
        
