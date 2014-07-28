@@ -1,5 +1,5 @@
 
-// Use window.isPhone to access globally...
+// Use window.isPhone to show global var or just use without "window." ...
 var isPhone = false;
 var isBluetoothCnx = true;
 var isRegistered   = true;
