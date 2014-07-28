@@ -124,8 +124,6 @@ h1 {
     position: fixed;
     top: 1%;
     right: 13%;
-    width: 1%;
-    height: 1%
 }
 
 .reg_icon {
@@ -134,8 +132,6 @@ h1 {
     position: fixed;
     top: 1%;
     right: 26%;
-    width: 1%;
-    height: 1%
 }
 
 
@@ -143,10 +139,8 @@ h1 {
     background-color: Transparent;
     border-color: Transparent;
     position: fixed;
-    top: 15%;
-    left: 13%;
-    width: 2%;
-    height: 2%
+    top: 1%;
+    left: 1%;
 }
 
 li>a.tappable-active {
