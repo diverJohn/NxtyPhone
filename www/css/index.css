@@ -123,7 +123,7 @@ h1 {
     border-color: Transparent;
     position: fixed;
     top: 1%;
-    right: 13%;
+    margin-right: 1%;
     width: 1%;
     height: 1%
 }
@@ -133,7 +133,7 @@ h1 {
     border-color: Transparent;
     position: fixed;
     top: 1%;
-    right: 26%;
+    margin-right: 10%;
     width: 1%;
     height: 1%
 }
@@ -144,7 +144,7 @@ h1 {
     border-color: Transparent;
     position: fixed;
     top: 1%;
-    left: 1%;
+    margin-left: 13%;
     width: 1%;
     height: 1%
 }
