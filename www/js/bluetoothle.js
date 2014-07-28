@@ -21,8 +21,8 @@ var CnxStatusTimer = null;
 var iOSPlatform = "iOS";
 var androidPlatform = "Android";
 
-// Use the following as a global variable as window.bluetoothConnected to determine if connected.
-var bluetoothConnected = false;
+// Use the following as a global variable as window.isBluetoothCnx to determine if connected.
+var isBluetoothCnx = false;
 
 
 // CheckBluetoothConnectionStatus..................................................................
@@ -31,26 +31,22 @@ function CheckBluetoothConnectionStatus()
 {
 	bluetoothle.isConnected( isConnectedCallback );
 	
-	if( bluetoothConnected == false )
-	{
-		StartBluetoothScan();
-	}
-	
-	// Check again in 15 seconds...
-	CnxStatusTimer = setTimeout(CheckBluetoothConnectionStatus, 15000);
+	// Check again in 30 seconds...
+	CnxStatusTimer = setTimeout(CheckBluetoothConnectionStatus, 30000);
 }
 
 function isConnectedCallback(obj)
 {
 	if(obj.isConnected)
 	{
-		bluetoothConnected = true;
+		isBluetoothCnx = true;
 		console.log("bluetooth cnx callback: Cnx" );
 	}
 	else
 	{
-		bluetoothConnected = false;
+		isBluetoothCnx = false;
 	    console.log("bluetooth cnx callback: Not Cnx" );
+	    StartBluetoothScan();
 	}
 }
 
@@ -68,13 +64,13 @@ function StartBluetooth()
 
 function initializeSuccess(obj)
 {
-
-  // jdo: If we initialize successfully, start a super loop to maintain a connection...
-  console.log("Initialization successful, started super loop with 15 sec freq...");
-  CnxStatusTimer = setTimeout(CheckBluetoothConnectionStatus, 15000);
     
   if (obj.status == "initialized")
   {
+    // jdo: If we initialize successfully, start a super loop to maintain a connection...
+  	console.log("Initialization successful, started Cnx Status Timer with 30 sec freq...");
+  	CnxStatusTimer = setTimeout(CheckBluetoothConnectionStatus, 30000);
+  
     var address = window.localStorage.getItem(addressKey);
     if (address == null)
     {	

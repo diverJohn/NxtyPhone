@@ -1,8 +1,10 @@
 
 // Use window.isPhone to show global var or just use without "window." ...
 var isPhone = false;
-var isBluetoothCnx = true;
 var isRegistered   = true;
+var LastBluetoothIconStatus = false;
+
+var BluetoothCnxTimer = null;
 
 var app = {
 
@@ -58,7 +60,7 @@ var app = {
 
 	renderHomeView: function() 
 	{
-		var myBluetoothIcon = isBluetoothCnx ? "<div class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
+		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon-id' class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div  id='bt_icon-id' class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
 		var myRegIcon       = isRegistered   ? "<div class='reg_icon'><img src='img/reg_yes.png' /></div>"     : "<div class='reg_icon'><img src='img/reg_no.png' /></div>";
 		var myRegButton     = isRegistered   ? "" : "<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
 		
@@ -100,7 +102,30 @@ var app = {
 	        document.addEventListener('deviceready', this.onDeviceReady, false);
         }
 
+		// Start a function to update the bluetooth status...
+		BluetoothCnxTimer =  = setTimeout(CheckBluetoothIconStatus, 10000);
+	},
 
+
+	CheckBluetoothIconStatus: function() 
+	{
+		console.log( "Check bluetooth icon");
+		
+		if( LastBluetoothIconStatus != isBluetoothCnx )
+		{
+			// update the bluetooth icon...
+			if( isBluetoothCnx )
+			{
+				document.getElementById("bt_icon_id").innerHTML = 'img/bluetooth_on.png';
+			}
+			else
+			{
+				document.getElementById("bt_icon_id").innerHTML = 'img/bluetooth_off.png';
+			}
+			LastBluetoothIconStatus = isBluetoothCnx;
+		}
+	
+		BluetoothCnxTimer =  = setTimeout(CheckBluetoothIconStatus, 10000);
 	},
 
 };
