@@ -122,8 +122,10 @@ h1 {
     background-color: Transparent;
     border-color: Transparent;
     position: absolute;
-    top: 75px;
-    right: 20px;
+    top: 2%;
+    right: 2%;
+    width: 5%;
+    height: 5%
 }
 
 .reg_icon {

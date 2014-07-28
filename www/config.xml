@@ -15,7 +15,7 @@
         John Owen
     </author>
  
- <gap:plugin name="com.randdusing.bluetoothle" version="1.0.0" />
+ 	<gap:plugin name="com.randdusing.bluetoothle" version="1.0.0" />
  
  
  
@@ -79,8 +79,12 @@
 
 
     <!-- Define app icon for each platform. -->
-<!--    
+    
+    <!-- icon.png is the default icon that is displayed to start the app. -->
     <icon src="icon.png" />
+    
+    
+<!--    
     <icon src="res/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:qualifier="ldpi" />
     <icon src="res/icon/android/icon-48-mdpi.png"   gap:platform="android"    gap:qualifier="mdpi" />
     <icon src="res/icon/android/icon-72-hdpi.png"   gap:platform="android"    gap:qualifier="hdpi" />
