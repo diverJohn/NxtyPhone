@@ -134,6 +134,14 @@ h1 {
     right: 150px;
 }
 
+
+.back_icon {
+    background-color: Transparent;
+    border-color: Transparent;
+    position: absolute;
+    top: 90px;
+    left: 10px;
+}
 li>a.tappable-active {
     opacity: 1;
 }

@@ -3,9 +3,9 @@ var tech = {
      
 
 	// Handle the Teck Mode key
-	handleTechModeKey: function()
+	handleBackKey: function()
 	{
-	 	console.log("Tech Mode key pressed");
+	 	console.log("Tech Mode Back key pressed");
 	 	app.renderHomeView();
 	},
 
@@ -16,7 +16,8 @@ var tech = {
 			"<img src='img/header_tech.png' width='100%' />" +
 			"<div class='bt_icon'><img src='img/bluetooth_off.png' /></div>" +
             "<div class='reg_icon'><img src='img/reg_no.png' /></div>" +
-			"<button type='button' class='mybutton' onclick='tech.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>"
+            "<button type='button' class='back_icon' onclick='tech.handleBackKey()'><img src='img/go_back.png'/></button>"
+
 
 		$('body').html(myHtml);  			
 	},
