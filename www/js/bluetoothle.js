@@ -50,7 +50,7 @@ function isConnectedCallback(obj)
 	else
 	{
 		bluetoothConnected = false;
-	    console.log("bluetooth cnx callback: Cnx" );
+	    console.log("bluetooth cnx callback: Not Cnx" );
 	}
 }
 
