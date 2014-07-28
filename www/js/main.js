@@ -85,7 +85,7 @@ var app = {
 	        // When PhoneGap is loaded and talking with the native device,
 	        // it will call the event `deviceready`.
 	        // 
-	        document.addEventListener('deviceready', this.onDeviceReady, false);
+//	        document.addEventListener('deviceready', this.onDeviceReady, false);
         }
 
 	
