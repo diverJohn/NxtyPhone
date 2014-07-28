@@ -121,7 +121,7 @@ h1 {
 .bt_icon {
     background-color: Transparent;
     border-color: Transparent;
-    position: absolute;
+    position: fixed;
     top: 2%;
     right: 7%;
     width: 2%;
