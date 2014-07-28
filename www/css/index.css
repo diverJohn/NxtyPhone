@@ -140,7 +140,7 @@ h1 {
     border-color: Transparent;
     position: fixed;
     top: 5px;
-    left: 1px;
+    left: 0px;
 }
 
 li>a.tappable-active {
