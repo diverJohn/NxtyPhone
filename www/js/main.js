@@ -45,7 +45,7 @@ var app = {
 	handleTechModeKey: function()
 	{
 	 	console.log("Tech Mode key pressed");
-	 	this.showAlert("Tech Mode key pressed!", "Info");
+	 	tech.renderTechView();
 	},
 
 
