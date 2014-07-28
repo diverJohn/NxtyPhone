@@ -122,15 +122,15 @@ h1 {
     background-color: Transparent;
     border-color: Transparent;
     position: fixed;
-    top: 1%;
-    right: 4%;
+    top: 0%;
+    right: 0px;
 }
 
 .reg_icon {
     background-color: Transparent;
     border-color: Transparent;
     position: fixed;
-    top: 1%;
+    top: 0%;
     right: 12%;
 }
 
@@ -139,8 +139,8 @@ h1 {
     background-color: Transparent;
     border-color: Transparent;
     position: fixed;
-    top: 1%;
-    right: 99%;
+    top: 0%;
+    left: 5px;
 }
 
 li>a.tappable-active {
