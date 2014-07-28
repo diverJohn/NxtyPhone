@@ -71,7 +71,7 @@ function initializeSuccess(obj)
 
   // jdo: If we initialize successfully, start a super loop to maintain a connection...
   console.log("Initialization successful, started super loop with 15 sec freq...");
-  superLoopTimer = setTimeout(superLoopTimeout, 15000);
+  CnxStatusTimer = setTimeout(CheckBluetoothConnectionStatus, 15000);
     
   if (obj.status == "initialized")
   {
