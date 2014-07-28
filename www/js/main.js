@@ -103,7 +103,7 @@ var app = {
         }
 
 		// Start a function to update the bluetooth status...
-		BluetoothCnxTimer =  = setTimeout(CheckBluetoothIconStatus, 10000);
+		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
 	},
 
 
@@ -125,7 +125,7 @@ var app = {
 			LastBluetoothIconStatus = isBluetoothCnx;
 		}
 	
-		BluetoothCnxTimer =  = setTimeout(CheckBluetoothIconStatus, 10000);
+		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
 	},
 
 };
