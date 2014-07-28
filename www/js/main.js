@@ -1,5 +1,3 @@
-var isPhone = true;
-	
 var app = {
 
 
