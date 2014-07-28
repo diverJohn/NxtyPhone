@@ -9,7 +9,6 @@ var app = {
     onDeviceReady: function() {
     	console.log( "device ready" );
     	
-    	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
     	{
@@ -68,7 +67,7 @@ var app = {
 	
 		if( ImRunningOnBrowser )
 		{
-			alert("running on browser");
+			console.log("running on browser");
 	
 	        // Browser...
 	        window.isPhone = false;
@@ -76,7 +75,7 @@ var app = {
 	    }
 	    else
 	    {
-		 	alert("running on phone");
+		 	console.log("running on phone");
 		 	
 	        // On a phone....
 	        window.isPhone = true;
