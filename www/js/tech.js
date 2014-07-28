@@ -2,7 +2,7 @@ var tech = {
 
      
 
-	// Handle the Teck Mode key
+	// Handle the Tech Mode key
 	handleBackKey: function()
 	{
 	 	console.log("Tech Mode Back key pressed");
