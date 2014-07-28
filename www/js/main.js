@@ -66,6 +66,14 @@ var app = {
 	
 		if( ImRunningOnBrowser )
 		{
+			alert("running on browser");
+	
+	        // Browser...
+	        window.isPhone = false;
+	        this.onDeviceReady();
+	    }
+	    else
+	    {
 		 	alert("running on phone");
 		 	
 	        // On a phone....
@@ -78,14 +86,6 @@ var app = {
 	        // it will call the event `deviceready`.
 	        // 
 	        document.addEventListener('deviceready', this.onDeviceReady, false);
-	    }
-	    else
-	    {
-		 	alert("running on browser");
-	
-	        // Browser...
-	        window.isPhone = false;
-	        this.onDeviceReady();
         }
 
 	

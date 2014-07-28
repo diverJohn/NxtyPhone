@@ -143,10 +143,10 @@ h1 {
     background-color: Transparent;
     border-color: Transparent;
     position: fixed;
-    top: 1%;
+    top: 15%;
     left: 13%;
-    width: 1%;
-    height: 1%
+    width: 2%;
+    height: 2%
 }
 
 li>a.tappable-active {
