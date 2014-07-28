@@ -88,7 +88,6 @@ var app = {
 	        // it will call the event `deviceready`.
 	        // 
 	        document.addEventListener('deviceready', this.onDeviceReady, false);
-	        alert("after add event");
         }
 
 	
