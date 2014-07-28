@@ -80,6 +80,8 @@ var app = {
 	        // On a phone....
 	        window.isPhone = true;
 	        
+		 	alert("after isphone");
+		 		        
 	        // Call onDeviceReady when PhoneGap is loaded.
 	        //
 	        // At this point, the document has loaded but phonegap-1.0.0.js has not.
@@ -87,6 +89,7 @@ var app = {
 	        // it will call the event `deviceready`.
 	        // 
 	        document.addEventListener('deviceready', this.onDeviceReady, false);
+	        alert("after add event");
         }
 
 	
