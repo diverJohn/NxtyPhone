@@ -23,7 +23,7 @@ var androidPlatform = "Android";
 
 // Use the following as a global variable as window.isBluetoothCnx to determine if connected.
 var isBluetoothCnx = false;
-
+var LastBluetoothIconStatus = false;
 
 // CheckBluetoothConnectionStatus..................................................................
 // Check every 15 seconds after initialization...
@@ -48,6 +48,23 @@ function isConnectedCallback(obj)
 	    console.log("bluetooth cnx callback: Not Cnx" );
 	    StartBluetoothScan();
 	}
+
+	// Now see if the icon needs to be updated...	
+	if( LastBluetoothIconStatus != isBluetoothCnx )
+	{
+		// update the bluetooth icon...
+		if( isBluetoothCnx )
+		{
+			document.getElementById("bt_icon_id").innerHTML = 'img/bluetooth_on.png';
+		}
+		else
+		{
+			document.getElementById("bt_icon_id").innerHTML = 'img/bluetooth_off.png';
+		}
+		LastBluetoothIconStatus = isBluetoothCnx;
+	}
+	
+	
 }
 
 

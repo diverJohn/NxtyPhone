@@ -2,7 +2,7 @@
 // Use window.isPhone to show global var or just use without "window." ...
 var isPhone = false;
 var isRegistered   = true;
-var LastBluetoothIconStatus = false;
+
 
 var BluetoothCnxTimer = null;
 
@@ -103,10 +103,10 @@ var app = {
         }
 
 		// Start a function to update the bluetooth status...
-		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
+//		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
 	},
 
-
+/*
 	CheckBluetoothIconStatus: function() 
 	{
 		console.log( "Check bluetooth icon");
@@ -127,6 +127,8 @@ var app = {
 	
 		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
 	},
+
+*/
 
 };
 
