@@ -12,34 +12,73 @@ var clientCharacteristicConfigDescriptorAssignedNumber = "2902";
 var batteryServiceAssignedNumber = "180f";
 var batteryLevelCharacteristicAssignedNumber = "2a19";
 
+
 var scanTimer = null;
 var connectTimer = null;
 var reconnectTimer = null;
+var CnxStatusTimer = null;
 
 var iOSPlatform = "iOS";
 var androidPlatform = "Android";
 
+// Use the following as a global variable as window.bluetoothConnected to determine if connected.
+var bluetoothConnected = false;
 
+
+// CheckBluetoothConnectionStatus..................................................................
+// Check every 15 seconds after initialization...
+function CheckBluetoothConnectionStatus()
+{
+	bluetoothle.isConnected( isConnectedCallback );
+	
+	if( bluetoothConnected == false )
+	{
+		StartBluetoothScan();
+	}
+	
+	// Check again in 15 seconds...
+	CnxStatusTimer = setTimeout(CheckBluetoothConnectionStatus, 15000);
+}
+
+function isConnectedCallback(obj)
+{
+	if(obj.isConnected)
+	{
+		bluetoothConnected = true;
+		console.log("bluetooth cnx callback: Cnx" );
+	}
+	else
+	{
+		bluetoothConnected = false;
+	    console.log("bluetooth cnx callback: Cnx" );
+	}
+}
+
+
+// StartBluetooth...................................................................................
 function StartBluetooth()
 {
-
-// jdo:  clear local storage so that a scan runs every time for testing...
-window.localStorage.clear();
+	// jdo:  clear local storage so that a scan runs every time for testing...
+	window.localStorage.clear();
 
 	console.log("starting bluetooth");
 	bluetoothle.initialize(initializeSuccess, initializeError);
 }
 
+
 function initializeSuccess(obj)
 {
+
+  // jdo: If we initialize successfully, start a super loop to maintain a connection...
+  console.log("Initialization successful, started super loop with 15 sec freq...");
+  superLoopTimer = setTimeout(superLoopTimeout, 15000);
+    
   if (obj.status == "initialized")
   {
     var address = window.localStorage.getItem(addressKey);
     if (address == null)
-    {
-        console.log("Bluetooth initialized successfully, starting scan for Cel-Fi devices.");
-        var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
-        bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
+    {	
+    	StartBluetoothScan();
     }
     else
     {
@@ -57,6 +96,16 @@ function initializeError(obj)
   console.log("Initialize error: " + obj.error + " - " + obj.message);
 }
 
+
+
+// StartScan.....................................................................................
+function StartBluetoothScan()
+{
+	console.log("Starting scan for Cel-Fi devices.");
+    var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
+    bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
+}
+
 function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
@@ -66,7 +115,7 @@ function startScanSuccess(obj)
   
   
 //var bytes = bluetoothle.getBytes(obj.advertisement);
-console.log("advertisment: " + obj.advertisement);
+//console.log("advertisment: " + obj.advertisement);
   
   
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
@@ -78,8 +127,8 @@ console.log("advertisment: " + obj.advertisement);
   }
   else if (obj.status == "scanStarted")
   {
-    console.log("Scan was started successfully, stopping in 10");
-    scanTimer = setTimeout(scanTimeout, 10000);
+    console.log("Scan was started successfully, stopping in 5 sec.");
+    scanTimer = setTimeout(scanTimeout, 5000);
   }
   else
   {
@@ -100,7 +149,7 @@ function scanTimeout()
 
 function clearScanTimeout()
 { 
-    console.log("Clearing scanning timeout");
+  console.log("Clearing scanning timeout");
   if (scanTimer != null)
   {
     clearTimeout(scanTimer);
@@ -124,6 +173,9 @@ function stopScanError(obj)
   console.log("Stop scan error: " + obj.error + " - " + obj.message);
 }
 
+
+
+// ConnectDevice...................................................................................
 function connectDevice(address)
 {
   console.log("Begining connection to: " + address + " with 5 second timeout");
@@ -139,7 +191,9 @@ function connectSuccess(obj)
   {
     console.log("Connected to : " + obj.name + " - " + obj.address);
 
+
     clearConnectTimeout();
+
 
 //jdo leave connected    tempDisconnectDevice();
   }
@@ -147,7 +201,7 @@ function connectSuccess(obj)
   {
     console.log("Connecting to : " + obj.name + " - " + obj.address);
   }
-    else
+  else
   {
     console.log("Unexpected connect status: " + obj.status);
     clearConnectTimeout();
@@ -167,102 +221,26 @@ function connectTimeout()
 
 function clearConnectTimeout()
 { 
-    console.log("Clearing connect timeout");
+  console.log("Clearing connect timeout");
   if (connectTimer != null)
   {
     clearTimeout(connectTimer);
   }
 }
 
-function tempDisconnectDevice()
-{
-  console.log("Disconnecting from device to test reconnect");
-    bluetoothle.disconnect(tempDisconnectSuccess, tempDisconnectError);
-}
 
-function tempDisconnectSuccess(obj)
-{
-    if (obj.status == "disconnected")
-    {
-        console.log("Temp disconnect device and reconnecting in 1 second. Instantly reconnecting can cause issues");
-        setTimeout(reconnect, 1000);
-    }
-    else if (obj.status == "disconnecting")
-    {
-        console.log("Temp disconnecting device");
-    }
-    else
-  {
-    console.log("Unexpected temp disconnect status: " + obj.status);
-  }
-}
 
-function tempDisconnectError(obj)
-{
-  console.log("Temp disconnect error: " + obj.error + " - " + obj.message);
-}
 
-function reconnect()
-{
-  console.log("Reconnecting with 5 second timeout");
-  bluetoothle.reconnect(reconnectSuccess, reconnectError);
-  reconnectTimer = setTimeout(reconnectTimeout, 5000);
-}
 
-function reconnectSuccess(obj)
-{
-  if (obj.status == "connected")
-  {
-    console.log("Reconnected to : " + obj.name + " - " + obj.address);
 
-    clearReconnectTimeout();
 
-    console.log("jdo: Should be connected at this point");
 
-/*
-    if (window.device.platform == iOSPlatform)
-    {
-      console.log("Discovering heart rate service");
-      var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
-      bluetoothle.services(servicesHeartSuccess, servicesHeartError, paramsObj);
-    }
-    else if (window.device.platform == androidPlatform)
-    {
-      console.log("Beginning discovery");
-      bluetoothle.discover(discoverSuccess, discoverError);
-    }
-*/    
-  }
-  else if (obj.status == "connecting")
-  {
-    console.log("Reconnecting to : " + obj.name + " - " + obj.address);
-  }
-  else
-  {
-    console.log("Unexpected reconnect status: " + obj.status);
-    disconnectDevice();
-  }
-}
 
-function reconnectError(obj)
-{
-  console.log("Reconnect error: " + obj.error + " - " + obj.message);
-  disconnectDevice();
-}
 
-function reconnectTimeout()
-{
-  console.log("Reconnection timed out");
-}
 
-function clearReconnectTimeout()
-{ 
-    console.log("Clearing reconnect timeout");
-  if (reconnectTimer != null)
-  {
-    clearTimeout(reconnectTimer);
-  }
-}
+
+
+
 
 function servicesHeartSuccess(obj)
 {
@@ -616,4 +594,107 @@ function closeError(obj)
 {
   console.log("Close error: " + obj.error + " - " + obj.message);
 }
- 
+
+
+
+
+
+
+
+
+
+/*
+
+jdo unused functions...
+
+
+function tempDisconnectDevice()
+{
+  console.log("Disconnecting from device to test reconnect");
+    bluetoothle.disconnect(tempDisconnectSuccess, tempDisconnectError);
+}
+
+function tempDisconnectSuccess(obj)
+{
+    if (obj.status == "disconnected")
+    {
+        console.log("Temp disconnect device and reconnecting in 1 second. Instantly reconnecting can cause issues");
+        setTimeout(reconnect, 1000);
+    }
+    else if (obj.status == "disconnecting")
+    {
+        console.log("Temp disconnecting device");
+    }
+    else
+  {
+    console.log("Unexpected temp disconnect status: " + obj.status);
+  }
+}
+
+function tempDisconnectError(obj)
+{
+  console.log("Temp disconnect error: " + obj.error + " - " + obj.message);
+}
+
+function reconnect()
+{
+  console.log("Reconnecting with 5 second timeout");
+  bluetoothle.reconnect(reconnectSuccess, reconnectError);
+  reconnectTimer = setTimeout(reconnectTimeout, 5000);
+}
+
+function reconnectSuccess(obj)
+{
+  if (obj.status == "connected")
+  {
+    console.log("Reconnected to : " + obj.name + " - " + obj.address);
+
+    clearReconnectTimeout();
+
+    console.log("jdo: Should be connected at this point");
+
+
+    if (window.device.platform == iOSPlatform)
+    {
+      console.log("Discovering heart rate service");
+      var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
+      bluetoothle.services(servicesHeartSuccess, servicesHeartError, paramsObj);
+    }
+    else if (window.device.platform == androidPlatform)
+    {
+      console.log("Beginning discovery");
+      bluetoothle.discover(discoverSuccess, discoverError);
+    }
+    
+  }
+  else if (obj.status == "connecting")
+  {
+    console.log("Reconnecting to : " + obj.name + " - " + obj.address);
+  }
+  else
+  {
+    console.log("Unexpected reconnect status: " + obj.status);
+    disconnectDevice();
+  }
+}
+
+function reconnectError(obj)
+{
+  console.log("Reconnect error: " + obj.error + " - " + obj.message);
+  disconnectDevice();
+}
+
+function reconnectTimeout()
+{
+  console.log("Reconnection timed out");
+}
+
+function clearReconnectTimeout()
+{ 
+    console.log("Clearing reconnect timeout");
+  if (reconnectTimer != null)
+  {
+    clearTimeout(reconnectTimer);
+  }
+}
+*/ 
