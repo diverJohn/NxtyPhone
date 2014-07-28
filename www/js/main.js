@@ -66,13 +66,17 @@ var app = {
 	
       	if( ImRunningOnBrowser ) 
       	{
+    	 	alert("running on browser");
+
             // Browser...
             window.isPhone = false;
             this.onDeviceReady();
         }
         else 
         {
-     alert("running on phone");
+    
+    	 	alert("running on phone");
+    	 	
             // On a phone....
             window.isPhone = true;
             
