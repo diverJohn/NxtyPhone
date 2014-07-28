@@ -1,6 +1,8 @@
+var isPhone = true;
+	
 var app = {
 
-	var isPhone = true;
+
      
     // deviceready Event Handler
     //
