@@ -1,4 +1,8 @@
+
+// Use window.isPhone to access globally...
 var isPhone = false;
+var isBluetoothCnx = true;
+var isRegistered   = true;
 
 var app = {
 
@@ -54,13 +58,18 @@ var app = {
 
 	renderHomeView: function() 
 	{
+		var myBluetoothIcon = isBluetoothCnx ? "<div class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
+		var myRegIcon       = isRegistered   ? "<div class='reg_icon'><img src='img/reg_yes.png' /></div>"     : "<div class='reg_icon'><img src='img/reg_no.png' /></div>";
+		var myRegButton     = isRegistered   ? "" : "<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
+		
 		var myHtml = 
 			"<img src='img/header_main.png' width='100%' />" +
-			"<div class='bt_icon'><img src='img/bluetooth_off.png' /></div>" +
-            "<div class='reg_icon'><img src='img/reg_no.png' /></div>" +
+			myBluetoothIcon +
+            myRegIcon +
    			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
-  			"<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>"
+  			myRegButton;
+  			
 		$('body').html(myHtml);  			
 	},
 
@@ -91,9 +100,7 @@ var app = {
 	        document.addEventListener('deviceready', this.onDeviceReady, false);
         }
 
-	
-//		this.registerEvents();
-//		this.renderHomeView();
+
 	},
 
 };
