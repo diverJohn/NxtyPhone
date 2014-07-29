@@ -12,7 +12,7 @@ var tech = {
 
 	renderTechView: function() 
 	{	
-		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div  id='bt_icon_id' class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
+		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'>" + szBtIconOn + "</div>" : "<div  id='bt_icon_id' class='bt_icon'>" + szBtIconOff + "</div>";
 		var myRegIcon       = isRegistered   ? "<div class='reg_icon'><img src='img/reg_yes.png' /></div>"     : "<div class='reg_icon'><img src='img/reg_no.png' /></div>";
 		
 		var myHtml = 

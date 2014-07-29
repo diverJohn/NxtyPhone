@@ -82,18 +82,20 @@ function isConnectedCallback(obj)
 	}
 
 	// Now see if the icon needs to be updated...	
-	if( LastBluetoothIconStatus != isBluetoothCnx )
+	// update the bluetooth icon...
+	if( isBluetoothCnx )
 	{
-		// update the bluetooth icon...
-		if( isBluetoothCnx )
+		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOn )
 		{
-			document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_on.png' />";
+			document.getElementById("bt_icon_id").innerHTML = szBtIconOn;
 		}
-		else
+	}
+	else
+	{
+		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOff )
 		{
-			document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_off.png' />";
+			document.getElementById("bt_icon_id").innerHTML = szBtIconOff;
 		}
-		LastBluetoothIconStatus = isBluetoothCnx;
 	}
 }
 
@@ -193,7 +195,7 @@ function connectSuccess(obj)
     console.log("BT: Connected to : " + obj.name + " - " + obj.address);
 
 	// Update the bluetooth icon...
-	document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_on.png' />";
+	document.getElementById("bt_icon_id").innerHTML = szBtIconOn;
 
     clearConnectTimeout();
 

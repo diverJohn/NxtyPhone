@@ -4,7 +4,8 @@ var isPhone = false;
 var isRegistered   = false;
 
 
-
+var szBtIconOn  = "<img src='img/bluetooth_on.png' />";
+var szBtIconOff = "<img src='img/bluetooth_off.png' />";
 
 
 var app = {
@@ -59,7 +60,7 @@ var app = {
 
 	renderHomeView: function() 
 	{
-		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div  id='bt_icon_id' class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
+		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'>" + szBtIconOn + "</div>" : "<div  id='bt_icon_id' class='bt_icon'>" + szBtIconOff + "</div>";
 		var myRegIcon       = isRegistered   ? "<div class='reg_icon'><img src='img/reg_yes.png' /></div>"     : "<div class='reg_icon'><img src='img/reg_no.png' /></div>";
 		var myRegButton     = isRegistered   ? "" : "<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
 		
