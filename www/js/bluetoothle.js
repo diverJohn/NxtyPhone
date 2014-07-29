@@ -5,9 +5,9 @@
 
 var addressKey = "address";
 
-var heartRateServiceAssignedNumber = "6734";
-//var heartRateServiceAssignedNumber =   "48D60A60";
-var heartRateMeasurementCharacteristicAssignedNumber = "2a37";
+var bridgeServiceAssignedNumber = "6734";
+var bridgeMeasurementCharacteristicAssignedNumber = "6711";
+
 var clientCharacteristicConfigDescriptorAssignedNumber = "2902";
 var batteryServiceAssignedNumber = "180f";
 var batteryLevelCharacteristicAssignedNumber = "2a19";
@@ -88,7 +88,7 @@ function isConnectedCallback(obj)
 function StartBluetoothScan()
 {
 	console.log("BT: Starting scan for Cel-Fi devices.");
-    var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
+    var paramsObj = {"serviceAssignedNumbers":[bridgeServiceAssignedNumber]};
     bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
 }
 
@@ -101,7 +101,7 @@ function startScanSuccess(obj)
   
   
 //var bytes = bluetoothle.getBytes(obj.advertisement);
-console.log("BT: Scan advertisment: " + obj.advertisement);
+//console.log("BT: Scan advertisment: " + obj.advertisement);
   
   
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
@@ -210,6 +210,10 @@ function connectSuccess(obj)
 	UpdateBluetoothIcon( true );
 
     clearConnectTimeout();
+    
+    // Now subscribe to the bluetooth tx characteristic...
+    SubscribeBluetoothDevice();
+    
   }
   else if (obj.status == "connecting")
   {
@@ -311,8 +315,113 @@ function closeError(obj)
 
 
 
+// SubscribeBluetoothDevice........................................................................
+function SubscribeBluetoothDevice()
+{
+	var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber};
+    bluetoothle.subscribe(subscribeSuccess, subscribeError, paramsObj);
+}
 
 
+function subscribeSuccess(obj)
+{   
+    if (obj.status == "subscribedResult")
+    {
+        console.log("BT: Subscription data received");
+
+		console.log("BT: data: " + obj.value );
+		
+/*
+        //Parse array of int32 into uint8
+        var bytes = bluetoothle.getBytes(obj.value);
+
+        //Check for data
+        if (bytes.length == 0)
+        {
+            console.log("BT: Subscription result had zero length data");
+            return;
+        }
+
+        //Get the first byte that contains flags
+        var flag = bytes[0];
+
+        //Check if u8 or u16 and get heart rate
+        var hr;
+        if ((flag & 0x01) == 1)
+        {
+            var u16bytes = bytes.buffer.slice(1, 3);
+            var u16 = new Uint16Array(u16bytes)[0];
+            hr = u16;
+        }
+        else
+        {
+            var u8bytes = bytes.buffer.slice(1, 2);
+            var u8 = new Uint8Array(u8bytes)[0];
+            hr = u8;
+        }
+        console.log("Heart Rate: " + hr);
+*/        
+        
+    }
+    else if (obj.status == "subscribed")
+    {
+        console.log("BT: Subscription started");
+    }
+    else
+  {
+    console.log("BT: Unexpected subscribe status: " + obj.status);
+    DisconnectBluetoothDevice();
+  }
+}
+
+function subscribeError(msg)
+{
+  console.log("BT: Subscribe error: " + obj.error + " - " + obj.message);
+  DisconnectBluetoothDevice();
+}
+
+function unsubscribeDevice()
+{
+  console.log("BT: Unsubscribing heart service");
+  var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber};
+  bluetoothle.unsubscribe(unsubscribeSuccess, unsubscribeError, paramsObj);
+}
+
+function unsubscribeSuccess(obj)
+{
+    if (obj.status == "unsubscribed")
+    {
+        console.log("BT: Unsubscribed device");
+
+//        console.log("BT: Reading client configuration descriptor");
+//        var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber, "descriptorAssignedNumber":clientCharacteristicConfigDescriptorAssignedNumber};
+//        bluetoothle.readDescriptor(readDescriptorSuccess, readDescriptorError, paramsObj);
+    }
+    else
+  {
+    console.log("BT: Unexpected unsubscribe status: " + obj.status);
+    DisconnectBluetoothDevice();
+  }
+}
+
+function unsubscribeError(obj)
+{
+  console.log("BT: Unsubscribe error: " + obj.error + " - " + obj.message);
+  DisconnectBluetoothDevice();
+}
+
+
+
+
+
+
+
+
+
+
+/*
+
+jdo unused functions...
 
 
 
@@ -335,7 +444,7 @@ function servicesHeartSuccess(obj)
     }
     console.log("Error: heart rate service not found");
   }
-    else
+  else
   {
     console.log("Unexpected services heart status: " + obj.status);
   }
@@ -367,7 +476,7 @@ function characteristicsHeartSuccess(obj)
     }
     console.log("Error: Heart rate measurement characteristic not found.");
   }
-    else
+  else
   {
     console.log("Unexpected characteristics heart status: " + obj.status);
   }
@@ -516,87 +625,6 @@ function readError(obj)
   disconnectDevice();
 }
 
-function subscribeSuccess(obj)
-{   
-    if (obj.status == "subscribedResult")
-    {
-        console.log("Subscription data received");
-
-        //Parse array of int32 into uint8
-        var bytes = bluetoothle.getBytes(obj.value);
-
-        //Check for data
-        if (bytes.length == 0)
-        {
-            console.log("Subscription result had zero length data");
-            return;
-        }
-
-        //Get the first byte that contains flags
-        var flag = bytes[0];
-
-        //Check if u8 or u16 and get heart rate
-        var hr;
-        if ((flag & 0x01) == 1)
-        {
-            var u16bytes = bytes.buffer.slice(1, 3);
-            var u16 = new Uint16Array(u16bytes)[0];
-            hr = u16;
-        }
-        else
-        {
-            var u8bytes = bytes.buffer.slice(1, 2);
-            var u8 = new Uint8Array(u8bytes)[0];
-            hr = u8;
-        }
-        console.log("Heart Rate: " + hr);
-    }
-    else if (obj.status == "subscribed")
-    {
-        console.log("Subscription started");
-    }
-    else
-  {
-    console.log("Unexpected subscribe status: " + obj.status);
-    disconnectDevice();
-  }
-}
-
-function subscribeError(msg)
-{
-  console.log("Subscribe error: " + obj.error + " - " + obj.message);
-  disconnectDevice();
-}
-
-function unsubscribeDevice()
-{
-  console.log("Unsubscribing heart service");
-  var paramsObj = {"serviceAssignedNumber":heartRateServiceAssignedNumber, "characteristicAssignedNumber":heartRateMeasurementCharacteristicAssignedNumber};
-  bluetoothle.unsubscribe(unsubscribeSuccess, unsubscribeError, paramsObj);
-}
-
-function unsubscribeSuccess(obj)
-{
-    if (obj.status == "unsubscribed")
-    {
-        console.log("Unsubscribed device");
-
-        console.log("Reading client configuration descriptor");
-        var paramsObj = {"serviceAssignedNumber":heartRateServiceAssignedNumber, "characteristicAssignedNumber":heartRateMeasurementCharacteristicAssignedNumber, "descriptorAssignedNumber":clientCharacteristicConfigDescriptorAssignedNumber};
-        bluetoothle.readDescriptor(readDescriptorSuccess, readDescriptorError, paramsObj);
-    }
-    else
-  {
-    console.log("Unexpected unsubscribe status: " + obj.status);
-    disconnectDevice();
-  }
-}
-
-function unsubscribeError(obj)
-{
-  console.log("Unsubscribe error: " + obj.error + " - " + obj.message);
-  disconnectDevice();
-}
 
 function readDescriptorSuccess(obj)
 {
@@ -621,7 +649,7 @@ function readDescriptorError(obj)
 }
 
 
-
+*/
 
 
 
