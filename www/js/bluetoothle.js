@@ -317,6 +317,8 @@ function closeError(obj)
 // DiscoverBluetoothDevice........................................................................
 function DiscoverBluetoothDevice()
 {
+
+/*
     if (window.device.platform == iOSPlatform)
     {
 //      console.log("Discovering heart rate service");
@@ -324,6 +326,7 @@ function DiscoverBluetoothDevice()
 //      bluetoothle.services(servicesHeartSuccess, servicesHeartError, paramsObj);
     }
     else if (window.device.platform == androidPlatform)
+*/    
     {
       console.log("BT:  Android platform.  Beginning discovery");
       bluetoothle.discover(discoverSuccess, discoverError);
