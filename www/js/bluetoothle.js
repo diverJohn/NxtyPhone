@@ -16,20 +16,93 @@ var batteryLevelCharacteristicAssignedNumber = "2a19";
 var scanTimer = null;
 var connectTimer = null;
 var reconnectTimer = null;
-var CnxStatusTimer = null;
 
 var iOSPlatform = "iOS";
 var androidPlatform = "Android";
 
 
+var BluetoothCnxTimer = null;
 
+
+// Use the following as a global variable, "window.isBluetoothCnx", to determine if connected.
+var isBluetoothCnx          = false;
+var LastBluetoothIconStatus = false;
+
+// StartBluetooth...................................................................................
+function StartBluetooth()
+{
+	console.log("BT: Starting bluetooth");
+	bluetoothle.initialize(initializeSuccess, initializeError);
+}
+
+
+function initializeSuccess(obj)
+{
+  if (obj.status == "initialized")
+  {
+    // jdo: If we initialize successfully, start a loop to maintain a connection...
+  	console.log("BT: Initialization successful, starting periodic loop...");
+  	BluetoothLoop();
+  }
+  else
+  {
+    console.log("BT: Unexpected initialize status: " + obj.status);
+  }
+}
+
+function initializeError(obj)
+{
+  console.log("BT: Initialize error: " + obj.error + " - " + obj.message);
+}
+
+
+
+// BluetoothLoop...................................................................................
+// Check every 30 seconds for a connection...
+function BluetoothLoop()
+{
+	bluetoothle.isConnected( isConnectedCallback );
+	
+	// Check again in 30 seconds...
+	BluetoothCnxTimer = setTimeout(BluetoothLoop, 30000);
+}
+
+function isConnectedCallback(obj)
+{
+	if(obj.isConnected)
+	{
+		isBluetoothCnx = true;
+		console.log("bluetooth cnx callback: Cnx" );
+	}
+	else
+	{
+		isBluetoothCnx = false;
+	    console.log("bluetooth cnx callback: Not Cnx" );
+	    StartBluetoothScan();
+	}
+
+	// Now see if the icon needs to be updated...	
+	if( LastBluetoothIconStatus != isBluetoothCnx )
+	{
+		// update the bluetooth icon...
+		if( isBluetoothCnx )
+		{
+			document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_on.png' />";
+		}
+		else
+		{
+			document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_off.png' />";
+		}
+		LastBluetoothIconStatus = isBluetoothCnx;
+	}
+}
 
 
 
 // StartScan.....................................................................................
 function StartBluetoothScan()
 {
-	console.log("Starting scan for Cel-Fi devices.");
+	console.log("BT: Starting scan for Cel-Fi devices.");
     var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
     bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
 }
@@ -38,7 +111,7 @@ function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
   {
-    console.log("Scan match: " + obj.name );
+    console.log("BT: Scan match: " + obj.name );
     
   
   
@@ -51,33 +124,33 @@ function startScanSuccess(obj)
 
     window.localStorage.setItem(addressKey, obj.address);
     
-    connectDevice(obj.address);
+    ConnectBluetoothDevice(obj.address);
   }
   else if (obj.status == "scanStarted")
   {
-    console.log("Scan was started successfully, stopping in 5 sec.");
+    console.log("BT: Scan was started successfully, stopping in 5 sec.");
     scanTimer = setTimeout(scanTimeout, 5000);
   }
   else
   {
-    console.log("Unexpected start scan status: " + obj.status);
+    console.log("BT: Unexpected start scan status: " + obj.status);
   }
 }
 
 function startScanError(obj)
 {
-  console.log("Start scan error: " + obj.error + " - " + obj.message);
+  console.log("BT: Start scan error: " + obj.error + " - " + obj.message);
 }
 
 function scanTimeout()
 {
-  console.log("Scanning time out, stopping");
+  console.log("BT: Scanning time out, stopping");
   bluetoothle.stopScan(stopScanSuccess, stopScanError);
 }
 
 function clearScanTimeout()
 { 
-  console.log("Clearing scanning timeout");
+  console.log("BT: Clearing scanning timeout");
   if (scanTimer != null)
   {
     clearTimeout(scanTimer);
@@ -88,25 +161,25 @@ function stopScanSuccess(obj)
 {
   if (obj.status == "scanStopped")
   {
-    console.log("Scan was stopped successfully");
+    console.log("BT: Scan was stopped successfully");
   }
   else
   {
-    console.log("Unexpected stop scan status: " + obj.status);
+    console.log("BT: Unexpected stop scan status: " + obj.status);
   }
 }
 
 function stopScanError(obj)
 {
-  console.log("Stop scan error: " + obj.error + " - " + obj.message);
+  console.log("BT: Stop scan error: " + obj.error + " - " + obj.message);
 }
 
 
 
-// ConnectDevice...................................................................................
-function connectDevice(address)
+// ConnectBluetoothDevice...................................................................................
+function ConnectBluetoothDevice(address)
 {
-  console.log("Begining connection to: " + address + " with 5 second timeout");
+  console.log("BT: Begining connection to: " + address + " with 5 second timeout");
   
   var paramsObj = {"address":address};
   bluetoothle.connect(connectSuccess, connectError, paramsObj);
@@ -117,8 +190,10 @@ function connectSuccess(obj)
 {
   if (obj.status == "connected")
   {
-    console.log("Connected to : " + obj.name + " - " + obj.address);
+    console.log("BT: Connected to : " + obj.name + " - " + obj.address);
 
+	// Update the bluetooth icon...
+	document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_on.png' />";
 
     clearConnectTimeout();
 
@@ -127,29 +202,29 @@ function connectSuccess(obj)
   }
   else if (obj.status == "connecting")
   {
-    console.log("Connecting to : " + obj.name + " - " + obj.address);
+    console.log("BT: Connecting to : " + obj.name + " - " + obj.address);
   }
   else
   {
-    console.log("Unexpected connect status: " + obj.status);
+    console.log("BT: Unexpected connect status: " + obj.status);
     clearConnectTimeout();
   }
 }
 
 function connectError(obj)
 {
-  console.log("Connect error: " + obj.error + " - " + obj.message);
+  console.log("BT: Connect error: " + obj.error + " - " + obj.message);
   clearConnectTimeout();
 }
 
 function connectTimeout()
 {
-  console.log("Connection timed out");
+  console.log("BT: Connection timed out");
 }
 
 function clearConnectTimeout()
 { 
-  console.log("Clearing connect timeout");
+  console.log("BT: Clearing connect timeout");
   if (connectTimer != null)
   {
     clearTimeout(connectTimer);
