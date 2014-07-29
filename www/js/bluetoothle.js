@@ -255,7 +255,7 @@ function clearConnectTimeout()
 
 
 // DisconnectBluetoothDevice...................................................................................
-function DissconnectBluetoothDevice()
+function DisconnectBluetoothDevice()
 {
   bluetoothle.disconnect(disconnectSuccess, disconnectError);
 }
