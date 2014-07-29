@@ -376,7 +376,7 @@ function subscribeSuccess(obj)
 
 function subscribeError(msg)
 {
-  console.log("BT: Subscribe error: " + obj.error + " - " + obj.message);
+  console.log("BT: Subscribe error: " + msg.error + " - " + msg.message);
   DisconnectBluetoothDevice();
 }
 
