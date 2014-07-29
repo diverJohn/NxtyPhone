@@ -318,7 +318,7 @@ function closeError(obj)
 // SubscribeBluetoothDevice........................................................................
 function SubscribeBluetoothDevice()
 {
-	var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber};
+	var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber, "isNotification":true};
     bluetoothle.subscribe(subscribeSuccess, subscribeError, paramsObj);
 }
 
