@@ -337,7 +337,7 @@ function discoverSuccess(obj)
 {
 	if (obj.status == "discovered")
     {
-    	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + " serv :" + obj.services.serviceAssignedNumber );
+    	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + " serv :" + obj.services[0].serviceAssignedNumber );
     	
     	
 
