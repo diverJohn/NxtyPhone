@@ -164,7 +164,7 @@ function stopScanError(obj)
 // UpdateBluetoothIcon....................................................................................
 function UpdateBluetoothIcon(cnx)
 {
-	if(cnx == TRUE)
+	if(cnx == true)
 	{
 		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOn )
 		{
