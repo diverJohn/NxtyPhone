@@ -40,7 +40,7 @@ function initializeSuccess(obj)
 {
   if (obj.status == "initialized")
   {
-    // jdo: If we initialize successfully, start a loop to maintain a connection...
+    // If we initialize successfully, start a loop to maintain a connection...
   	console.log("BT: Initialization successful, starting periodic loop...");
   	BluetoothLoop();
   }
@@ -71,31 +71,14 @@ function isConnectedCallback(obj)
 {
 	if(obj.isConnected)
 	{
-		isBluetoothCnx = true;
-		console.log("bluetooth cnx callback: Cnx" );
+		console.log("BT: bluetooth cnx callback: Cnx" );
+		UpdateBluetoothIcon( true );
 	}
 	else
 	{
-		isBluetoothCnx = false;
-	    console.log("bluetooth cnx callback: Not Cnx" );
+	    console.log("BT: bluetooth cnx callback: Not Cnx" );
+		UpdateBluetoothIcon( false );
 	    StartBluetoothScan();
-	}
-
-	// Now see if the icon needs to be updated...	
-	// update the bluetooth icon...
-	if( isBluetoothCnx )
-	{
-		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOn )
-		{
-			document.getElementById("bt_icon_id").innerHTML = szBtIconOn;
-		}
-	}
-	else
-	{
-		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOff )
-		{
-			document.getElementById("bt_icon_id").innerHTML = szBtIconOff;
-		}
 	}
 }
 
@@ -178,8 +161,31 @@ function stopScanError(obj)
 
 
 
+// UpdateBluetoothIcon....................................................................................
+function UpdateBluetoothIcon(cnx)
+{
+	if(cnx == TRUE)
+	{
+		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOn )
+		{
+			document.getElementById("bt_icon_id").innerHTML = szBtIconOn;
+		}
+		isBluetoothCnx = true;
+	}
+	else
+	{
+		if( document.getElementById("bt_icon_id").innerHTML != szBtIconOff )
+		{
+			document.getElementById("bt_icon_id").innerHTML = szBtIconOff;
+		}
+		isBluetoothCnx = false;
+	}
+}
+
+
+
 // ConnectBluetoothDevice...................................................................................
-// Per pluging: Connect to a Bluetooth LE device. The Phonegap app should use a timer to limit the 
+// Per plugin: Connect to a Bluetooth LE device. The Phonegap app should use a timer to limit the 
 // connecting time in case connecting is never successful. Once a device is connected, it may 
 // disconnect without user intervention. The original connection callback will be called again 
 // and receive an object with status => disconnected. To reconnect to the device, use the reconnect method. 
@@ -201,8 +207,7 @@ function connectSuccess(obj)
     console.log("BT: Connected to : " + obj.name + " - " + obj.address);
 
 	// Update the bluetooth icon...
-	document.getElementById("bt_icon_id").innerHTML = szBtIconOn;
-	isBluetoothCnx = true;
+	UpdateBluetoothIcon( true );
 
     clearConnectTimeout();
   }
@@ -216,7 +221,7 @@ function connectSuccess(obj)
     
     if( obj.status == "disconnected" )
     {
-    	DissconnectBluetoothDevice();
+    	CloseBluetoothDevice();
     }
     clearConnectTimeout();
   }
@@ -258,10 +263,9 @@ function disconnectSuccess(obj)
         console.log("BT: Disconnect device success");
         
         // Update the bluetooth icon...
-		document.getElementById("bt_icon_id").innerHTML = szBtIconOff;
-		isBluetoothCnx = false;
-	
-        closeDevice();
+        UpdateBluetoothIcon( false );
+
+        CloseBluetoothDevice();
     }
     else if (obj.status == "disconnecting")
     {
@@ -278,7 +282,9 @@ function disconnectError(obj)
   console.log("BT: Disconnect error: " + obj.error + " - " + obj.message);
 }
 
-function closeDevice()
+
+// CloseBluetoothDevice...................................................................................
+function CloseBluetoothDevice()
 {
   bluetoothle.close(closeSuccess, closeError);
 }
@@ -288,6 +294,7 @@ function closeSuccess(obj)
     if (obj.status == "closed")
     {
         console.log("BT Closed device");
+        UpdateBluetoothIcon( false );
     }
     else
   	{
