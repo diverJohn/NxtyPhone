@@ -1,14 +1,87 @@
 
 // Use window.isPhone to show global var or just use without "window." ...
 var isPhone = false;
-var isRegistered   = true;
+var isRegistered   = false;
 
 
 var BluetoothCnxTimer = null;
 
+// Use the following as a global variable, "window.isBluetoothCnx", to determine if connected.
+var isBluetoothCnx          = false;
+var LastBluetoothIconStatus = false;
+
+// StartBluetooth...................................................................................
+function StartBluetooth()
+{
+	console.log("starting bluetooth");
+	bluetoothle.initialize(initializeSuccess, initializeError);
+}
+
+
+function initializeSuccess(obj)
+{
+  if (obj.status == "initialized")
+  {
+    // jdo: If we initialize successfully, start a loop to maintain a connection...
+  	console.log("Initialization successful, started Cnx Status Timer with 30 sec freq...");
+  	BluetoothLoop();
+  }
+  else
+  {
+    console.log("Unexpected initialize status: " + obj.status);
+  }
+}
+
+function initializeError(obj)
+{
+  console.log("Initialize error: " + obj.error + " - " + obj.message);
+}
+
+
+
+// BluetoothLoop...................................................................................
+// Check every 30 seconds for a connection...
+function BluetoothLoop()
+{
+	bluetoothle.isConnected( isConnectedCallback );
+	
+	// Check again in 30 seconds...
+	BluetoothCnxTimer = setTimeout(BluetoothLoop, 30000);
+}
+
+function isConnectedCallback(obj)
+{
+	if(obj.isConnected)
+	{
+		isBluetoothCnx = true;
+		console.log("bluetooth cnx callback: Cnx" );
+	}
+	else
+	{
+		isBluetoothCnx = false;
+	    console.log("bluetooth cnx callback: Not Cnx" );
+	    StartBluetoothScan();
+	}
+
+	// Now see if the icon needs to be updated...	
+	if( LastBluetoothIconStatus != isBluetoothCnx )
+	{
+		// update the bluetooth icon...
+		if( isBluetoothCnx )
+		{
+			document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_on.png' />";
+		}
+		else
+		{
+			document.getElementById("bt_icon_id").innerHTML = "<img src='img/bluetooth_off.png' />";
+		}
+		LastBluetoothIconStatus = isBluetoothCnx;
+	}
+}
+
+
+
 var app = {
-
-
      
     // deviceready Event Handler
     //
@@ -47,7 +120,7 @@ var app = {
 	handleSwUpdateKey: function()
 	{
 	 	console.log("SW Update key pressed");
-	 	this.showAlert("Check for SW Update Key pressed!", "Info");
+//	 	this.showAlert("Check for SW Update Key pressed!", "Info");
 	},
 
 	// Handle the Teck Mode key
@@ -60,7 +133,7 @@ var app = {
 
 	renderHomeView: function() 
 	{
-		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon-id' class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div  id='bt_icon-id' class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
+		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'><img src='img/bluetooth_on.png' /></div>" : "<div  id='bt_icon_id' class='bt_icon'><img src='img/bluetooth_off.png' /></div>";
 		var myRegIcon       = isRegistered   ? "<div class='reg_icon'><img src='img/reg_yes.png' /></div>"     : "<div class='reg_icon'><img src='img/reg_no.png' /></div>";
 		var myRegButton     = isRegistered   ? "" : "<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
 		
@@ -102,33 +175,8 @@ var app = {
 	        document.addEventListener('deviceready', this.onDeviceReady, false);
         }
 
-		// Start a function to update the bluetooth status...
-//		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
 	},
 
-/*
-	CheckBluetoothIconStatus: function() 
-	{
-		console.log( "Check bluetooth icon");
-		
-		if( LastBluetoothIconStatus != isBluetoothCnx )
-		{
-			// update the bluetooth icon...
-			if( isBluetoothCnx )
-			{
-				document.getElementById("bt_icon_id").innerHTML = 'img/bluetooth_on.png';
-			}
-			else
-			{
-				document.getElementById("bt_icon_id").innerHTML = 'img/bluetooth_off.png';
-			}
-			LastBluetoothIconStatus = isBluetoothCnx;
-		}
-	
-		BluetoothCnxTimer = setTimeout(this.CheckBluetoothIconStatus, 10000);
-	},
-
-*/
 
 };
 
