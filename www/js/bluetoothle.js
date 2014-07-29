@@ -337,7 +337,9 @@ function discoverSuccess(obj)
 {
 	if (obj.status == "discovered")
     {
-    	console.log("BT: Discovery completed.  Name: " + obj.name + "add: " + obj.address );
+    	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + " serv :" + obj.services.serviceAssignedNumber );
+    	
+    	
 
     // Now subscribe to the bluetooth tx characteristic...
 //    SubscribeBluetoothDevice();
