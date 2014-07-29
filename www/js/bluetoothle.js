@@ -337,7 +337,7 @@ function discoverSuccess(obj)
 {
 	if (obj.status == "discovered")
     {
-    	console.log("BT: Discovery completed");
+    	console.log("BT: Discovery completed: " + obj );
 
     // Now subscribe to the bluetooth tx characteristic...
 //    SubscribeBluetoothDevice();
@@ -423,7 +423,7 @@ function subscribeSuccess(obj)
 function subscribeError(msg)
 {
   console.log("BT: Subscribe error: " + msg.error + " - " + msg.message);
-  DisconnectBluetoothDevice();
+//  DisconnectBluetoothDevice();
 }
 
 function unsubscribeDevice()
