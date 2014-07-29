@@ -101,7 +101,7 @@ function startScanSuccess(obj)
   
   
 //var bytes = bluetoothle.getBytes(obj.advertisement);
-//console.log("advertisment: " + obj.advertisement);
+console.log("BT: Scan advertisment: " + obj.advertisement);
   
   
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
