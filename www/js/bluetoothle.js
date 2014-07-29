@@ -211,9 +211,9 @@ function connectSuccess(obj)
 
     clearConnectTimeout();
     
-    // Now subscribe to the bluetooth tx characteristic...
-//    SubscribeBluetoothDevice();
-    
+    // Must run Discover before subscribing...
+    DiscoverBluetoothDevice();
+   
   }
   else if (obj.status == "connecting")
   {
@@ -309,6 +309,49 @@ function closeSuccess(obj)
 function closeError(obj)
 {
   console.log("BT: Close error: " + obj.error + " - " + obj.message);
+}
+
+
+
+
+// DiscoverBluetoothDevice........................................................................
+function DiscoverBluetoothDevice()
+{
+    if (window.device.platform == iOSPlatform)
+    {
+//      console.log("Discovering heart rate service");
+//      var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
+//      bluetoothle.services(servicesHeartSuccess, servicesHeartError, paramsObj);
+    }
+    else if (window.device.platform == androidPlatform)
+    {
+      console.log("BT:  Android platform.  Beginning discovery");
+      bluetoothle.discover(discoverSuccess, discoverError);
+    }
+}
+
+function discoverSuccess(obj)
+{
+	if (obj.status == "discovered")
+    {
+    	console.log("BT: Discovery completed");
+
+    // Now subscribe to the bluetooth tx characteristic...
+//    SubscribeBluetoothDevice();
+    
+
+	}
+  	else
+  	{
+    	console.log("BT: Unexpected discover status: " + obj.status);
+    	DisconnectBluetoothDevice();
+  	}
+}
+
+function discoverError(obj)
+{
+  console.log("Discover error: " + obj.error + " - " + obj.message);
+  disconnectDevice();
 }
 
 
@@ -572,26 +615,6 @@ function characteristicsBatteryError(obj)
   disconnectDevice();
 }
 
-function discoverSuccess(obj)
-{
-    if (obj.status == "discovered")
-    {
-        console.log("Discovery completed");
-
-    readBatteryLevel();
-  }
-  else
-  {
-    console.log("Unexpected discover status: " + obj.status);
-    disconnectDevice();
-  }
-}
-
-function discoverError(obj)
-{
-  console.log("Discover error: " + obj.error + " - " + obj.message);
-  disconnectDevice();
-}
 
 function readBatteryLevel()
 {
