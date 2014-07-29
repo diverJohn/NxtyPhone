@@ -179,6 +179,12 @@ function stopScanError(obj)
 
 
 // ConnectBluetoothDevice...................................................................................
+// Per pluging: Connect to a Bluetooth LE device. The Phonegap app should use a timer to limit the 
+// connecting time in case connecting is never successful. Once a device is connected, it may 
+// disconnect without user intervention. The original connection callback will be called again 
+// and receive an object with status => disconnected. To reconnect to the device, use the reconnect method. 
+// Before connecting to a new device, the current device must be disconnected and closed. 
+// If a timeout occurs, the connection attempt should be canceled using disconnect().
 function ConnectBluetoothDevice(address)
 {
   console.log("BT: Begining connection to: " + address + " with 5 second timeout");
@@ -196,11 +202,9 @@ function connectSuccess(obj)
 
 	// Update the bluetooth icon...
 	document.getElementById("bt_icon_id").innerHTML = szBtIconOn;
+	isBluetoothCnx = true;
 
     clearConnectTimeout();
-
-
-//jdo leave connected    tempDisconnectDevice();
   }
   else if (obj.status == "connecting")
   {
@@ -209,6 +213,11 @@ function connectSuccess(obj)
   else
   {
     console.log("BT: Unexpected connect status: " + obj.status);
+    
+    if( obj.status == "disconnected" )
+    {
+    	DissconnectBluetoothDevice();
+    }
     clearConnectTimeout();
   }
 }
@@ -222,6 +231,7 @@ function connectError(obj)
 function connectTimeout()
 {
   console.log("BT: Connection timed out");
+  DissconnectBluetoothDevice();
 }
 
 function clearConnectTimeout()
@@ -235,8 +245,60 @@ function clearConnectTimeout()
 
 
 
+// DisconnectBluetoothDevice...................................................................................
+function DissconnectBluetoothDevice()
+{
+  bluetoothle.disconnect(disconnectSuccess, disconnectError);
+}
 
+function disconnectSuccess(obj)
+{
+    if (obj.status == "disconnected")
+    {
+        console.log("BT: Disconnect device success");
+        
+        // Update the bluetooth icon...
+		document.getElementById("bt_icon_id").innerHTML = szBtIconOff;
+		isBluetoothCnx = false;
+	
+        closeDevice();
+    }
+    else if (obj.status == "disconnecting")
+    {
+        console.log("BT: Disconnecting device");
+    }
+    else
+  	{
+    	console.log("BT: Unexpected disconnect status: " + obj.status);
+  	}
+}
 
+function disconnectError(obj)
+{
+  console.log("BT: Disconnect error: " + obj.error + " - " + obj.message);
+}
+
+function closeDevice()
+{
+  bluetoothle.close(closeSuccess, closeError);
+}
+
+function closeSuccess(obj)
+{
+    if (obj.status == "closed")
+    {
+        console.log("BT Closed device");
+    }
+    else
+  	{
+      console.log("BT: Unexpected close status: " + obj.status);
+  	}
+}
+
+function closeError(obj)
+{
+  console.log("BT: Close error: " + obj.error + " - " + obj.message);
+}
 
 
 
@@ -551,54 +613,7 @@ function readDescriptorError(obj)
   disconnectDevice();
 }
 
-function disconnectDevice()
-{
-  bluetoothle.disconnect(disconnectSuccess, disconnectError);
-}
 
-function disconnectSuccess(obj)
-{
-    if (obj.status == "disconnected")
-    {
-        console.log("Disconnect device");
-        closeDevice();
-    }
-    else if (obj.status == "disconnecting")
-    {
-        console.log("Disconnecting device");
-    }
-    else
-  {
-    console.log("Unexpected disconnect status: " + obj.status);
-  }
-}
-
-function disconnectError(obj)
-{
-  console.log("Disconnect error: " + obj.error + " - " + obj.message);
-}
-
-function closeDevice()
-{
-  bluetoothle.close(closeSuccess, closeError);
-}
-
-function closeSuccess(obj)
-{
-    if (obj.status == "closed")
-    {
-        console.log("Closed device");
-    }
-    else
-  {
-    console.log("Unexpected close status: " + obj.status);
-  }
-}
-
-function closeError(obj)
-{
-  console.log("Close error: " + obj.error + " - " + obj.message);
-}
 
 
 
