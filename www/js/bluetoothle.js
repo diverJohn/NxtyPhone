@@ -212,7 +212,7 @@ function connectSuccess(obj)
     clearConnectTimeout();
     
     // Now subscribe to the bluetooth tx characteristic...
-    SubscribeBluetoothDevice();
+//    SubscribeBluetoothDevice();
     
   }
   else if (obj.status == "connecting")

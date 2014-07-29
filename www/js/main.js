@@ -47,6 +47,8 @@ var app = {
 	handleSwUpdateKey: function()
 	{
 	 	console.log("SW Update key pressed");
+SubscribeBluetoothDevice();	 	
+	 	
 //	 	this.showAlert("Check for SW Update Key pressed!", "Info");
 	},
 
