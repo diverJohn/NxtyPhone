@@ -96,9 +96,7 @@ function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
   {
-    console.log("BT: Scan match: " + obj.name );
-    
-  
+    console.log("BT: Scan match: " + obj.name + "string: " + JSON.stringify(obj) );
   
 //var bytes = bluetoothle.getBytes(obj.advertisement);
 //console.log("BT: Scan advertisment: " + obj.advertisement);
@@ -337,8 +335,7 @@ function discoverSuccess(obj)
 {
 	if (obj.status == "discovered")
     {
-    	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + " serv :" + obj.services[0].serviceAssignedNumber );
-    	
+    	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + "stringify: " + JSON.stringify(obj));
     	
 
     // Now subscribe to the bluetooth tx characteristic...
