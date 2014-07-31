@@ -7,6 +7,7 @@ var isRegistered   = false;
 var szBtIconOn  = "<img src='img/bluetooth_on.png' />";
 var szBtIconOff = "<img src='img/bluetooth_off.png' />";
 
+var mainTimer = null;
 
 var app = {
      
@@ -24,6 +25,8 @@ var app = {
         }
         
         app.renderHomeView();
+        
+
     },   
        
        
@@ -45,19 +48,13 @@ var app = {
 	 	
 	 	if( isBluetoothCnx )
 	 	{
-//	 		swupdate.renderSwUpdateView();
-SubscribeBluetoothDevice();	
+	 		swupdate.renderSwUpdateView();
 	 	}
 	 	else
 	 	{
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 	 	}
-	 	
-	 	
-	 	
- 	
-	 	
-//	 	this.showAlert("Check for SW Update Key pressed!", "Info");
+
 	},
 
 	// Handle the Teck Mode key
@@ -83,6 +80,7 @@ SubscribeBluetoothDevice();
 	 	
 	 	if( isBluetoothCnx )
 	 	{
+			clearTimeout(mainTimer);
 			reg.renderRegView();
 	 	}
 	 	else
@@ -108,7 +106,10 @@ SubscribeBluetoothDevice();
 			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton;
   			
-		$('body').html(myHtml);  			
+		$('body').html(myHtml); 
+		
+		// Start the handler...
+		app.loopMain(); 			
 	},
 
 
@@ -139,6 +140,16 @@ SubscribeBluetoothDevice();
         }
 
 	},
+
+
+	loopMain: function() 
+	{
+		console.log("App: loop main " );
+		mainTimer = setTimeout(loopMain, 5000);
+		
+		
+	},
+
 
 
 };
