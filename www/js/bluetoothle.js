@@ -380,7 +380,7 @@ function subscribeSuccess(obj)
 		var bytes = bluetoothle.getBytes(obj.value);
 
         //Check for data
-        if (bytes.length == 0)
+        if (bytes.length != 0)
         {
             for( var i = 0; i < bytes.length; i++ )
             {
