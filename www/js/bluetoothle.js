@@ -26,7 +26,8 @@ var BluetoothCnxTimer = null;
 
 // Use the following as a global variable, "window.isBluetoothCnx", to determine if connected.
 var isBluetoothCnx          = false;
-var LastBluetoothIconStatus = false;
+var isBluetoothSubscribed   = false;
+
 
 // StartBluetooth...................................................................................
 function StartBluetooth()
@@ -58,13 +59,13 @@ function initializeError(obj)
 
 
 // BluetoothLoop...................................................................................
-// Check every 30 seconds for a connection...
+// Check every 15 seconds for a connection and subscription...
 function BluetoothLoop()
 {
 	bluetoothle.isConnected( isConnectedCallback );
 	
-	// Check again in 30 seconds...
-	BluetoothCnxTimer = setTimeout(BluetoothLoop, 30000);
+	// Check again in 15 seconds...
+	BluetoothCnxTimer = setTimeout(BluetoothLoop, 15000);
 }
 
 function isConnectedCallback(obj)
@@ -73,6 +74,11 @@ function isConnectedCallback(obj)
 	{
 		console.log("BT: bluetooth cnx callback: Cnx" );
 		UpdateBluetoothIcon( true );
+		
+		if( isBluetoothSubscribed == false )
+		{
+			DiscoverBluetoothDevice();	
+		}
 	}
 	else
 	{
@@ -96,12 +102,9 @@ function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
   {
-    console.log("BT: Scan match: " + obj.name + "string: " + JSON.stringify(obj) );
+    console.log("BT: Scan match: " + obj.name + " string: " + JSON.stringify(obj) );
   
-//var bytes = bluetoothle.getBytes(obj.advertisement);
-//console.log("BT: Scan advertisment: " + obj.advertisement);
-  
-  
+ 
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
 
@@ -176,7 +179,8 @@ function UpdateBluetoothIcon(cnx)
 		{
 			document.getElementById("bt_icon_id").innerHTML = szBtIconOff;
 		}
-		isBluetoothCnx = false;
+		isBluetoothCnx        = false;
+		isBluetoothSubscribed = false;
 	}
 }
 
@@ -336,12 +340,9 @@ function discoverSuccess(obj)
 	if (obj.status == "discovered")
     {
     	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + "stringify: " + JSON.stringify(obj));
-    	
 
-    // Now subscribe to the bluetooth tx characteristic...
-//    SubscribeBluetoothDevice();
-    
-
+    	// Now subscribe to the bluetooth tx characteristic...
+    	SubscribeBluetoothDevice();
 	}
   	else
   	{
@@ -374,9 +375,6 @@ function subscribeSuccess(obj)
     {
         console.log("BT: Subscription data received");
 
-//		console.log("BT: data: " + obj.value );
-		
-		
 		var bytes = bluetoothle.getBytes(obj.value);
 
         //Check for data
@@ -426,18 +424,20 @@ function subscribeSuccess(obj)
     else if (obj.status == "subscribed")
     {
         console.log("BT: Subscription started");
+		isBluetoothSubscribed = true;
     }
     else
-  {
-    console.log("BT: Unexpected subscribe status: " + obj.status);
-    DisconnectBluetoothDevice();
+  	{
+    	console.log("BT: Unexpected subscribe status: " + obj.status);
+    	DisconnectBluetoothDevice();
+
+    	
   }
 }
 
 function subscribeError(msg)
 {
-  console.log("BT: Subscribe error: " + msg.error + " - " + msg.message);
-//  DisconnectBluetoothDevice();
+  	console.log("BT: Subscribe error: " + msg.error + " - " + msg.message);
 }
 
 function unsubscribeDevice()
@@ -452,16 +452,13 @@ function unsubscribeSuccess(obj)
     if (obj.status == "unsubscribed")
     {
         console.log("BT: Unsubscribed device");
-
-//        console.log("BT: Reading client configuration descriptor");
-//        var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber, "descriptorAssignedNumber":clientCharacteristicConfigDescriptorAssignedNumber};
-//        bluetoothle.readDescriptor(readDescriptorSuccess, readDescriptorError, paramsObj);
+    	isBluetoothSubscribed = false;
     }
     else
-  {
-    console.log("BT: Unexpected unsubscribe status: " + obj.status);
-    DisconnectBluetoothDevice();
-  }
+    {
+      console.log("BT: Unexpected unsubscribe status: " + obj.status);
+      DisconnectBluetoothDevice();
+    }
 }
 
 function unsubscribeError(obj)

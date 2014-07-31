@@ -22,8 +22,7 @@ var reg = {
             myBluetoothIcon
 
 		$('body').html(myHtml);  
-		
-		SubscribeBluetoothDevice();			
+
 	},
 
 
