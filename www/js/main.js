@@ -83,7 +83,7 @@ SubscribeBluetoothDevice();
 	 	
 	 	if( isBluetoothCnx )
 	 	{
-//	 		reg.renderRegView();
+			reg.renderRegView();
 	 	}
 	 	else
 	 	{
