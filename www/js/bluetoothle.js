@@ -374,7 +374,7 @@ function subscribeSuccess(obj)
     {
         console.log("BT: Subscription data received");
 
-		console.log("BT: data: " + obj.value );
+//		console.log("BT: data: " + obj.value );
 		
 		
 		var bytes = bluetoothle.getBytes(obj.value);
@@ -382,10 +382,12 @@ function subscribeSuccess(obj)
         //Check for data
         if (bytes.length != 0)
         {
-            for( var i = 0; i < bytes.length; i++ )
+        	var outText = bytes[0].toString(16);
+            for( var i = 1; i < bytes.length; i++ )
             {
-            	console.log( bytes[i] );
+            	outText = outText + " " + bytes[i].toString(16);
             }
+            console.log( bytes[i] );
         }
         
 		
