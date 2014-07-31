@@ -374,7 +374,20 @@ function subscribeSuccess(obj)
     {
         console.log("BT: Subscription data received");
 
-		console.log("BT: data: " + JSON.stringify(obj) );
+		console.log("BT: data: " + obj.value );
+		
+		
+		var bytes = bluetoothle.getBytes(obj.value);
+
+        //Check for data
+        if (bytes.length == 0)
+        {
+            for( var i = 0; i < bytes.length; i++ )
+            {
+            	console.log( bytes[i] );
+            }
+        }
+        
 		
 /*
         //Parse array of int32 into uint8
