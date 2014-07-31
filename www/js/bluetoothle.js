@@ -387,7 +387,7 @@ function subscribeSuccess(obj)
             {
             	outText = outText + " " + bytes[i].toString(16);
             }
-            console.log( bytes[i] );
+            console.log( outText );
         }
         
 		
