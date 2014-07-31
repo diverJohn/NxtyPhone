@@ -242,7 +242,7 @@ function connectError(obj)
 function connectTimeout()
 {
   console.log("BT: Connection timed out");
-  DissconnectBluetoothDevice();
+  DisconnectBluetoothDevice();
 }
 
 function clearConnectTimeout()
