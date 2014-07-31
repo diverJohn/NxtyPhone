@@ -47,7 +47,7 @@ var app = {
 	 	}
 	 	else
 	 	{
-		 	this.showAlert("Bluetooth not connected. Registration mode not allowed...", "Info");
+		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
 	 	}
 	},
 
@@ -63,7 +63,7 @@ SubscribeBluetoothDevice();
 	 	}
 	 	else
 	 	{
-		 	this.showAlert("Bluetooth not connected. SW Update mode not allowed...", "Info");
+		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 	 	}
 	 	
 	 	
@@ -84,7 +84,7 @@ SubscribeBluetoothDevice();
 	 	}
 	 	else
 	 	{
-		 	this.showAlert("Bluetooth not connected. Tech mode not allowed...", "Info");
+		 	this.showAlert("Tech mode not allowed...", "Bluetooth not connected.");
 	 	}
 	},
 
