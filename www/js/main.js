@@ -109,7 +109,7 @@ var app = {
 		$('body').html(myHtml); 
 		
 		// Start the handler...
-		app.loopMain(); 			
+		mainTimer = setTimeout(app.loopMain, 100); 			
 	},
 
 
