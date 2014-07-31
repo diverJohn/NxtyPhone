@@ -374,7 +374,7 @@ function subscribeSuccess(obj)
     {
         console.log("BT: Subscription data received");
 
-		console.log("BT: data: " + obj.value );
+		console.log("BT: data: " + JSON.stringify(obj) );
 		
 /*
         //Parse array of int32 into uint8
