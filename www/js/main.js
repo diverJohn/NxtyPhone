@@ -145,7 +145,7 @@ var app = {
 	loopMain: function() 
 	{
 		console.log("App: loop main " );
-		mainTimer = setTimeout(loopMain, 5000);
+		mainTimer = setTimeout(app.loopMain, 5000);
 		
 		
 	},
