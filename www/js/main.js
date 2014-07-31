@@ -7,7 +7,7 @@ var isRegistered   = false;
 var szBtIconOn  = "<img src='img/bluetooth_on.png' />";
 var szBtIconOff = "<img src='img/bluetooth_off.png' />";
 
-var mainTimer = null;
+var MainLoopIntervalHandle = null;
 
 var app = {
      
@@ -80,7 +80,7 @@ var app = {
 	 	
 	 	if( isBluetoothCnx )
 	 	{
-			clearTimeout(mainTimer);
+			clearInterval(MainLoopIntervalHandle);
 			reg.renderRegView();
 	 	}
 	 	else
@@ -108,8 +108,8 @@ var app = {
   			
 		$('body').html(myHtml); 
 		
-		// Start the handler...
-		mainTimer = setTimeout(app.loopMain, 100); 			
+		// Start the handler to be called every second...
+		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
 	},
 
 
@@ -142,12 +142,9 @@ var app = {
 	},
 
 
-	loopMain: function() 
+	MainLoop: function() 
 	{
-		console.log("App: loop main " );
-		mainTimer = setTimeout(app.loopMain, 5000);
-		
-		
+		console.log("App: Main loop..." );
 	},
 
 
