@@ -40,14 +40,35 @@ var app = {
 	handleRegKey: function()
 	{
 	 	console.log("Reg key pressed");
-	 	this.showAlert("Reg key pressed!", "Info");
+	 	
+	 	if( isBluetoothCnx )
+	 	{
+//	 		reg.renderRegView();
+	 	}
+	 	else
+	 	{
+		 	this.showAlert("Bluetooth not connected. Registration mode not allowed...", "Info");
+	 	}
 	},
 
 	// Handle the Check for SW Update key
 	handleSwUpdateKey: function()
 	{
 	 	console.log("SW Update key pressed");
-SubscribeBluetoothDevice();	 	
+	 	
+	 	if( isBluetoothCnx )
+	 	{
+//	 		swupdate.renderSwUpdateView();
+SubscribeBluetoothDevice();	
+	 	}
+	 	else
+	 	{
+		 	this.showAlert("Bluetooth not connected. SW Update mode not allowed...", "Info");
+	 	}
+	 	
+	 	
+	 	
+ 	
 	 	
 //	 	this.showAlert("Check for SW Update Key pressed!", "Info");
 	},
@@ -56,7 +77,15 @@ SubscribeBluetoothDevice();
 	handleTechModeKey: function()
 	{
 	 	console.log("Tech Mode key pressed");
-	 	tech.renderTechView();
+	 	
+	 	if( isBluetoothCnx )
+	 	{
+	 		tech.renderTechView();
+	 	}
+	 	else
+	 	{
+		 	this.showAlert("Bluetooth not connected. Tech mode not allowed...", "Info");
+	 	}
 	},
 
 
