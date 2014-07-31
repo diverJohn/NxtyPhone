@@ -36,20 +36,7 @@ var app = {
     },
 
 
-	// Handle the Register key
-	handleRegKey: function()
-	{
-	 	console.log("Reg key pressed");
-	 	
-	 	if( isBluetoothCnx )
-	 	{
-//	 		reg.renderRegView();
-	 	}
-	 	else
-	 	{
-		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
-	 	}
-	},
+
 
 	// Handle the Check for SW Update key
 	handleSwUpdateKey: function()
@@ -87,6 +74,24 @@ SubscribeBluetoothDevice();
 		 	this.showAlert("Tech mode not allowed...", "Bluetooth not connected.");
 	 	}
 	},
+
+
+	// Handle the Register key
+	handleRegKey: function()
+	{
+	 	console.log("Reg key pressed");
+	 	
+	 	if( isBluetoothCnx )
+	 	{
+//	 		reg.renderRegView();
+	 	}
+	 	else
+	 	{
+		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
+	 	}
+	},
+	
+	
 
 
 	renderHomeView: function() 
