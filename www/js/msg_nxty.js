@@ -1,12 +1,8 @@
-/**************************************************************************************************
-  Filename:       msg.c
-
-  Description:    This file contains the message handler application code.
-            
-
-**************************************************************************************************/
 
 
+
+
+/*
 #include "stdafx.h"
 #include <windows.h>
 #include "msg_nxty.h"
@@ -167,12 +163,49 @@ void SendNxtyMsg( unsigned char uCmd, unsigned char * pMsgData, unsigned char uL
 
 
 
-static void CalcCrc8( unsigned char *pData, unsigned short uLen, unsigned char *pCrc )
-{
-  unsigned short i;
-  
-  static unsigned char crc8_table[] = 
-  {
+#define NXTY_STD_MSG_SIZE                   (12)
+#define NXTY_BIG_MSG_SIZE                   (255)
+#define NXTY_MSG_FILL_BYTE                  (0x00)   
+
+
+#define NXTY_SYS_SN_REQ                     (0x01)
+#define NXTY_SYS_SN_RSP                     (0x41)
+#define NXTY_SET_BLUETOOTH_CNX_STATUS_REQ   (0x02)
+#define   BLUETOOTH_NOT_CNX                   (0x00)
+#define   BLUETOOTH_CNX                       (0x01)
+#define NXTY_SET_BLUETOOTH_CNX_STATUS_RSP   (0x42)
+#define NXTY_CELL_INFO_REQ                  (0x03)
+#define NXTY_CELL_INFO_RSP                  (0x43)
+#define NXTY_REGISTRATION_REQ               (0x04)
+#define NXTY_REGISTRATION_RSP               (0x44)
+#define NXTY_GET_MON_MODE_HEADINGS_REQ      (0x05)
+#define NXTY_GET_MON_MODE_HEADINGS_RSP      (0x45)
+#define NXTY_GET_MON_MODE_PAGE_REQ          (0x06)
+#define NXTY_GET_MON_MODE_PAGE_RSP          (0x46)
+#define NXTY_SW_VERSION_REQ                 (0x07)
+#define NXTY_SW_VERSION_RSP                 (0x47)
+#define NXTY_DOWNLOAD_START_REQ             (0x08)
+#define NXTY_DOWNLOAD_START_RSP             (0x48)
+#define NXTY_DOWNLOAD_TRANSFER_REQ          (0x09)
+#define NXTY_DOWNLOAD_TRANSFER_RSP          (0x49)
+#define NXTY_DOWNLOAD_END_REQ               (0x0A)
+#define NXTY_DOWNLOAD_END_RSP               (0x4A)
+
+#define NXTY_STATUS_RSP                     (0x4B)
+
+   
+// Errors processing...
+#define NXTY_INVALID_BUFFER_ERR             (0xF0)
+#define NXTY_INVALID_LEN_ERR                (0xF1)
+#define NXTY_INVALID_CRC_ERR                (0xF2)
+#define NXTY_INVALID_COMMAND_ERR            (0xF3)   
+
+
+*/
+
+
+var crc8_table = new Uint8Array([ 
+
     0, 94,188,226, 97, 63,221,131,194,156,126, 32,163,253, 31, 65,
     157,195, 33,127,252,162, 64, 30, 95,  1,227,189, 62, 96,130,220,
      35,125,159,193, 66, 28,254,160,225,191, 93,  3,128,222, 60, 98,
@@ -189,13 +222,111 @@ static void CalcCrc8( unsigned char *pData, unsigned short uLen, unsigned char *
      87,  9,235,181, 54,104,138,212,149,203, 41,119,244,170, 72, 22,
     233,183, 85, 11,136,214, 52,106, 43,117,151,201, 74, 20,246,168,
     116, 42,200,150, 21, 75,169,247,182,232, 10, 84,215,137,107, 53
-  };
+]);
   
-  for( i = 0; i < uLen; i++ )
-  {
-    *pCrc = crc8_table[*pCrc ^ pData[i]];
-  }
-   
-  return;
-}
+var  NXTY_STD_MSG_SIZE = 12;
+var  NXTY_BIG_MSG_SIZE = 255;
 
+var  NXTY_STATUS_REQ   = 0x0B;
+
+var nxty = {
+
+     
+    SendNxtyMsg: function( uCmdByte, pMsgData, uLenByte )
+    {
+      var i;
+      var uCrc     = new Uint8Array(1);
+      var uStdBuff = new Uint8Array(NXTY_STD_MSG_SIZE);
+      var uBigBuff = new Uint8Array(NXTY_BIG_MSG_SIZE);
+    
+    
+      if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
+      {
+        // Msg len too big...
+        console.log( "Nxty: Msg too long" );
+        return;
+      }
+          
+    
+      
+      // Check for STD message size...
+      if( (uLenByte + 3) <= NXTY_STD_MSG_SIZE )
+      {
+//        memset( uStdBuff, NXTY_MSG_FILL_BYTE, sizeof(uStdBuff) );
+        uStdBuff[0] = NXTY_STD_MSG_SIZE;
+        uStdBuff[1] = uCmdByte;
+      
+        if( uLenByte && (pMsgData != null) )
+        {
+          for( i = 0; i < uLenByte; i++ )
+          {
+            uStdBuff[2+i] = pMsgData[i].contents;
+          }
+        }
+    
+        // Calculate the CRC...
+        uCrc = 0;
+        uCrc = nxty.CalcCrc8( uStdBuff, NXTY_STD_MSG_SIZE-1, uCrc );
+        uStdBuff[NXTY_STD_MSG_SIZE-1] = uCrc;
+    
+        // Send the data..
+        var outText = uStdBuff[0].toString(16);    // Convert to hex output...
+        for( i = 1; i < NXTY_STD_MSG_SIZE; i++ )
+        {
+            outText = outText + " " + uStdBuff[i].toString(16);
+        }
+        console.log( "Tx: " + outText );
+
+        
+        WriteBluetoothDevice(uStdBuff);
+        
+//        Transmit( uStdBuff, NXTY_STD_MSG_SIZE );
+      }
+/*      
+      else
+      {
+    
+        memset( uBigBuff, NXTY_MSG_FILL_BYTE, sizeof(uBigBuff) );
+        uBigBuff[0] = NXTY_BIG_MSG_SIZE;   
+        uBigBuff[1] = uCmd;
+    
+        if( uLen && pMsgData )
+        {
+          for( i = 0; i < uLen; i++ )
+          {
+            uBigBuff[2+i] = *pMsgData++;
+          }
+        }
+    
+        // Calculate the CRC...
+        uCrc = 0;
+        CalcCrc8( uBigBuff, NXTY_BIG_MSG_SIZE-1, &uCrc );
+        uBigBuff[NXTY_BIG_MSG_SIZE-1] = uCrc;
+    
+        // Send the data..
+        PrintBuffer( "Tx: ", (unsigned char *)uBigBuff, NXTY_BIG_MSG_SIZE );
+        Transmit( uBigBuff, NXTY_BIG_MSG_SIZE );
+      }
+*/      
+    
+    
+    
+    },
+     
+
+    CalcCrc8: function( dataBytes, uLen, crcByte )
+    {
+  
+      for( var i = 0; i < uLen; i++ )
+      {
+        crcByte = crc8_table[crcByte ^ dataBytes[i]];
+      }
+
+      return( crcByte );
+    },
+    
+
+
+
+
+};

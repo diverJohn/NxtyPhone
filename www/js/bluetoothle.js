@@ -5,12 +5,10 @@
 
 var addressKey = "address";
 
-var bridgeServiceAssignedNumber = "6734";
-var bridgeMeasurementCharacteristicAssignedNumber = "6711";
+var bridgeServiceUuid           = "6734";
+var bridgeTxCharacteristicUuid  = "6711";       // Tx from our bluetooth device, Rx for the phone app.
+var bridgeRxCharacteristicUuid  = "6722";       // Rx from our bluetooth device, Tx for the phone app.
 
-var clientCharacteristicConfigDescriptorAssignedNumber = "2902";
-var batteryServiceAssignedNumber = "180f";
-var batteryLevelCharacteristicAssignedNumber = "2a19";
 
 
 var scanTimer = null;
@@ -94,7 +92,7 @@ function isConnectedCallback(obj)
 function StartBluetoothScan()
 {
 	console.log("BT: Starting scan for Cel-Fi devices.");
-    var paramsObj = {"serviceAssignedNumbers":[bridgeServiceAssignedNumber]};
+    var paramsObj = {"serviceAssignedNumbers":[bridgeServiceUuid]};
     bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
 }
 
@@ -364,7 +362,7 @@ function discoverError(obj)
 // SubscribeBluetoothDevice........................................................................
 function SubscribeBluetoothDevice()
 {
-	var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber, "isNotification":true};
+	var paramsObj = {"serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeTxCharacteristicUuid, "isNotification":true};
     bluetoothle.subscribe(subscribeSuccess, subscribeError, paramsObj);
 }
 
@@ -443,7 +441,7 @@ function subscribeError(msg)
 function unsubscribeDevice()
 {
   console.log("BT: Unsubscribing heart service");
-  var paramsObj = {"serviceAssignedNumber":bridgeServiceAssignedNumber, "characteristicAssignedNumber":bridgeMeasurementCharacteristicAssignedNumber};
+  var paramsObj = {"serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeTxCharacteristicUuid};
   bluetoothle.unsubscribe(unsubscribeSuccess, unsubscribeError, paramsObj);
 }
 
@@ -470,6 +468,35 @@ function unsubscribeError(obj)
 
 
 
+// WriteBluetoothDevice........................................................................
+function WriteBluetoothDevice( u8 )
+{
+    // Convert a Unit8Array to a base64 encoded string...
+    var u64 = bluetoothle.getString(u8);
+ 
+    var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
+    
+    bluetoothle.write(writeSuccess, writeError, paramsObj);
+}
+
+
+function writeSuccess(obj)
+{   
+    // {"status":"written","serviceUuid":"180F","characteristicUuid":"2A19","value":""};
+    if (obj.status == "written")
+    {
+        console.log("BT: Write data sent successfully");
+    }
+    else
+    {
+        console.log("BT: Unexpected write status: " + obj.status);
+    }
+}
+
+function writeError(msg)
+{
+    console.log("BT: Write error: " + msg.error + " - " + msg.message);
+}
 
 
 
