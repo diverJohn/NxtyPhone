@@ -48,12 +48,14 @@ var app = {
 	 	
 	 	if( isBluetoothCnx )
 	 	{
-	 		swupdate.renderSwUpdateView();
+//	 		swupdate.renderSwUpdateView();
+nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	 		
 	 	}
 	 	else
 	 	{
-nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);	 	
+nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
+		 	
 	 	}
 
 	},
