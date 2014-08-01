@@ -6,8 +6,8 @@
 var addressKey = "address";
 
 var bridgeServiceUuid           = "6734";
-var bridgeTxCharacteristicUuid  = "6711";       // Tx from our bluetooth device, Rx for the phone app.
-var bridgeRxCharacteristicUuid  = "6722";       // Rx from our bluetooth device, Tx for the phone app.
+var bridgeTxCharacteristicUuid  = "6711";       // Tx from the bluetooth device profile, Rx for the phone app.
+var bridgeRxCharacteristicUuid  = "6722";       // Rx from our bluetooth device profile, Tx for the phone app.
 
 
 
@@ -496,6 +496,7 @@ function writeSuccess(obj)
 function writeError(msg)
 {
     console.log("BT: Write error: " + msg.error + " - " + msg.message);
+    console.log("BT: Write error: " + JSON.stringify(msg));
 }
 
 
