@@ -473,11 +473,12 @@ function WriteBluetoothDevice( u8 )
 {
     // Convert a Unit8Array to a base64 encoded string...
     var u64 = bluetoothle.getString(u8);
- 
-//    var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
-    var paramsObj = {"value":u64, "serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeRxCharacteristicUuid};
-    
-//    serviceAssignedNumber/characteristicAssignedNumber 
+
+    // Version 1.0.0 of the plugin
+//    var paramsObj = {"value":u64, "serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeRxCharacteristicUuid};
+
+    // 1.0.2 of the plugin 
+    var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
     
     bluetoothle.write(writeSuccess, writeError, paramsObj);
 }
