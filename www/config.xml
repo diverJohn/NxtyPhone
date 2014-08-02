@@ -15,8 +15,7 @@
         John Owen
     </author>
  
- 	<gap:plugin name="com.randdusing.bluetoothle" version="1.0.2" />
- 
+    <gap:plugin name="com.randdusing.bluetoothle" version="1.0.2" />
  
  
      <!--
