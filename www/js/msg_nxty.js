@@ -269,7 +269,7 @@ var nxty = {
 
 if( pMsgData != null )
 {
-console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + pMsgData[0].contents );
+console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + pMsgData[0] );
 }          
     
       
