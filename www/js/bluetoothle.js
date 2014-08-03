@@ -199,7 +199,7 @@ function UpdateBluetoothIcon(cnx)
 		}
 		isBluetoothCnx        = false;
 		isBluetoothSubscribed = false;
-		u8ScanResults.set(0);
+		u8ScanResults[0]      = 0;
 	}
 }
 
