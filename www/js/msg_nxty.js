@@ -329,7 +329,7 @@ var nxty = {
         }
         console.log( "Tx: " + outText );
         
-        var x = uBigBuff.subarray(0,80);  // 40 works, 60 works
+        var x = uBigBuff.subarray(0,100);  // 40 works, 60 works, 80 ok
         
         WriteBluetoothDevice(x);
       }
