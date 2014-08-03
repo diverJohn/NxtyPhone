@@ -227,7 +227,29 @@ var crc8_table = new Uint8Array([
 var  NXTY_STD_MSG_SIZE = 12;
 var  NXTY_BIG_MSG_SIZE = 255;
 
-var  NXTY_STATUS_REQ   = 0x0B;
+
+var  NXTY_SYS_SN_REQ                   = 0x01;
+var  NXTY_SYS_SN_RSP                   = 0x41;
+var  NXTY_SET_BLUETOOTH_CNX_STATUS_RSP = 0x42;
+var  NXTY_CELL_INFO_REQ                = 0x03;
+var  NXTY_CELL_INFO_RSP                = 0x43;
+var  NXTY_REGISTRATION_REQ             = 0x04;
+var  NXTY_REGISTRATION_RSP             = 0x44;
+var  NXTY_GET_MON_MODE_HEADINGS_REQ    = 0x05;
+var  NXTY_GET_MON_MODE_HEADINGS_RSP    = 0x45;
+var  NXTY_GET_MON_MODE_PAGE_REQ        = 0x06;
+var  NXTY_GET_MON_MODE_PAGE_RSP        = 0x46;
+var  NXTY_SW_VERSION_REQ               = 0x07;
+var  NXTY_SW_VERSION_RSP               = 0x47;
+var  NXTY_DOWNLOAD_START_REQ           = 0x08;
+var  NXTY_DOWNLOAD_START_RSP           = 0x48;
+var  NXTY_DOWNLOAD_TRANSFER_REQ        = 0x09;
+var  NXTY_DOWNLOAD_TRANSFER_RSP        = 0x49;
+var  NXTY_DOWNLOAD_END_REQ             = 0x0A;
+var  NXTY_DOWNLOAD_END_RSP             = 0x4A;
+var  NXTY_STATUS_REQ                   = 0x0B;
+var  NXTY_STATUS_RSP                   = 0x4B;
+
 
 var nxty = {
 
@@ -236,10 +258,8 @@ var nxty = {
     {
       var i;
       var uCrc     = new Uint8Array(1);
-      var uStdBuff = new Uint8Array(NXTY_STD_MSG_SIZE);
-      var uBigBuff = new Uint8Array(NXTY_BIG_MSG_SIZE);
-    
-    
+
+
       if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
       {
         // Msg len too big...
@@ -252,7 +272,8 @@ var nxty = {
       // Check for STD message size...
       if( (uLenByte + 3) <= NXTY_STD_MSG_SIZE )
       {
-//        memset( uStdBuff, NXTY_MSG_FILL_BYTE, sizeof(uStdBuff) );
+        // Create a new array that is initialized to all zeros...              
+        var uStdBuff = new Uint8Array(NXTY_STD_MSG_SIZE);
         uStdBuff[0] = NXTY_STD_MSG_SIZE;
         uStdBuff[1] = uCmdByte;
       
@@ -276,38 +297,41 @@ var nxty = {
             outText = outText + " " + uStdBuff[i].toString(16);
         }
         console.log( "Tx: " + outText );
-
         
         WriteBluetoothDevice(uStdBuff);
         
-//        Transmit( uStdBuff, NXTY_STD_MSG_SIZE );
       }
-/*      
       else
       {
-    
-        memset( uBigBuff, NXTY_MSG_FILL_BYTE, sizeof(uBigBuff) );
+        // Create a new array that is initialized to all zeros...              
+        var uBigBuff = new Uint8Array(NXTY_BIG_MSG_SIZE);
         uBigBuff[0] = NXTY_BIG_MSG_SIZE;   
         uBigBuff[1] = uCmd;
     
-        if( uLen && pMsgData )
+        if( uLen && (pMsgData != null) )
         {
-          for( i = 0; i < uLen; i++ )
+          for( i = 0; i < uLenByte; i++ )
           {
-            uBigBuff[2+i] = *pMsgData++;
+            uBigBuff[2+i] = pMsgData[i].contents;
           }
         }
     
         // Calculate the CRC...
         uCrc = 0;
-        CalcCrc8( uBigBuff, NXTY_BIG_MSG_SIZE-1, &uCrc );
+        uCrc = nxty.CalcCrc8( uBigBuff, NXTY_BIG_MSG_SIZE-1, uCrc );
         uBigBuff[NXTY_BIG_MSG_SIZE-1] = uCrc;
     
-        // Send the data..
-        PrintBuffer( "Tx: ", (unsigned char *)uBigBuff, NXTY_BIG_MSG_SIZE );
-        Transmit( uBigBuff, NXTY_BIG_MSG_SIZE );
+        // Send the first 24 bytes of data..
+        var outText = uBigBuff[0].toString(16);    // Convert to hex output...
+        for( i = 1; i < 24; i++ )
+        {
+            outText = outText + " " + uBigBuff[i].toString(16);
+        }
+        console.log( "Tx: " + outText );
+        
+        WriteBluetoothDevice(uBigBuff);
       }
-*/      
+      
     
     
     

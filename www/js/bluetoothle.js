@@ -108,6 +108,12 @@ function startScanSuccess(obj)
   
     var bytes = bluetoothle.encodedStringToBytes(obj.advertisement);
 
+        
+    // The returned bytes are...
+    // "2 1 6 3 2 34 67 c ff 0 1 2 11 22 33 44 55 66 25 29 7 9 43 65 6c 2d 46 69 3 2 34 67 c ff 0 11 22 33 44 55 66 77 88 25 29
+    //  |    advertise data                              | |             scan results                                         |
+    //                         |        SN         |                                              |         SN          |
+            
     // Save the Scan Results data...
     if( bytes.length != 0 )
     {
@@ -391,9 +397,7 @@ function subscribeSuccess(obj)
         console.log("BT: Subscription data received");
 
         var bytes = bluetoothle.encodedStringToBytes(obj.value);
-		
-		// The returned bytes are...
-		// "2 1 6 3 2 34 67 c ff 0 1 2 11 22 33 44 55 66 25 29 7 9 43 65 6c 2d 46 69 3 2 34 67 c ff 0 11 22 33 44 55 66 77 88 25 29 
+ 
 
         //Check for data
         if (bytes.length != 0)
