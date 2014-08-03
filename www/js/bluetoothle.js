@@ -21,6 +21,9 @@ var androidPlatform = "Android";
 
 var BluetoothCnxTimer = null;
 
+var SCAN_RESULTS_SIZE = 62;     // advertisement data can be up to 31 bytes and scan results data can be up to 31 bytes.
+var u8ScanResults     = new Uint8Array(SCAN_RESULTS_SIZE);
+
 
 // Use the following as a global variable, "window.isBluetoothCnx", to determine if connected.
 var isBluetoothCnx          = false;
@@ -103,23 +106,22 @@ function startScanSuccess(obj)
   {
     console.log("BT: Scan match: " + obj.name + " string: " + JSON.stringify(obj) );
   
- 
-         var bytes = bluetoothle.encodedStringToBytes(obj.advertisement);
-        
+    var bytes = bluetoothle.encodedStringToBytes(obj.advertisement);
 
-        //Check for data
-        if (bytes.length != 0)
+    u8ScanResults = bytes.buffer.slice(0, SCAN_RESULTS_SIZE);   // Copy bytes 0 to 61 into u8ScanResults array. 
+    
+  /*
+    //Check for data
+    if (bytes.length != 0)
+    {
+        var outText = bytes[0].toString(16);
+        for( var i = 1; i < bytes.length; i++ )
         {
-            var outText = bytes[0].toString(16);
-            for( var i = 1; i < bytes.length; i++ )
-            {
-                outText = outText + " " + bytes[i].toString(16);
-            }
-            console.log( outText );
+            outText = outText + " " + bytes[i].toString(16);
         }
- 
- 
- 
+        console.log( outText );
+    }
+ */
  
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
@@ -197,6 +199,7 @@ function UpdateBluetoothIcon(cnx)
 		}
 		isBluetoothCnx        = false;
 		isBluetoothSubscribed = false;
+		u8ScanResults.set(0);
 	}
 }
 
@@ -395,6 +398,8 @@ function subscribeSuccess(obj)
 
         var bytes = bluetoothle.encodedStringToBytes(obj.value);
 		
+		// The returned bytes are...
+		// "2 1 6 3 2 34 67 c ff 0 1 2 11 22 33 44 55 66 25 29 7 9 43 65 6c 2d 46 69 3 2 34 67 c ff 0 11 22 33 44 55 66 77 88 25 29 
 
         //Check for data
         if (bytes.length != 0)
