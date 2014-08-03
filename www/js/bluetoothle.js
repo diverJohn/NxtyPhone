@@ -108,7 +108,7 @@ function startScanSuccess(obj)
   
     var bytes = bluetoothle.encodedStringToBytes(obj.advertisement);
 
-    u8ScanResults = bytes.buffer.slice(0, SCAN_RESULTS_SIZE);   // Copy bytes 0 to 61 into u8ScanResults array. 
+    u8ScanResults = bytes.buffer.subarray(0, SCAN_RESULTS_SIZE);   // Copy bytes 0 to 61 into u8ScanResults array. 
     
   /*
     //Check for data
