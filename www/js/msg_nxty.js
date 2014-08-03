@@ -267,7 +267,10 @@ var nxty = {
         return;
       }
 
-console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte );          
+if( pMsgData != null )
+{
+console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + pMsgData[0].contents );
+}          
     
       
       // Check for STD message size...
