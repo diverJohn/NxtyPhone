@@ -46,6 +46,13 @@ function initializeSuccess(obj)
   else
   {
     console.log("BT: Unexpected initialize status: " + obj.status);
+    
+    
+    
+    BluetoothLoop();    
+    
+    
+    
   }
 }
 
