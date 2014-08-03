@@ -379,7 +379,10 @@ function subscribeSuccess(obj)
     {
         console.log("BT: Subscription data received");
 
-		var bytes = bluetoothle.getBytes(obj.value);
+//1.0.0		var bytes = bluetoothle.getBytes(obj.value);
+		
+        var bytes = bluetoothle.encodedStringToBytes(obj.value);
+		
 
         //Check for data
         if (bytes.length != 0)
@@ -395,7 +398,7 @@ function subscribeSuccess(obj)
 		
 /*
         //Parse array of int32 into uint8
-        var bytes = bluetoothle.getBytes(obj.value);
+        var bytes = bluetoothle.encodedStringToBytes(obj.value);
 
         //Check for data
         if (bytes.length == 0)
@@ -478,7 +481,7 @@ function unsubscribeError(obj)
 function WriteBluetoothDevice( u8 )
 {
     // Convert a Unit8Array to a base64 encoded string...
-    var u64 = bluetoothle.getString(u8);
+    var u64 = bluetoothle.bytesToEncodedString(u8);
 
     // Version 1.0.0 of the plugin
 //    var paramsObj = {"value":u64, "serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeRxCharacteristicUuid};
