@@ -74,7 +74,7 @@
     <!--
         <gap:plugin name="com.phonegap.plugins.barcodescanner" />
     -->
-	<gap:plugin name="com.randdusing.bluetoothle" version="1.0.0" />
+
 
 
     <!-- Define app icon for each platform. -->
