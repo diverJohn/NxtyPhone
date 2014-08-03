@@ -75,7 +75,8 @@ function isConnectedCallback(obj)
 		
 		if( isBluetoothSubscribed == false )
 		{
-			DiscoverBluetoothDevice();	
+		  // Run Discover and if successful then subscribe to the Tx of our device
+		  DiscoverBluetoothDevice();	
 		}
 	}
 	else
@@ -362,10 +363,6 @@ function discoverError(obj)
 // SubscribeBluetoothDevice........................................................................
 function SubscribeBluetoothDevice()
 {
-    
-    // Version 1.0.0 of the plugin
-//	var paramsObj = {"serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeTxCharacteristicUuid, "isNotification":true};
-	
     // Version 1.0.2 of the plugin
     var paramsObj = {"serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeTxCharacteristicUuid, "isNotification":true};
 	
@@ -379,8 +376,6 @@ function subscribeSuccess(obj)
     {
         console.log("BT: Subscription data received");
 
-//1.0.0		var bytes = bluetoothle.getBytes(obj.value);
-		
         var bytes = bluetoothle.encodedStringToBytes(obj.value);
 		
 
@@ -437,8 +432,6 @@ function subscribeSuccess(obj)
   	{
     	console.log("BT: Unexpected subscribe status: " + obj.status);
     	DisconnectBluetoothDevice();
-
-    	
   }
 }
 
@@ -483,9 +476,6 @@ function WriteBluetoothDevice( u8 )
     // Convert a Unit8Array to a base64 encoded string...
     var u64 = bluetoothle.bytesToEncodedString(u8);
 
-    // Version 1.0.0 of the plugin
-//    var paramsObj = {"value":u64, "serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeRxCharacteristicUuid};
-
     // 1.0.2 of the plugin 
     var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
     
@@ -499,9 +489,6 @@ function writeSuccess(obj)
     if (obj.status == "written")
     {
         console.log("BT: Write data sent successfully");
-
-        // Must re-subscribe after every write with version 1.0.0 of the plugin...
-//        SubscribeBluetoothDevice();
     }
     else
     {
@@ -512,7 +499,6 @@ function writeSuccess(obj)
 function writeError(msg)
 {
     console.log("BT: Write error: " + msg.error + " - " + msg.message);
-    console.log("BT: Write error: " + JSON.stringify(msg));
 }
 
 
