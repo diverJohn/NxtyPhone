@@ -266,7 +266,8 @@ var nxty = {
         console.log( "Nxty: Msg too long" );
         return;
       }
-          
+
+console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte );          
     
       
       // Check for STD message size...
@@ -328,6 +329,7 @@ var nxty = {
             outText = outText + " " + uBigBuff[i].toString(16);
         }
         console.log( "Tx: " + outText );
+        
         
         WriteBluetoothDevice(uBigBuff);
       }
