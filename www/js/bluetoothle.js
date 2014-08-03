@@ -362,7 +362,13 @@ function discoverError(obj)
 // SubscribeBluetoothDevice........................................................................
 function SubscribeBluetoothDevice()
 {
-	var paramsObj = {"serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeTxCharacteristicUuid, "isNotification":true};
+    
+    // Version 1.0.0 of the plugin
+//	var paramsObj = {"serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeTxCharacteristicUuid, "isNotification":true};
+	
+    // Version 1.0.2 of the plugin
+    var paramsObj = {"serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeTxCharacteristicUuid, "isNotification":true};
+	
     bluetoothle.subscribe(subscribeSuccess, subscribeError, paramsObj);
 }
 
