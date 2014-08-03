@@ -112,7 +112,7 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 		$('body').html(myHtml); 
 		
 		// Start the handler to be called every second...
-		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
+//		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
 	},
 
 
