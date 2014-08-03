@@ -333,7 +333,7 @@ console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + 
         }
         console.log( "Tx: " + outText );
         
-        var x = uBigBuff.subarray(0,20);
+        var x = uBigBuff.subarray(0,40);
         
         WriteBluetoothDevice(x);
       }
