@@ -306,9 +306,9 @@ var nxty = {
         // Create a new array that is initialized to all zeros...              
         var uBigBuff = new Uint8Array(NXTY_BIG_MSG_SIZE);
         uBigBuff[0] = NXTY_BIG_MSG_SIZE;   
-        uBigBuff[1] = uCmd;
+        uBigBuff[1] = uCmdByte;
     
-        if( uLen && (pMsgData != null) )
+        if( uLenByte && (pMsgData != null) )
         {
           for( i = 0; i < uLenByte; i++ )
           {
@@ -323,7 +323,7 @@ var nxty = {
     
         // Send the first 24 bytes of data..
         var outText = uBigBuff[0].toString(16);    // Convert to hex output...
-        for( i = 1; i < 24; i++ )
+        for( i = 1; i < 255; i++ )
         {
             outText = outText + " " + uBigBuff[i].toString(16);
         }
