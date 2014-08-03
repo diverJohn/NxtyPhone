@@ -266,11 +266,7 @@ var nxty = {
         console.log( "Nxty: Msg too long" );
         return;
       }
-
-if( pMsgData != null )
-{
-console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + pMsgData[0] );
-}          
+        
     
       
       // Check for STD message size...
@@ -285,7 +281,7 @@ console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + 
         {
           for( i = 0; i < uLenByte; i++ )
           {
-            uStdBuff[2+i] = pMsgData[i].contents;
+            uStdBuff[2+i] = pMsgData[i];
           }
         }
     
@@ -312,11 +308,11 @@ console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte + " data[0]=" + 
         uBigBuff[0] = NXTY_BIG_MSG_SIZE;   
         uBigBuff[1] = uCmdByte;
     
-        if( uLenByte )
+        if( uLenByte && (pMsgData != null) )
         {
           for( i = 0; i < uLenByte; i++ )
           {
-            uBigBuff[2+i] = pMsgData[i].contents;
+            uBigBuff[2+i] = pMsgData[i];
           }
         }
     
