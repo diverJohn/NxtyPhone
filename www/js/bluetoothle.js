@@ -108,20 +108,14 @@ function startScanSuccess(obj)
   
     var bytes = bluetoothle.encodedStringToBytes(obj.advertisement);
 
-    u8ScanResults = bytes.buffer.subarray(0, SCAN_RESULTS_SIZE);   // Copy bytes 0 to 61 into u8ScanResults array. 
-    
-  /*
-    //Check for data
-    if (bytes.length != 0)
+    // Save the Scan Results data...
+    if( bytes.length != 0 )
     {
-        var outText = bytes[0].toString(16);
-        for( var i = 1; i < bytes.length; i++ )
+        for( var i = 1; i < SCAN_RESULTS_SIZE; i++ )
         {
-            outText = outText + " " + bytes[i].toString(16);
+            u8ScanResults[i] = bytes[i];
         }
-        console.log( outText );
     }
- */
  
     bluetoothle.stopScan(stopScanSuccess, stopScanError);
     clearScanTimeout();
