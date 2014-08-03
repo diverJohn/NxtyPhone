@@ -309,7 +309,7 @@ console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte );
         uBigBuff[0] = NXTY_BIG_MSG_SIZE;   
         uBigBuff[1] = uCmdByte;
     
-        if( uLenByte && (pMsgData != null) )
+        if( uLenByte )
         {
           for( i = 0; i < uLenByte; i++ )
           {
@@ -330,8 +330,9 @@ console.log("Cmd=" + uCmdByte.toString(16) + " Len=" + uLenByte );
         }
         console.log( "Tx: " + outText );
         
+        var x = uBigBuff.subarray(0,20);
         
-        WriteBluetoothDevice(uBigBuff);
+        WriteBluetoothDevice(x);
       }
       
     
