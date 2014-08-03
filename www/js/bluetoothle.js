@@ -475,10 +475,10 @@ function WriteBluetoothDevice( u8 )
     var u64 = bluetoothle.getString(u8);
 
     // Version 1.0.0 of the plugin
-//    var paramsObj = {"value":u64, "serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeRxCharacteristicUuid};
+    var paramsObj = {"value":u64, "serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeRxCharacteristicUuid};
 
     // 1.0.2 of the plugin 
-    var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
+//    var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
     
     bluetoothle.write(writeSuccess, writeError, paramsObj);
 }
@@ -490,6 +490,9 @@ function writeSuccess(obj)
     if (obj.status == "written")
     {
         console.log("BT: Write data sent successfully");
+
+        // Must re-subscribe after every write with version 1.0.0 of the plugin...
+        SubscribeBluetoothDevice();
     }
     else
     {
