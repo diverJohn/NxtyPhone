@@ -294,7 +294,7 @@ var nxty = {
 	// UpdateRegIcon....................................................................................
 	UpdateRegIcon: function(reg)
 	{
-		if(reg == true)
+		if(reg == 1)
 		{
 			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOn )
 			{
