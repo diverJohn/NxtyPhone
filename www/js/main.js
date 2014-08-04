@@ -172,7 +172,7 @@ reg.renderRegView();
 			// Get the status so we can see if we need to register or not...
 			nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  
 		}
-		else if( nxtyRxLastCmd == NXTY_STATUS_RSP )
+		else if( window.nxtyRxLastCmd == NXTY_STATUS_RSP )
 		{
 			// See if we need to allow the registration button...
 			if( isRegistered == false )

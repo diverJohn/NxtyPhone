@@ -56,7 +56,7 @@ var reg = {
 		{
 			case REG_STATE_REQ_CELL_INFO:
 			{
-				if( nxtyRxLastCmd != NXTY_CELL_INFO_RSP )
+				if( window.nxtyRxLastCmd != NXTY_CELL_INFO_RSP )
 				{
 					UpdateStatusLine("Requesting Cell Info from Cel-Fi device.");
 					nxty.SendNxtyMsg(NXTY_CELL_INFO_REQ, null, 0);
