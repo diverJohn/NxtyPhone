@@ -1,11 +1,14 @@
 
 // Use window.isPhone to show global var or just use without "window." ...
-var isPhone = false;
-var isRegistered   = false;
+var isPhone      = false;
+var isRegistered = true;
 
 
-var szBtIconOn  = "<img src='img/bluetooth_on.png' />";
-var szBtIconOff = "<img src='img/bluetooth_off.png' />";
+var szBtIconOn   = "<img src='img/bluetooth_on.png' />";
+var szBtIconOff  = "<img src='img/bluetooth_off.png' />";
+var szRegIconOn  = "<img src='img/reg_yes.png' />";
+var szRegIconOff = "<img src='img/reg_no.png' />";
+
 
 var MainLoopIntervalHandle = null;
 
@@ -83,7 +86,7 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 	 	
 	 	if( isBluetoothCnx )
 	 	{
-			clearInterval(MainLoopIntervalHandle);
+
 var u8 = new Uint8Array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]);			
 nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length ); 			
 			reg.renderRegView();
@@ -102,8 +105,8 @@ nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length );
 	renderHomeView: function() 
 	{
 		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'>" + szBtIconOn + "</div>" : "<div  id='bt_icon_id' class='bt_icon'>" + szBtIconOff + "</div>";
-		var myRegIcon       = isRegistered   ? "<div class='reg_icon'><img src='img/reg_yes.png' /></div>"     : "<div class='reg_icon'><img src='img/reg_no.png' /></div>";
-		var myRegButton     = isRegistered   ? "" : "<button type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
+		var myRegIcon       = isRegistered   ? "<div id='reg_icon_id' class='reg_icon'> + szRegIconOn + "</div>" : "<div id='reg_icon_id' class='reg_icon'>" + szRegIconOff + "</div>";
+		var myRegButton     = isRegistered   ? "<button id='reg_button_id' type='button' class='mybutton' onclick='app.handleRegKey()'></button>" : "<button id='reg_button_id' type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
 		
 		var myHtml = 
 			"<img src='img/header_main.png' width='100%' />" +
@@ -116,7 +119,7 @@ nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length );
 		$('body').html(myHtml); 
 		
 		// Start the handler to be called every second...
-//		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
+		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
 	},
 
 
@@ -152,6 +155,23 @@ nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length );
 	MainLoop: function() 
 	{
 		console.log("App: Main loop..." );
+		
+		// See if status command received yet...
+		if( nxtyRxLastCmd == null )
+		{
+			// Get the status so we can see if we need to register or not...
+			nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  
+		}
+		else if( nxtyRxLastCmd == NXTY_STATUS_RSP )
+		{
+			// See if we need to allow the registration button...
+			if( isRegistered == false )
+			{
+				document.getElementById("reg_button_id").innerHTML = "<img src='img/button_Register.png' />";
+			}
+		    clearInterval(MainLoopIntervalHandle);
+		}
+		
 	},
 
 

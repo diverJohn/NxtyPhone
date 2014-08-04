@@ -2,112 +2,14 @@
 
 
 
-/*
-#include "stdafx.h"
-#include <windows.h>
-#include "msg_nxty.h"
-#include "SerialIO.h"
-#include <string.h>  
-   
 
+var	nxtyRxLastCmd     = null;
 
-S_NXTY_MSG_INFO nxty;
-unsigned char g_uRxMsgBuff[NXTY_MAX_RX_MSG_LEN];
-
-
-extern void PrintBuffer( char * pHead, unsigned char * pData, int iLen );
-
-static void CalcCrc8( unsigned char * pData, unsigned short uLen, unsigned char *pCrc );
-
-// Data for PicSim to keep track of commands...
-static BOOL  s_bBlueToothCnx;
-
-
-unsigned char ProcessNxtyRxMsg( unsigned char * pRxMsgData, unsigned char uLen )
-{
-  unsigned char   uRtn;
-  unsigned char   uCrc;
-  unsigned char   uCmd;
-
-  
-  uRtn = 0;
-
-  // Error processing...
-  if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
-  {
-    printf( "**** Err: Message len, 1st byte should be 12 or 255, len = %d\r\n", pRxMsgData[0] );
-    return( NXTY_INVALID_LEN_ERR );
-  }
-  else if( pRxMsgData == NULL )
-  {
-    printf( "**** Err: Null pointer buffer\r\n" );
-    return( NXTY_INVALID_BUFFER_ERR );
-  }
-  else if( uLen == 0 )
-  {
-    printf( "**** Err: 0 len\r\n" );
-    return( NXTY_INVALID_LEN_ERR );
-  }
-  
-  uCrc = 0;
-  CalcCrc8( pRxMsgData, pRxMsgData[0]-1, &uCrc );
-  
-  if( pRxMsgData[pRxMsgData[0]-1] != uCrc )
-  {
-    printf( "**** Err: Invalid CRC: expected: 0x%02X  calc: 0x%02X\r\n", pRxMsgData[pRxMsgData[0]-1], uCrc );
-    return( NXTY_INVALID_LEN_ERR );
-  }
-
-  uCmd = ((S_NXTY_HEADING *)pRxMsgData)->uCmd;
-  uRtn = uCmd;
-
-  switch( uCmd )
-  {
-    case NXTY_SYS_SN_RSP:                     printf( "System SN Rsp" );                break;
-    case NXTY_SET_BLUETOOTH_CNX_STATUS_RSP:   printf( "Set Bluetooth Cnx Status Rsp" ); break;
-    case NXTY_CELL_INFO_RSP:                  printf( "Cell Info Rsp" );                break;
-    case NXTY_REGISTRATION_RSP:               printf( "Registration Rsp" );             break;
-    case NXTY_GET_MON_MODE_HEADINGS_RSP:      printf( "Get Mon Mode Headings Rsp" );    break;
-    case NXTY_GET_MON_MODE_PAGE_RSP:          printf( "Get Mon Mode Page Rsp" );        break;
-    case NXTY_SW_VERSION_RSP:                 printf( "SW Version Rsp" );               break;
-    case NXTY_DOWNLOAD_START_RSP:             printf( "Download Start Rsp" );           break;
-    case NXTY_DOWNLOAD_TRANSFER_RSP:          printf( "Download Transfer Rsp" );        break;
-    case NXTY_DOWNLOAD_END_RSP:               printf( "Download End Rsp" );             break;
-    case NXTY_STATUS_RSP:                     printf( "Status Rsp" );                   break;
-
-    
-    default:
-    {
-      uRtn = NXTY_INVALID_COMMAND_ERR;
-      break;
-    }
-  }
-  
-  printf( "\r\n" );
-
-  return( uRtn );
-}
-
-
-
-
-  
-
-
-
-}
-
-
-
-
-
-*/
-
-
-
-
-
-
+// Status message response data...
+var nxtyRxstatusHw    = null;
+var nxtyRxstatusHwRev = null;
+var nxtyRxstatusUnii  = null;
+var nxtyRxstatusReg   = null;
 
 
 var crc8_table = new Uint8Array([ 
@@ -157,6 +59,8 @@ var  NXTY_STATUS_REQ                   = 0x0B;
 var  NXTY_STATUS_RSP                   = 0x4B;
 
 
+
+
 var nxty = {
 
      
@@ -165,6 +69,12 @@ var nxty = {
       var i;
       var uCrc     = new Uint8Array(1);
 
+
+	  if( isBluetoothCnx )
+	  {
+        console.log( "Nxty: Bluetooth not connected. Can not send message." );
+        return;
+	  }
 
       if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
       {
@@ -294,13 +204,14 @@ var nxty = {
 	        return( NXTY_INVALID_LEN_ERR );
 	    }
 	    
-	    uCmd = pRxMsgData[1];
-	    uRtn = uCmd;
+	    uCmd 		  = pRxMsgData[1];
+	    uRtn 		  = uCmd;
+	    nxtyRxLastCmd = uCmd;
 	    
 	    switch( uCmd )
 	    {
 	        case NXTY_SYS_SN_RSP:                     console.log( "System SN Rsp" );                break;
-	        case NXTY_SET_BLUETOOTH_CNX_STATUS_RSP:   console.log( "Set Bluetooth Cnx Status Rsp" ); break;
+
 	        case NXTY_CELL_INFO_RSP:                  console.log( "Cell Info Rsp" );                break;
 	        case NXTY_REGISTRATION_RSP:               console.log( "Registration Rsp" );             break;
 	        case NXTY_GET_MON_MODE_HEADINGS_RSP:      console.log( "Get Mon Mode Headings Rsp" );    break;
@@ -309,8 +220,27 @@ var nxty = {
 	        case NXTY_DOWNLOAD_START_RSP:             console.log( "Download Start Rsp" );           break;
 	        case NXTY_DOWNLOAD_TRANSFER_RSP:          console.log( "Download Transfer Rsp" );        break;
 	        case NXTY_DOWNLOAD_END_RSP:               console.log( "Download End Rsp" );             break;
-	        case NXTY_STATUS_RSP:                     console.log( "Status Rsp" );                   break;
+	        case NXTY_STATUS_RSP:
+	        {
+	        	console.log( "Status Rsp" );
+	        	nxtyRxstatusHw    = pRxMsgData[2];
+	        	nxtyRxstatusHwRev = pRxMsgData[3];
+	        	nxtyRxstatusUnii  = pRxMsgData[4];
+	        	nxtyRxstatusReg   = pRxMsgData[5];
+	        	
+	        	nxty.UpdateRegIcon(nxtyRxstatusReg);
+	        	
+	        	break;
+	       	}
 	    
+	    	case NXTY_SET_BLUETOOTH_CNX_STATUS_RSP:
+	    	{   
+	    	    console.log( "Set Bluetooth Cnx Status Rsp" );
+	    	    
+	    	    // Do not count this command since this may have been initiated by the BT device. 
+                nxtyRxLastCmd = null;
+	    	    break;
+	    	}
 	        
 	        default:
 	        {
@@ -339,6 +269,26 @@ var nxty = {
     },
     
 
+	// UpdateRegIcon....................................................................................
+	UpdateRegIcon(reg)
+	{
+		if(reg == true)
+		{
+			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOn )
+			{
+				document.getElementById("reg_icon_id").innerHTML = szRegIconOn;
+			}
+			isRegistered = true;
+		}
+		else
+		{
+			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOff )
+			{
+				document.getElementById("reg_icon_id").innerHTML = szRegIconOff;
+			}
+			isRegistered = false;
+		}
+	},
 
 
 
