@@ -270,7 +270,7 @@ var nxty = {
     
 
 	// UpdateRegIcon....................................................................................
-	UpdateRegIcon(reg)
+	UpdateRegIcon: function(reg)
 	{
 		if(reg == true)
 		{
