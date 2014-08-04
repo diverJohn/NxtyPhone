@@ -1,11 +1,34 @@
 
 
+var  NXTY_STD_MSG_SIZE 				   = 12;
+var  NXTY_BIG_MSG_SIZE 				   = 255;
+
+var  NXTY_SYS_SN_REQ                   = 0x01;
+var  NXTY_SYS_SN_RSP                   = 0x41;
+var  NXTY_SET_BLUETOOTH_CNX_STATUS_RSP = 0x42;
+var  NXTY_CELL_INFO_REQ                = 0x03;
+var  NXTY_CELL_INFO_RSP                = 0x43;
+var  NXTY_REGISTRATION_REQ             = 0x04;
+var  NXTY_REGISTRATION_RSP             = 0x44;
+var  NXTY_GET_MON_MODE_HEADINGS_REQ    = 0x05;
+var  NXTY_GET_MON_MODE_HEADINGS_RSP    = 0x45;
+var  NXTY_GET_MON_MODE_PAGE_REQ        = 0x06;
+var  NXTY_GET_MON_MODE_PAGE_RSP        = 0x46;
+var  NXTY_SW_VERSION_REQ               = 0x07;
+var  NXTY_SW_VERSION_RSP               = 0x47;
+var  NXTY_DOWNLOAD_START_REQ           = 0x08;
+var  NXTY_DOWNLOAD_START_RSP           = 0x48;
+var  NXTY_DOWNLOAD_TRANSFER_REQ        = 0x09;
+var  NXTY_DOWNLOAD_TRANSFER_RSP        = 0x49;
+var  NXTY_DOWNLOAD_END_REQ             = 0x0A;
+var  NXTY_DOWNLOAD_END_RSP             = 0x4A;
+var  NXTY_STATUS_REQ                   = 0x0B;
+var  NXTY_STATUS_RSP                   = 0x4B;
 
 
 
 var	nxtyRxLastCmd     = 0;
-//var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);
-var u8RxBuff          = new Uint8Array(255);
+//var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
 var uRxBuffIdx		  = 0;
         
         
@@ -36,31 +59,6 @@ var crc8_table = new Uint8Array([
     116, 42,200,150, 21, 75,169,247,182,232, 10, 84,215,137,107, 53
 ]);
   
-var  NXTY_STD_MSG_SIZE = 12;
-var  NXTY_BIG_MSG_SIZE = 255;
-
-
-var  NXTY_SYS_SN_REQ                   = 0x01;
-var  NXTY_SYS_SN_RSP                   = 0x41;
-var  NXTY_SET_BLUETOOTH_CNX_STATUS_RSP = 0x42;
-var  NXTY_CELL_INFO_REQ                = 0x03;
-var  NXTY_CELL_INFO_RSP                = 0x43;
-var  NXTY_REGISTRATION_REQ             = 0x04;
-var  NXTY_REGISTRATION_RSP             = 0x44;
-var  NXTY_GET_MON_MODE_HEADINGS_REQ    = 0x05;
-var  NXTY_GET_MON_MODE_HEADINGS_RSP    = 0x45;
-var  NXTY_GET_MON_MODE_PAGE_REQ        = 0x06;
-var  NXTY_GET_MON_MODE_PAGE_RSP        = 0x46;
-var  NXTY_SW_VERSION_REQ               = 0x07;
-var  NXTY_SW_VERSION_RSP               = 0x47;
-var  NXTY_DOWNLOAD_START_REQ           = 0x08;
-var  NXTY_DOWNLOAD_START_RSP           = 0x48;
-var  NXTY_DOWNLOAD_TRANSFER_REQ        = 0x09;
-var  NXTY_DOWNLOAD_TRANSFER_RSP        = 0x49;
-var  NXTY_DOWNLOAD_END_REQ             = 0x0A;
-var  NXTY_DOWNLOAD_END_RSP             = 0x4A;
-var  NXTY_STATUS_REQ                   = 0x0B;
-var  NXTY_STATUS_RSP                   = 0x4B;
 
 
 
@@ -185,7 +183,7 @@ var nxty = {
 		
         
         // Copy over the incoming data...
-        var outText = pRxMsgData[0].toString(16);
+        var outText = null;
 		for( i = 0; i < uLenByte; i++ )
 		{
 			u8RxBuff[uRxBuffIdx] = pRxMsgData[i];
