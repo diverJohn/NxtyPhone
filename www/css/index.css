@@ -145,14 +145,16 @@ h1 {
 }
 
 p.status_line {
-	margin-top:100%;
-	text-align:center;
+//	margin-top:100%;
+//	text-align:center;
 	
-//    position: fixed;
-//    bottom: 0px;
-//    left: 10px;
+    position: fixed;
+    bottom: 0px;
+    left: 10px;
 }
 
+
 li>a.tappable-active {
-    opacity: 1;
+    color: #fff;
+    background-color: #4286f5;
 }

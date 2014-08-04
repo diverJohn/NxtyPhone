@@ -31,6 +31,27 @@ var app = {
     onDeviceReady: function() {
     	console.log( "device ready" );
     	
+   	    // Check of browser supports touch events...
+	    if (document.documentElement.hasOwnProperty('ontouchstart')) {
+	        // ... if yes: register touch event listener to change the "selected" state of the item
+	        $('body').on('touchstart',  function(event) {
+	            $(event.target).addClass('tappable-active');
+	        });
+	        $('body').on('touchend',  function(event) {
+	            $(event.target).removeClass('tappable-active');
+	        });
+	    } else {
+	        // ... if not: register mouse events instead
+	        $('body').on('mousedown',  function(event) {
+	            $(event.target).addClass('tappable-active');
+	        });
+	        $('body').on('mouseup',  function(event) {
+	            $(event.target).removeClass('tappable-active');
+	        });
+	    }
+    	
+    	
+    	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
     	{
