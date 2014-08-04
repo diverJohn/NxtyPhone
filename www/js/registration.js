@@ -2,8 +2,13 @@
 var RegLoopIntervalHandle   = null;
 var	regState			    = null;
 
-var REG_STATE_REQ_CELL_INFO	= 1;
-var REG_STATE_OPER_REG_REQ  = 2;
+var REG_STATE_INIT				= 1;
+var REG_STATE_CELL_INFO_REQ		= 2;
+var REG_STATE_CELL_INFO_RSP		= 3;
+var REG_STATE_OPER_REG_REQ  	= 4;
+var REG_STATE_OPER_REG_RSP  	= 5;
+var REG_STATE_REGISTRATION_REQ 	= 6;
+var REG_STATE_REGISTRATION_RSP 	= 7;
 
 
 
@@ -21,12 +26,9 @@ var reg = {
 	handleRegKey: function()
 	{
 	 	console.log("Reg key pressed");
-	 	regState = REG_STATE_REQ_CELL_INFO;
-	 	
-	 	// Call loop processing 1 time initially and then let the interval timer handle the loop. 
-	 	navigator.notification.activityStart("Registering...", "Getting Cell Info...");
-	 	reg.RegLoop();	
-	 	RegLoopIntervalHandle = setInterval(reg.RegLoop, 2000 ); 
+	 	regState = REG_STATE_INIT;
+	    reg.RegLoop();	
+	 		 	
 	},
 
 	renderRegView: function() 
@@ -55,27 +57,99 @@ var reg = {
 		
 		switch( regState )
 		{
-			case REG_STATE_REQ_CELL_INFO:
+		
+		var REG_STATE_CELL_INFO_REQ		= 1;
+var REG_STATE_CELL_INFO_RSP		= 2;
+var REG_STATE_OPER_REG_REQ  	= 3;
+var REG_STATE_OPER_REG_RSP  	= 4;
+var REG_STATE_REGISTRATION_REQ 	= 5;
+var REG_STATE_REGISTRATION_RSP 	= 6;
+		
+
+			case REG_STATE_INIT:
 			{
-				if( window.nxtyRxLastCmd != NXTY_CELL_INFO_RSP )
-				{
-					UpdateStatusLine("Requesting Cell Info from Cel-Fi device.");
-					nxty.SendNxtyMsg(NXTY_CELL_INFO_REQ, null, 0);
-				}  
-				else
+				regState = REG_STATE_CELL_INFO_REQ;
+	 			RegLoopIntervalHandle = setInterval(reg.RegLoop, 4000 );
+	 			
+	 			// Fall through to the next state.... 
+			}
+
+			case REG_STATE_CELL_INFO_REQ:
+			{
+				nxty.SendNxtyMsg(NXTY_CELL_INFO_REQ, null, 0);
+				UpdateStatusLine("Requesting Cell Info from Cel-Fi device.");
+                navigator.notification.activityStart("Registering...", "Requesting Cell Info...");
+				regState = REG_STATE_CELL_INFO_RSP;
+				break;
+			}
+			
+			case REG_STATE_CELL_INFO_RSP:
+			{
+				if( window.nxtyRxLastCmd == NXTY_CELL_INFO_RSP )
 				{
 					// We have received the response from the Cel-Fi unit..
 					regState = REG_STATE_OPER_REG_REQ;
+					
+					// jdo:  after so many waits try again?
 				}
 			
 				break;
 			}
+			
+			
 
 			case REG_STATE_OPER_REG_REQ:
 			{
 				UpdateStatusLine("Sending Operator Registration Request.");
+				navigator.notification.activityStart("Registering...", "Requesting Operator Info...");
+				regState = REG_STATE_OPER_REG_RSP;
 				break;
 			}
+			
+			case REG_STATE_OPER_REG_REQ:
+			{
+				// jdo:  Poll the cloud...
+				
+				regState = REG_STATE_REGISTRATION_REQ;
+				break;
+			}
+
+			
+			
+			
+			case REG_STATE_REGISTRATION_REQ:
+			{
+				nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, null, 0);
+				UpdateStatusLine("Authenticating...");
+                navigator.notification.activityStart("Registering...", "Authenticating...");
+				regState = REG_STATE_REGISTRATION_RSP;
+				break;
+			}
+			
+			case REG_STATE_REGISTRATION_RSP:
+			{
+				if( window.nxtyRxLastCmd == NXTY_REGISTRATION_RSP )
+				{
+					// We have received the response from the Cel-Fi unit..
+                	navigator.notification.activityStop();
+					
+					if( isRegistered )
+					{
+						UpdateStatusLine("Registration successful...");
+					}
+					else
+					{
+						UpdateStatusLine("Registration not successful...");
+					}
+					clearInterval(RegLoopIntervalHandle);
+					
+					// jdo:  after so many waits try again?
+				}
+			
+				break;
+			}
+			
+			
 			
 			default:
 			{

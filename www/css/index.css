@@ -145,7 +145,8 @@ h1 {
 
 p.status_line {
     position: fixed;
-    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     bottom: 0px;
 }
 

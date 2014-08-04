@@ -114,7 +114,7 @@ var nxty = {
         {
             outText = outText + " " + uStdBuff[i].toString(16);
         }
-        console.log( "Tx: " + outText );
+        console.log( "Nxty Tx: " + outText );
         
         WriteBluetoothDevice(uStdBuff);
         
@@ -145,7 +145,7 @@ var nxty = {
         {
             outText = outText + " " + uBigBuff[i].toString(16);
         }
-        console.log( "Tx: " + outText );
+        console.log( "Nzty Tx: " + outText );
         
         var x = uBigBuff.subarray(0,80);  // 40 works, 60 works, 80 ok, 100 no good...
         
@@ -234,6 +234,15 @@ var nxty = {
 	        case NXTY_DOWNLOAD_START_RSP:             console.log( "Download Start Rsp" );           break;
 	        case NXTY_DOWNLOAD_TRANSFER_RSP:          console.log( "Download Transfer Rsp" );        break;
 	        case NXTY_DOWNLOAD_END_RSP:               console.log( "Download End Rsp" );             break;
+	        
+	        
+	        case NXTY_REGISTRATION_RSP:
+	        {
+	        	console.log( "Registration Rsp" );
+	            nxty.UpdateRegIcon(u8RxBuff[2]);
+	        	break;
+	        }
+	        
 	        case NXTY_STATUS_RSP:
 	        {
 	        	console.log( "Status Rsp" );
