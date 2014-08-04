@@ -120,7 +120,7 @@ var reg = {
 			
 			case REG_STATE_REGISTRATION_RSP:
 			{
-				if( window.nxtyRxLastCmd == NXTY_REGISTRATION_RSP )
+				if( nxtyRxLastCmd == NXTY_REGISTRATION_RSP )
 				{
 					// We have received the response from the Cel-Fi unit..
                 	navigator.notification.activityStop();

@@ -145,10 +145,8 @@ h1 {
 
 p.status_line {
     position: fixed;
-    margin-left: auto;
-    margin-right: auto;
-    width: 95%;
     bottom: 0px;
+    text-align:center
 }
 
 li>a.tappable-active {

@@ -226,7 +226,6 @@ var nxty = {
 	        case NXTY_SYS_SN_RSP:                     console.log( "System SN Rsp" );                break;
 
 	        case NXTY_CELL_INFO_RSP:                  console.log( "Cell Info Rsp" );                break;
-	        case NXTY_REGISTRATION_RSP:               console.log( "Registration Rsp" );             break;
 	        case NXTY_GET_MON_MODE_HEADINGS_RSP:      console.log( "Get Mon Mode Headings Rsp" );    break;
 	        case NXTY_GET_MON_MODE_PAGE_RSP:          console.log( "Get Mon Mode Page Rsp" );        break;
 	        case NXTY_SW_VERSION_RSP:                 console.log( "SW Version Rsp" );               break;
