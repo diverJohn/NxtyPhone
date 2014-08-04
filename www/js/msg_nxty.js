@@ -4,7 +4,8 @@
 
 
 var	nxtyRxLastCmd     = 0;
-var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);
+//var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);
+var u8RxBuff          = new Uint8Array(255);
 var uRxBuffIdx		  = 0;
         
         
