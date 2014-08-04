@@ -104,6 +104,12 @@ unsigned char ProcessNxtyRxMsg( unsigned char * pRxMsgData, unsigned char uLen )
 */
 
 
+
+
+
+
+
+
 var crc8_table = new Uint8Array([ 
 
     0, 94,188,226, 97, 63,221,131,194,156,126, 32,163,253, 31, 65,
@@ -238,72 +244,84 @@ var nxty = {
      
      
      
-    ProcessNextyRxMsg: function( pRxMsgData, uLenByte )
+    ProcessNxtyRxMsg: function( pRxMsgData, uLenByte )
     {
         var i;
         var uCrc     = new Uint8Array(1);
         var uCmd     = new Uint8Array(1);
-        
+        var uRtn     = new Uint8Array(1);        
     
 //      unsigned char   uRtn;
 //      unsigned char   uCrc;
 //      unsigned char   uCmd;
     
-      
-    
-      // Error processing...
-      if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
-      {
-        printf( "**** Err: Message len, 1st byte should be 12 or 255, len = %d\r\n", pRxMsgData[0] );
-        return( NXTY_INVALID_LEN_ERR );
-      }
-      else if( pRxMsgData == NULL )
-      {
-        printf( "**** Err: Null pointer buffer\r\n" );
-        return( NXTY_INVALID_BUFFER_ERR );
-      }
-      else if( uLen == 0 )
-      {
-        printf( "**** Err: 0 len\r\n" );
-        return( NXTY_INVALID_LEN_ERR );
-      }
-      
-      uCrc = 0;
-      CalcCrc8( pRxMsgData, pRxMsgData[0]-1, &uCrc );
-      
-      if( pRxMsgData[pRxMsgData[0]-1] != uCrc )
-      {
-        printf( "**** Err: Invalid CRC: expected: 0x%02X  calc: 0x%02X\r\n", pRxMsgData[pRxMsgData[0]-1], uCrc );
-        return( NXTY_INVALID_LEN_ERR );
-      }
-    
-      uCmd = ((S_NXTY_HEADING *)pRxMsgData)->uCmd;
-      uRtn = uCmd;
-    
-      switch( uCmd )
-      {
-        case NXTY_SYS_SN_RSP:                     printf( "System SN Rsp" );                break;
-        case NXTY_SET_BLUETOOTH_CNX_STATUS_RSP:   printf( "Set Bluetooth Cnx Status Rsp" ); break;
-        case NXTY_CELL_INFO_RSP:                  printf( "Cell Info Rsp" );                break;
-        case NXTY_REGISTRATION_RSP:               printf( "Registration Rsp" );             break;
-        case NXTY_GET_MON_MODE_HEADINGS_RSP:      printf( "Get Mon Mode Headings Rsp" );    break;
-        case NXTY_GET_MON_MODE_PAGE_RSP:          printf( "Get Mon Mode Page Rsp" );        break;
-        case NXTY_SW_VERSION_RSP:                 printf( "SW Version Rsp" );               break;
-        case NXTY_DOWNLOAD_START_RSP:             printf( "Download Start Rsp" );           break;
-        case NXTY_DOWNLOAD_TRANSFER_RSP:          printf( "Download Transfer Rsp" );        break;
-        case NXTY_DOWNLOAD_END_RSP:               printf( "Download End Rsp" );             break;
-        case NXTY_STATUS_RSP:                     printf( "Status Rsp" );                   break;
-    
-        
-        default:
+        // Check for data
+        if( uLenByte != 0)
         {
-          uRtn = NXTY_INVALID_COMMAND_ERR;
-          break;
+        	var outText = pRxMsgData[0].toString(16);
+            for( i = 1; i < uLenByte; i++ )
+            {
+            	outText = outText + " " + pRxMsgData[i].toString(16);
+            }
+            console.log( "Rx: " + outText );
         }
-      }
-      
-    },
-     
+    
+	    // Error processing...
+	    if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
+	    {
+	      console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] );
+	      return( NXTY_INVALID_LEN_ERR );
+	    }
+	    else if( pRxMsgData == NULL )
+	    {
+	      console.log( "Nxty: Null pointer buffer" );
+	      return( NXTY_INVALID_BUFFER_ERR );
+	    }
+	    else if( uLenByte == 0 )
+	    {
+	      console.log( "Nxty: 0 len" );
+	      return( NXTY_INVALID_LEN_ERR );
+	    }
+	      
+	    uCrc = 0;
+	    uCrc = nxty.CalcCrc8( pRxMsgData, pRxMsgData[0]-1, uCrc );
+
+	      
+	    if( pRxMsgData[pRxMsgData[0]-1] != uCrc )
+	    {
+	        console.log( "Nxty: Invalid CRC: expected: " + pRxMsgData[pRxMsgData[0]-1].toString(16) + " calc: " + uCrc.toString(16) );
+	        return( NXTY_INVALID_LEN_ERR );
+	    }
+	    
+	    uCmd = pRxMsgData[1];
+	    uRtn = uCmd;
+	    
+	    switch( uCmd )
+	    {
+	        case NXTY_SYS_SN_RSP:                     console.log( "System SN Rsp" );                break;
+	        case NXTY_SET_BLUETOOTH_CNX_STATUS_RSP:   console.log( "Set Bluetooth Cnx Status Rsp" ); break;
+	        case NXTY_CELL_INFO_RSP:                  console.log( "Cell Info Rsp" );                break;
+	        case NXTY_REGISTRATION_RSP:               console.log( "Registration Rsp" );             break;
+	        case NXTY_GET_MON_MODE_HEADINGS_RSP:      console.log( "Get Mon Mode Headings Rsp" );    break;
+	        case NXTY_GET_MON_MODE_PAGE_RSP:          console.log( "Get Mon Mode Page Rsp" );        break;
+	        case NXTY_SW_VERSION_RSP:                 console.log( "SW Version Rsp" );               break;
+	        case NXTY_DOWNLOAD_START_RSP:             console.log( "Download Start Rsp" );           break;
+	        case NXTY_DOWNLOAD_TRANSFER_RSP:          console.log( "Download Transfer Rsp" );        break;
+	        case NXTY_DOWNLOAD_END_RSP:               console.log( "Download End Rsp" );             break;
+	        case NXTY_STATUS_RSP:                     console.log( "Status Rsp" );                   break;
+	    
+	        
+	        default:
+	        {
+	           console.log( "Undefined command: " + uCmd.toString(16) );
+	           uRtn = NXTY_INVALID_COMMAND_ERR;
+	           break;
+	        }
+	    }
+	      
+	      return( uRtn );
+	},
+	     
      
      
      

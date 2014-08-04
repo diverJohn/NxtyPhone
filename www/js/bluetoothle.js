@@ -398,17 +398,9 @@ function subscribeSuccess(obj)
 
         var bytes = bluetoothle.encodedStringToBytes(obj.value);
  
+		nxty.ProcessNxtyRxMsg( bytes, bytes.length );
 
-        //Check for data
-        if (bytes.length != 0)
-        {
-        	var outText = bytes[0].toString(16);
-            for( var i = 1; i < bytes.length; i++ )
-            {
-            	outText = outText + " " + bytes[i].toString(16);
-            }
-            console.log( outText );
-        }
+
         
 		
 /*
