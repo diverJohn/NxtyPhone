@@ -145,7 +145,7 @@ h1 {
 }
 
 p.status_line {
-	margin-top:90%;
+	margin-bottom:0%;
 	text-align:center;
 	
 //    position: fixed;
