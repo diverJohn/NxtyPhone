@@ -98,7 +98,7 @@ var reg = {
 				break;
 			}
 			
-			case REG_STATE_OPER_REG_REQ:
+			case REG_STATE_OPER_REG_RSP:
 			{
 				// jdo:  Poll the cloud...
 				

@@ -147,6 +147,7 @@ p.status_line {
     position: fixed;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
     bottom: 0px;
 }
 
