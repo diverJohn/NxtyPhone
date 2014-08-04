@@ -26,8 +26,16 @@ var reg = {
 	handleRegKey: function()
 	{
 	 	console.log("Reg key pressed");
-	 	regState = REG_STATE_INIT;
-	    reg.RegLoop();	
+	 	
+	 	if( isRegistered == false )
+	 	{
+	 		regState = REG_STATE_INIT;
+	    	reg.RegLoop();
+	   	}
+	   	else
+	   	{
+	   		app.showAlert("No need to re-register.", "Already Registered.");
+	   	}	
 	 		 	
 	},
 

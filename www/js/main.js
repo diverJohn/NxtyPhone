@@ -128,7 +128,8 @@ reg.renderRegView();
   			
 		$('body').html(myHtml); 
 		
-		
+	
+				
 		// Start the handler to be called every second...
 		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
 	},
