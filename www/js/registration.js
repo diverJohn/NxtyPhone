@@ -5,9 +5,10 @@ var	regState			    = null;
 var REG_STATE_REQ_CELL_INFO	= 1;
 var REG_STATE_OPER_REG_REQ  = 2;
 
+
+
 var reg = {
 
-     
 
 	// Handle the Tech Mode key
 	handleBackKey: function()

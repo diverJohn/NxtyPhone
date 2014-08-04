@@ -177,7 +177,7 @@ var nxty = {
 			if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
 			{
 				uRxBuffIdx = 0;
-				console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed. );
+				console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed." );
 				return;
 			}
 		}
