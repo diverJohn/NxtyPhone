@@ -70,7 +70,7 @@ var nxty = {
       var uCrc     = new Uint8Array(1);
 
 
-	  if( isBluetoothCnx )
+	  if( isBluetoothCnx == false )
 	  {
         console.log( "Nxty: Bluetooth not connected. Can not send message." );
         return;
