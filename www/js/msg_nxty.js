@@ -3,7 +3,7 @@
 
 
 
-var	nxtyRxLastCmd     = null;
+var	nxtyRxLastCmd     = 0;
 var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);
 var uRxBuffIdx		  = 0;
         
@@ -249,7 +249,7 @@ var nxty = {
 	    	    console.log( "Set Bluetooth Cnx Status Rsp" );
 	    	    
 	    	    // Do not count this command since this may have been initiated by the BT device. 
-                nxtyRxLastCmd = null;
+                nxtyRxLastCmd = 0;
 	    	    break;
 	    	}
 	        
