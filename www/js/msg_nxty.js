@@ -267,16 +267,17 @@ var nxty = {
         }
     
 	    // Error processing...
-	    if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
-	    {
-	      console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] );
-	      return( NXTY_INVALID_LEN_ERR );
-	    }
-	    else if( pRxMsgData == NULL )
+	    if( pRxMsgData == null )
 	    {
 	      console.log( "Nxty: Null pointer buffer" );
 	      return( NXTY_INVALID_BUFFER_ERR );
 	    }
+	    else if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
+	    {
+	      console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] );
+	      return( NXTY_INVALID_LEN_ERR );
+	    }
+	    
 	    else if( uLenByte == 0 )
 	    {
 	      console.log( "Nxty: 0 len" );
