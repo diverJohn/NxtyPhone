@@ -23,7 +23,7 @@ var reg = {
 	 	regState = REG_STATE_REQ_CELL_INFO;
 	 	
 	 	// Call loop processing 1 time initially and then let the interval timer handle the loop. 
-	 	navigator.notification.activityStart("Your message....", "loading");
+	 	navigator.notification.activityStart("Registering...", "Getting Cell Info...");
 	 	reg.RegLoop();	
 	 	RegLoopIntervalHandle = setInterval(reg.RegLoop, 2000 ); 
 	},

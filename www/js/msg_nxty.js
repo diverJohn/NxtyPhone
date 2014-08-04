@@ -4,7 +4,10 @@
 
 
 var	nxtyRxLastCmd     = null;
-
+var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);
+var uRxBuffIdx		  = 0;
+        
+        
 // Status message response data...
 var nxtyRxstatusHw    = null;
 var nxtyRxstatusHwRev = null;
@@ -150,6 +153,8 @@ var nxty = {
         WriteBluetoothDevice(x);
       }
     
+      // Get ready to receive...
+      uRxBuffIdx = 0;
     },
      
      
@@ -157,55 +162,61 @@ var nxty = {
     ProcessNxtyRxMsg: function( pRxMsgData, uLenByte )
     {
         var i;
+        var	bOk = false;
+        
+        // Perform some sanity checks before copying incoming data to u8RxBuff.
+		if( (uRxBuffIdx + uLenByte) > u8RxBuff.length )
+		{
+			uRxBuffIdx = 0;
+			console.log("Nxty: Rx buffer overflow, data tossed.");
+			return;
+		}
+		
+		if( uRxBuffIdx == 0 )
+		{
+			if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
+			{
+				uRxBuffIdx = 0;
+				console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed. );
+				return;
+			}
+		}
+		
+        
+        // Copy over the incoming data...
+        var outText = pRxMsgData[0].toString(16);
+		for( i = 0; i < uLenByte; i++ )
+		{
+			u8RxBuff[uRxBuffIdx] = pRxMsgData[i];
+			uRxBuffIdx = uRxBuffIdx + 1;
+			outText = outText + " " + pRxMsgData[i].toString(16);
+		}
+		console.log( "Nxty Rx: " + outText );
+        
+
+		// See if our buffer has a complete message...
+		if( uRxBuffIdx != u8RxBuff[0] )
+		{
+			console.log( "Nxty: Length (" + u8RxBuff[0] + ") does not equal count (" + uRxBuffIdx + ") yet, exit.");
+			return;
+		}
+
+
+		// Process message................................
         var uCrc     = new Uint8Array(1);
         var uCmd     = new Uint8Array(1);
         var uRtn     = new Uint8Array(1);        
-    
-//      unsigned char   uRtn;
-//      unsigned char   uCrc;
-//      unsigned char   uCmd;
-    
-        // Check for data
-        if( uLenByte != 0)
-        {
-        	var outText = pRxMsgData[0].toString(16);
-            for( i = 1; i < uLenByte; i++ )
-            {
-            	outText = outText + " " + pRxMsgData[i].toString(16);
-            }
-            console.log( "Rx: " + outText );
-        }
-    
-	    // Error processing...
-	    if( pRxMsgData == null )
-	    {
-	      console.log( "Nxty: Null pointer buffer" );
-	      return( NXTY_INVALID_BUFFER_ERR );
-	    }
-	    else if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
-	    {
-	      console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] );
-	      return( NXTY_INVALID_LEN_ERR );
-	    }
-	    
-	    else if( uLenByte == 0 )
-	    {
-	      console.log( "Nxty: 0 len" );
-	      return( NXTY_INVALID_LEN_ERR );
-	    }
 	      
 	    uCrc = 0;
-	    uCrc = nxty.CalcCrc8( pRxMsgData, pRxMsgData[0]-1, uCrc );
-
+	    uCrc = nxty.CalcCrc8( u8RxBuff, u8RxBuff[0]-1, uCrc );
 	      
-	    if( pRxMsgData[pRxMsgData[0]-1] != uCrc )
+	    if( u8RxBuff[u8RxBuff[0]-1] != uCrc )
 	    {
-	        console.log( "Nxty: Invalid CRC: expected: " + pRxMsgData[pRxMsgData[0]-1].toString(16) + " calc: " + uCrc.toString(16) );
-	        return( NXTY_INVALID_LEN_ERR );
+	        console.log( "Nxty: Invalid CRC: expected: 0x" + u8RxBuff[u8RxBuff[0]-1].toString(16) + " calc: 0x" + uCrc.toString(16) );
+	        return;
 	    }
 	    
-	    uCmd 		  = pRxMsgData[1];
-	    uRtn 		  = uCmd;
+	    uCmd 		  = u8RxBuff[1];
 	    nxtyRxLastCmd = uCmd;
 	    
 	    switch( uCmd )
@@ -223,10 +234,10 @@ var nxty = {
 	        case NXTY_STATUS_RSP:
 	        {
 	        	console.log( "Status Rsp" );
-	        	nxtyRxstatusHw    = pRxMsgData[2];
-	        	nxtyRxstatusHwRev = pRxMsgData[3];
-	        	nxtyRxstatusUnii  = pRxMsgData[4];
-	        	nxtyRxstatusReg   = pRxMsgData[5];
+	        	nxtyRxstatusHw    = u8RxBuff[2];
+	        	nxtyRxstatusHwRev = u8RxBuff[3];
+	        	nxtyRxstatusUnii  = u8RxBuff[4];
+	        	nxtyRxstatusReg   = u8RxBuff[5];
 	        	
 	        	nxty.UpdateRegIcon(nxtyRxstatusReg);
 	        	
@@ -245,12 +256,11 @@ var nxty = {
 	        default:
 	        {
 	           console.log( "Undefined command: " + uCmd.toString(16) );
-	           uRtn = NXTY_INVALID_COMMAND_ERR;
 	           break;
 	        }
 	    }
 	      
-	      return( uRtn );
+	    return;
 	},
 	     
      
