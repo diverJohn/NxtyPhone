@@ -208,7 +208,7 @@ var nxty = {
 		// Process message................................
         var uCrc     = new Uint8Array(1);
         var uCmd     = new Uint8Array(1);
-        var uRtn     = new Uint8Array(1);        
+  
 	      
 	    uCrc = 0;
 	    uCrc = nxty.CalcCrc8( u8RxBuff, u8RxBuff[0]-1, uCrc );
@@ -220,7 +220,6 @@ var nxty = {
 	    }
 	    
 	    uCmd 		  = u8RxBuff[1];
-	    nxtyRxLastCmd = uCmd;
 	    
 	    switch( uCmd )
 	    {
@@ -271,6 +270,8 @@ var nxty = {
 	           break;
 	        }
 	    }
+
+	    nxtyRxLastCmd = uCmd;
 	      
 	    return;
 	},
@@ -294,6 +295,9 @@ var nxty = {
 	// UpdateRegIcon....................................................................................
 	UpdateRegIcon: function(reg)
 	{
+	
+	    console.log("UpdateRegIcon(" + reg + ")" );
+	
 		if(reg == 1)
 		{
 			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOn )
