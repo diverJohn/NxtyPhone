@@ -58,14 +58,6 @@ var reg = {
 		switch( regState )
 		{
 		
-		var REG_STATE_CELL_INFO_REQ		= 1;
-var REG_STATE_CELL_INFO_RSP		= 2;
-var REG_STATE_OPER_REG_REQ  	= 3;
-var REG_STATE_OPER_REG_RSP  	= 4;
-var REG_STATE_REGISTRATION_REQ 	= 5;
-var REG_STATE_REGISTRATION_RSP 	= 6;
-		
-
 			case REG_STATE_INIT:
 			{
 				regState = REG_STATE_CELL_INFO_REQ;
