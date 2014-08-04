@@ -183,12 +183,16 @@ var nxty = {
 		
         
         // Copy over the incoming data...
-        var outText = null;
+        var outText = pRxMsgData[0].toString(16);
 		for( i = 0; i < uLenByte; i++ )
 		{
 			u8RxBuff[uRxBuffIdx] = pRxMsgData[i];
 			uRxBuffIdx = uRxBuffIdx + 1;
-			outText = outText + " " + pRxMsgData[i].toString(16);
+			
+			if( i )
+			{
+				outText = outText + " " + pRxMsgData[i].toString(16);
+			}
 		}
 		console.log( "Nxty Rx: " + outText );
         
