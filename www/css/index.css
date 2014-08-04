@@ -146,7 +146,7 @@ h1 {
 p.status_line {
     position: fixed;
     bottom: 0px;
-    text-align:center
+    left: 10px;
 }
 
 li>a.tappable-active {
