@@ -28,7 +28,7 @@ var  NXTY_STATUS_RSP                   = 0x4B;
 
 
 var	nxtyRxLastCmd     = 0;
-//var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
+var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
 var uRxBuffIdx		  = 0;
         
         
