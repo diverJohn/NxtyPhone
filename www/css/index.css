@@ -143,6 +143,11 @@ h1 {
     left: 0px;
 }
 
+p.status_line {
+    position: fixed;
+    bottom: 0px;
+}
+
 li>a.tappable-active {
     opacity: 1;
 }

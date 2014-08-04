@@ -4,13 +4,23 @@ var isPhone      = false;
 var isRegistered = true;
 
 
-var szBtIconOn   = "<img src='img/bluetooth_on.png' />";
-var szBtIconOff  = "<img src='img/bluetooth_off.png' />";
-var szRegIconOn  = "<img src='img/reg_yes.png' />";
-var szRegIconOff = "<img src='img/reg_no.png' />";
+
+var szBtIconOn     = "<img src='img/bluetooth_on.png' />";
+var szBtIconOff    = "<img src='img/bluetooth_off.png' />";
+var szRegIconOn    = "<img src='img/reg_yes.png' />";
+var szRegIconOff   = "<img src='img/reg_no.png' />";
+var szMyStatusLine = "<p id='status_line_id' class='status_line'></p>";
 
 
 var MainLoopIntervalHandle = null;
+
+
+// UpdateStatusLine....................................................................................
+function UpdateStatusLine(statusText)
+{
+	document.getElementById("status_line_id").innerHTML = statusText;
+}
+
 
 var app = {
      
@@ -93,9 +103,8 @@ nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length );
 	 	}
 	 	else
 	 	{
-var u8 = new Uint8Array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]);           
-nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length ); 	 	
-		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
+reg.renderRegView();
+//		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
 	 	}
 	},
 	
@@ -114,7 +123,8 @@ nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length );
             myRegIcon +
    			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
-  			myRegButton;
+  			myRegButton +
+  			szMyStatusLine;
   			
 		$('body').html(myHtml); 
 		
