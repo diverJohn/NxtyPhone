@@ -21,16 +21,16 @@ function UpdateStatusLine(statusText)
 	document.getElementById("status_line_id").innerHTML = statusText;
 }
 
-function HandleButtonDown(id)
+function HandleButtonDown()
 {
 	console.log("buttonDown");
-	$(id).css("opacity","1.0");
+	$(this).css("opacity","1.0");
 }
 
-function HandleButtonUp(id)
+function HandleButtonUp()
 {
 	console.log("buttonUp");
-	$(id).css("opacity","0.5");
+	$(this).css("opacity","0.5");
 }
 
 var app = {
@@ -53,8 +53,11 @@ var app = {
         
         app.renderHomeView();
         
- 		document.getElementById("reg_button_id").addEventListener('touchstart', function(){HandleButtonDown("this")} );
- 		document.getElementById("reg_button_id").addEventListener('touchend',   function(){HandleButtonUp("this")} );
+// 		document.getElementById("reg_button_id").addEventListener('touchstart', function(){HandleButtonDown(this)} );
+// 		document.getElementById("reg_button_id").addEventListener('touchend',   function(){HandleButtonUp("this")} );
+ 		
+ 		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
     },   
        
        
