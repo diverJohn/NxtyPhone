@@ -122,6 +122,9 @@ var reg = {
 			
 			case REG_STATE_REGISTRATION_REQ:
 			{
+			
+				// jdo add data from the cloud
+				
 				nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, null, 0);
 				UpdateStatusLine("Authenticating...");
                 navigator.notification.activityStart("Registering...", "Authenticating...");
