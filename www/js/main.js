@@ -29,6 +29,7 @@ function HandleButtonDown(id)
 
 function HandleButtonUp(id)
 {
+	console.log("buttonUp");
 	$(id).css("opacity","0.5");
 }
 
@@ -52,8 +53,8 @@ var app = {
         
         app.renderHomeView();
         
- 		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
- 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
+ 		document.getElementById("reg_button_id").addEventListener('touchstart', function(){HandleButtonDown("this")} );
+ 		document.getElementById("reg_button_id").addEventListener('touchend',   function(){HandleButtonDown("this")} );
     },   
        
        
