@@ -42,9 +42,6 @@ var app = {
     onDeviceReady: function() {
     	console.log( "device ready" );
     	
-
-    	
-    	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
     	{
@@ -53,8 +50,11 @@ var app = {
         
         app.renderHomeView();
         
-// 		document.getElementById("reg_button_id").addEventListener('touchstart', function(){HandleButtonDown(this)} );
-// 		document.getElementById("reg_button_id").addEventListener('touchend',   function(){HandleButtonUp("this")} );
+ 		document.getElementById("sw_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("sw_button_id").addEventListener('touchend',   HandleButtonUp );
+ 		
+ 		document.getElementById("tk_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("tk_button_id").addEventListener('touchend',   HandleButtonUp );
  		
  		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
  		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
@@ -153,8 +153,8 @@ reg.renderRegView();
 			"<img src='img/header_main.png' width='100%' />" +
 			myBluetoothIcon +
             myRegIcon +
-   			"<button type='button' class='mybutton' touchstart='HandleButtonDown(this)' onclick='app.handleSwUpdateKey(this)'><img src='img/button_SwUpdate.png' /></button>" +
-			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
+   			"<button id='sw_button_id' type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
+			"<button id='tk_button_id' type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
   			szMyStatusLine;
   			
