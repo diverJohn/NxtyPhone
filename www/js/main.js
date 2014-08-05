@@ -54,7 +54,7 @@ var app = {
         app.renderHomeView();
         
  		document.getElementById("reg_button_id").addEventListener('touchstart', function(){HandleButtonDown("this")} );
- 		document.getElementById("reg_button_id").addEventListener('touchend',   function(){HandleButtonDown("this")} );
+ 		document.getElementById("reg_button_id").addEventListener('touchend',   function(){HandleButtonUp("this")} );
     },   
        
        
@@ -118,6 +118,7 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 	{
 	 	console.log("Reg key pressed");
 	 	
+/*	 	
 	 	if( isBluetoothCnx )
 	 	{
 
@@ -130,6 +131,10 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 reg.renderRegView();
 //		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
 	 	}
+	 	
+*/	 	
+	 	
+	 	
 	},
 	
 	
