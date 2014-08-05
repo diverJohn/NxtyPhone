@@ -29,7 +29,7 @@ var u8ScanResults     = new Uint8Array(SCAN_RESULTS_SIZE);
 var isBluetoothCnx          = false;
 var isBluetoothSubscribed   = false;
 
-var u8TxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
+var u8TxBuff          = new Uint8Array(255);	
 var uTxBuffIdx		  = 0;
 
 // StartBluetooth...................................................................................
