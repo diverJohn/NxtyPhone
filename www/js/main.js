@@ -49,15 +49,7 @@ var app = {
         }
         
         app.renderHomeView();
-        
- 		document.getElementById("sw_button_id").addEventListener('touchstart', HandleButtonDown );
- 		document.getElementById("sw_button_id").addEventListener('touchend',   HandleButtonUp );
- 		
- 		document.getElementById("tk_button_id").addEventListener('touchstart', HandleButtonDown );
- 		document.getElementById("tk_button_id").addEventListener('touchend',   HandleButtonUp );
- 		
- 		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
- 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
+
     },   
        
        
@@ -76,16 +68,8 @@ var app = {
 	handleSwUpdateKey: function(id)
 	{
 	 	console.log("SW Update key pressed");
-	 	
-/*	 	
- 	    $(id).css("opacity","1.0");
- 	        
- 	    setTimeout(function() 
- 	    {
-         $(id).css("opacity","0.5");
-         }, 300);
-*/
-	 	
+ 	
+ 	
 	 	if( isBluetoothCnx )
 	 	{
 //	 		swupdate.renderSwUpdateView();
@@ -121,7 +105,7 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 	{
 	 	console.log("Reg key pressed");
 	 	
-/*	 	
+	 	
 	 	if( isBluetoothCnx )
 	 	{
 
@@ -135,7 +119,7 @@ reg.renderRegView();
 //		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
 	 	}
 	 	
-*/	 	
+	 	
 	 	
 	 	
 	},
@@ -160,7 +144,16 @@ reg.renderRegView();
   			
 		$('body').html(myHtml); 
 		
-	
+	    
+	    // Make the buttons change when touched...    
+ 		document.getElementById("sw_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("sw_button_id").addEventListener('touchend',   HandleButtonUp );
+ 		
+ 		document.getElementById("tk_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("tk_button_id").addEventListener('touchend',   HandleButtonUp );
+ 		
+ 		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
 				
 		// Start the handler to be called every second...
 		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			

@@ -57,8 +57,8 @@ var reg = {
 
 		UpdateStatusLine("Select 'Register' button to continue");
 		
-//		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
-// 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
+		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
 	},
 
 
