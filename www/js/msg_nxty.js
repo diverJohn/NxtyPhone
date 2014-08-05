@@ -109,13 +109,6 @@ var nxty = {
         uStdBuff[NXTY_STD_MSG_SIZE-1] = uCrc;
     
         // Send the data..
-        var outText = uStdBuff[0].toString(16);    // Convert to hex output...
-        for( i = 1; i < NXTY_STD_MSG_SIZE; i++ )
-        {
-            outText = outText + " " + uStdBuff[i].toString(16);
-        }
-        console.log( "Nxty Tx: " + outText );
-        
         WriteBluetoothDevice(uStdBuff);
         
       }
@@ -139,17 +132,7 @@ var nxty = {
         uCrc = nxty.CalcCrc8( uBigBuff, NXTY_BIG_MSG_SIZE-1, uCrc );
         uBigBuff[NXTY_BIG_MSG_SIZE-1] = uCrc;
     
-        // Send the first 24 bytes of data..
-        var outText = uBigBuff[0].toString(16);    // Convert to hex output...
-        for( i = 1; i < 255; i++ )
-        {
-            outText = outText + " " + uBigBuff[i].toString(16);
-        }
-        console.log( "Nzty Tx: " + outText );
-        
-        var x = uBigBuff.subarray(0,80);  // 40 works, 60 works, 80 ok, 100 no good...
-        
-        WriteBluetoothDevice(x);
+        WriteBluetoothDevice(uBigBuff);
       }
     
       // Get ready to receive...

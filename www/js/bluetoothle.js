@@ -29,6 +29,8 @@ var u8ScanResults     = new Uint8Array(SCAN_RESULTS_SIZE);
 var isBluetoothCnx          = false;
 var isBluetoothSubscribed   = false;
 
+var u8TxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
+var uTxBuffIdx		  = 0;
 
 // StartBluetooth...................................................................................
 function StartBluetooth()
@@ -485,8 +487,55 @@ function unsubscribeError(obj)
 // WriteBluetoothDevice........................................................................
 function WriteBluetoothDevice( u8 )
 {
-    // Convert a Unit8Array to a base64 encoded string...
-    var u64 = bluetoothle.bytesToEncodedString(u8);
+	var i;
+
+var u8TxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
+var uTxBuffIdx		  = 0;
+
+	// Currently the Bluetoothle plugin supports a write of 80 bytes.
+	if( u8.length > u8TxBuff.length )
+	{
+		console.log("Nxty Write: More than " + NXTY_BIG_MSG_SIZE + " bytes." );
+	}
+
+        
+       
+	
+	
+	if( u8.length <= 80 )
+	{
+    	// Convert a Unit8Array to a base64 encoded string...
+    	var u64    = bluetoothle.bytesToEncodedString(u8);
+    	uTxBuffIdx = 0;
+    	
+    	var outText = u8[0].toString(16);    // Convert to hex output...
+        for( i = 1; i < u8.length; i++ )
+        {
+            outText = outText + " " + u8[i].toString(16);
+        }
+        console.log( "Nxty Tx: " + outText );
+   	}
+   	else
+   	{
+		for( i = 0; i < u8.length; i++ )
+		{
+			u8TxBuff[i] = u8[i];
+		}
+		
+		uTxBuffIdx = 80;
+		var u8Sub  = u8TxBuff.subarray(0,uTxBuffIdx);	// u8TxBuff[0] to [79].
+		var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
+
+		
+		// Send the first 80 bytes of data..
+        var outText = u8Sub[0].toString(16);    // Convert to hex output...
+        for( i = 1; i < uTxBuffIdx; i++ )
+        {
+            outText = outText + " " + u8Sub[i].toString(16);
+        }
+        console.log( "Nxty Tx: " + outText );
+		
+   	}
 
     // 1.0.2 of the plugin 
     var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
@@ -501,6 +550,40 @@ function writeSuccess(obj)
     if (obj.status == "written")
     {
         console.log("BT: Write data sent successfully");
+        
+        // See if we have more to output...
+        if( uTxBuffIdx )
+        {
+        	var uTxBuffIdxEnd = uTxBuffIdx + 80;
+        	if( uTxBuffIdxEnd > u8TxBuff.length )
+        	{
+        		uTxBuffIdxEnd = u8TxBuff.length;
+        	}
+        	
+			var u8Sub  = u8TxBuff.subarray(uTxBuffIdx, uTxBuffIdxEnd);	
+			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
+
+	        var outText = u8Sub[0].toString(16);    // Convert to hex output...
+    	    for( var i = 1; i < (uTxBuffIdxEnd - uTxBuffIdx); i++ )
+        	{
+            	outText = outText + " " + u8Sub[i].toString(16);
+        	}
+        	console.log( "Nxty Tx: " + outText );
+
+		    // 1.0.2 of the plugin 
+    		var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
+    
+    		bluetoothle.write(writeSuccess, writeError, paramsObj);
+    		
+    		uTxBuffIdx = uTxBuffIdxEnd;
+        	if( uTxBuffIdx >= u8TxBuff.length )
+        	{
+        		// Indicate that we have sent all data...
+        		uTxBuffIdx = 0;
+        	}
+    		
+   		}
+        
     }
     else
     {
