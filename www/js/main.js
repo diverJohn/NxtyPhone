@@ -23,6 +23,7 @@ function UpdateStatusLine(statusText)
 
 function HandleButtonDown(id)
 {
+	console.log("buttonDown");
 	$(id).css("opacity","1.0");
 }
 
