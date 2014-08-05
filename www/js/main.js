@@ -41,7 +41,7 @@ var app = {
     onDeviceReady: function() {
     	console.log( "device ready" );
     	
- 	
+
     	
     	
     	// Only start bluetooth if on a phone...
@@ -52,7 +52,8 @@ var app = {
         
         app.renderHomeView();
         
-
+ 		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
+ 		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
     },   
        
        
@@ -71,13 +72,15 @@ var app = {
 	handleSwUpdateKey: function(id)
 	{
 	 	console.log("SW Update key pressed");
+	 	
+/*	 	
  	    $(id).css("opacity","1.0");
  	        
  	    setTimeout(function() 
  	    {
          $(id).css("opacity","0.5");
          }, 300);
-
+*/
 	 	
 	 	if( isBluetoothCnx )
 	 	{
@@ -141,7 +144,7 @@ reg.renderRegView();
 			"<img src='img/header_main.png' width='100%' />" +
 			myBluetoothIcon +
             myRegIcon +
-   			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey(this)'><img src='img/button_SwUpdate.png' /></button>" +
+   			"<button type='button' class='mybutton' touchstart='HandleButtonDown(this)' onclick='app.handleSwUpdateKey(this)'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
   			szMyStatusLine;
