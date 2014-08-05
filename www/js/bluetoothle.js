@@ -489,19 +489,12 @@ function WriteBluetoothDevice( u8 )
 {
 	var i;
 
-var u8TxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
-var uTxBuffIdx		  = 0;
-
 	// Currently the Bluetoothle plugin supports a write of 80 bytes.
 	if( u8.length > u8TxBuff.length )
 	{
 		console.log("Nxty Write: More than " + NXTY_BIG_MSG_SIZE + " bytes." );
 	}
 
-        
-       
-	
-	
 	if( u8.length <= 80 )
 	{
     	// Convert a Unit8Array to a base64 encoded string...
