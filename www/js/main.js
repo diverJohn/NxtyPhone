@@ -21,6 +21,15 @@ function UpdateStatusLine(statusText)
 	document.getElementById("status_line_id").innerHTML = statusText;
 }
 
+function HandleButtonDown(id)
+{
+	$(id).css("opacity","1.0");
+}
+
+function HandleButtonUp(id)
+{
+	$(id).css("opacity","0.5");
+}
 
 var app = {
      
@@ -30,27 +39,6 @@ var app = {
     //
     onDeviceReady: function() {
     	console.log( "device ready" );
-    	
-   	    // Check of browser supports touch events...
-	    if (document.documentElement.hasOwnProperty('ontouchstart')) {
-	        // ... if yes: register touch event listener to change the "selected" state of the item
-	        $('body').on('touchstart',  function(event) {
-	            $(event.target).addClass('tappable-active');
-	        });
-	        $('body').on('touchend',  function(event) {
-	            $(event.target).removeClass('tappable-active');
-	        });
-	    } else {
-	        // ... if not: register mouse events instead
-	        $('body').on('mousedown',  function(event) {
-	            $(event.target).addClass('tappable-active');
-	        });
-	        $('body').on('mouseup',  function(event) {
-	            $(event.target).removeClass('tappable-active');
-	        });
-	    }
-    	
-    	
     	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
@@ -79,6 +67,8 @@ var app = {
 	handleSwUpdateKey: function()
 	{
 	 	console.log("SW Update key pressed");
+ 	
+
 	 	
 	 	if( isBluetoothCnx )
 	 	{
@@ -136,14 +126,14 @@ reg.renderRegView();
 	{
 		var myBluetoothIcon = isBluetoothCnx ? "<div id='bt_icon_id' class='bt_icon'>" + szBtIconOn + "</div>" : "<div  id='bt_icon_id' class='bt_icon'>" + szBtIconOff + "</div>";
 		var myRegIcon       = isRegistered   ? "<div id='reg_icon_id' class='reg_icon'>" + szRegIconOn + "</div>" : "<div id='reg_icon_id' class='reg_icon'>" + szRegIconOff + "</div>";
-		var myRegButton     = isRegistered   ? "<button id='reg_button_id' type='button' class='mybutton' onclick='app.handleRegKey()'></button>" : "<button id='reg_button_id' type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
+		var myRegButton     = isRegistered   ? "<button id='reg_button_id' type='button' class='mybutton' onmousedown='HandleButtonDown(this)' onmouseup='HandleButtonUp(this)' onclick='app.handleRegKey()'></button>" : "<button id='reg_button_id' type='button' class='mybutton' onmousedown='HandleButtonDown(this)' onmouseup='HandleButtonUp(this)' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
 		
 		var myHtml = 
 			"<img src='img/header_main.png' width='100%' />" +
 			myBluetoothIcon +
             myRegIcon +
-   			"<button type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
-			"<button type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
+   			"<button type='button' class='mybutton' onmousedown='HandleButtonDown(this)' onmouseup='HandleButtonUp(this)' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
+			"<button type='button' class='mybutton' onmousedown='HandleButtonDown(this)' onmouseup='HandleButtonUp(this)' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
   			szMyStatusLine;
   			

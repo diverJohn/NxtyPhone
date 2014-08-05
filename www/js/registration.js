@@ -47,7 +47,7 @@ var reg = {
 		
 		var myHtml = 
 			"<img src='img/header_reg.png' width='100%' />" +
-			"<button type='button' class='back_icon' onclick='reg.handleBackKey()'><img src='img/go_back.png'/></button>"+
+			"<button type='button' class='back_icon' onmousedown='HandleButtonDown(this)' onmouseup='HandleButtonUp(this)' onclick='reg.handleBackKey()'><img src='img/go_back.png'/></button>"+
 			myRegIcon +
             myBluetoothIcon +
             myRegButton +
