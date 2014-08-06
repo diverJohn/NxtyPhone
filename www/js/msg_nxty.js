@@ -203,6 +203,7 @@ var nxty = {
 	    }
 	    
 	    uCmd 		  = u8RxBuff[1];
+	    nxtyRxLastCmd = uCmd;
 	    
 	    switch( uCmd )
 	    {
@@ -253,7 +254,7 @@ var nxty = {
 	        }
 	    }
 
-	    nxtyRxLastCmd = uCmd;
+
 	      
 	    return;
 	},
