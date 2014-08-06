@@ -189,6 +189,7 @@ reg.renderRegView();
 	},
 
 
+
 	MainLoop: function() 
 	{
 		console.log("App: Main loop..." );
