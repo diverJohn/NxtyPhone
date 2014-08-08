@@ -95,7 +95,8 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 	 	}
 	 	else
 	 	{
-		 	this.showAlert("Tech mode not allowed...", "Bluetooth not connected.");
+tech.renderTechView();	 	
+	//	 	this.showAlert("Tech mode not allowed...", "Bluetooth not connected.");
 	 	}
 	},
 

@@ -14,8 +14,7 @@ var REG_STATE_REGISTRATION_RSP 	= 7;
 
 var reg = {
 
-
-	// Handle the Tech Mode key
+	// Handle the Back key
 	handleBackKey: function()
 	{
 	 	console.log("Reg Mode Back key pressed");
@@ -137,6 +136,8 @@ var reg = {
 				if( nxtyRxLastCmd == NXTY_REGISTRATION_RSP )
 				{
 					// We have received the response from the Cel-Fi unit..
+					
+					// Stop the rotating wheel...
                 	navigator.notification.activityStop();
 					
 					if( isRegistered )
