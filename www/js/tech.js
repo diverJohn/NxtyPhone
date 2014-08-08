@@ -34,7 +34,7 @@ var myStyle =
 ".yellow { background: yellow }" +
 ".header { width: 100%; height: 10%; position: fixed }" +
 ".wrapper { width: 1000%; height: 100%; background: green }" +
-".page { width: 10%; height: 100%; float: left }" +
+".page { width: 10%; height: 100%; float: left; -webkit-overflow-scrolling: touch; }" +
 "</style>";
 
 
