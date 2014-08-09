@@ -162,5 +162,6 @@ p.status_line {
     position: fixed;
     bottom: 0px;
     left: 10px;
+    font-size:18px;
 }
 
