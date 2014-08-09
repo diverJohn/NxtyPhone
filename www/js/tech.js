@@ -22,8 +22,8 @@ var tech = {
 			myRegIcon +
             myBluetoothIcon +
             
-            
- "<h1>UNII Engineering Data</h1>" +
+"<div id='parent'> <div id='child'>" +            
+ "<h1>UNII Engineering Data</h1><br><br>" +
  "<table align='center'>" +
 "<tr> <th>Description</th>  <th>Value</th></tr>" +
 "<tr> <td id='v1'>5 GHz DL Freq</td>  <td id='v1'>0</td></tr>" +
@@ -37,8 +37,8 @@ var tech = {
 "<tr>  <td id='v1'>Radar Detect Cnt</td>  <td id='v9'>0</td></tr>" +
 "<tr>  <td id='v1'>Distance Metric</td>  <td id='v10'>0</td></tr>" +
 "<tr>  <td id='v1'>ID</td>  <td id='v11'>0</td></tr>" +
-"</table>";
-            
+"</table>" +
+"</div> </div>";              
             
 
 		$('body').html(myHtml);  			

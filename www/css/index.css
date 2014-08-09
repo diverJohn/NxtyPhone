@@ -76,7 +76,7 @@ h1 {
 //table, td, th { border: 1px solid black;}
 table {width: 80%; border-collapse: collapse; border: 3px solid black; font-size:18px;}
 th {background-color:gray; color:white; text-align: center;}
-td {background-color:white; text-align: center; opacity: 0.75; }
+td {background-color:white; text-align: center; opacity: 0.75; border: 1px solid black; }
 
 
 /* Class................ */
@@ -165,3 +165,11 @@ p.status_line {
     font-size:18px;
 }
 
+
+/* IDs.............................. */
+#parent {display: table;}
+
+#child {
+    display: table-cell;
+    vertical-align: middle;
+}
