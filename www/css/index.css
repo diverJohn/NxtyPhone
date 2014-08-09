@@ -17,7 +17,7 @@
  * under the License.
  */
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0.5); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
 body {
@@ -73,10 +73,10 @@ h1 {
 }
 
 
-table, td, th { border: 1px solid black;}
-table {width: 80%;}
+//table, td, th { border: 1px solid black;}
+table {width: 80%; border-collapse: collapse; border: 3px solid black; font-size:18px;}
 th {background-color:gray; color:white; text-align: center;}
-td {background-color:white; text-align: center; opacity: 0.50; }
+td {background-color:white; text-align: center; opacity: 0.75; }
 
 
 /* Class................ */

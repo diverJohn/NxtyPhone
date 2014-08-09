@@ -145,7 +145,7 @@ reg.renderRegView();
   			
 		$('body').html(myHtml); 
 		
-/*	    
+	    
 	    // Make the buttons change when touched...    
  		document.getElementById("sw_button_id").addEventListener('touchstart', HandleButtonDown );
  		document.getElementById("sw_button_id").addEventListener('touchend',   HandleButtonUp );
@@ -155,7 +155,7 @@ reg.renderRegView();
  		
  		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
  		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
-*/
+
 		// Start the handler to be called every second...
 		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
 	},
