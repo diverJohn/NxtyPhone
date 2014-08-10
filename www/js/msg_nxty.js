@@ -3,6 +3,7 @@
 var  NXTY_STD_MSG_SIZE 				   = 12;
 var  NXTY_BIG_MSG_SIZE 				   = 255;
 
+var  NXTY_WAITING_FOR_RSP              = 0x00;
 var  NXTY_SYS_SN_REQ                   = 0x01;
 var  NXTY_SYS_SN_RSP                   = 0x41;
 var  NXTY_SET_BLUETOOTH_CNX_STATUS_RSP = 0x42;
@@ -27,7 +28,7 @@ var  NXTY_STATUS_RSP                   = 0x4B;
 
 
 
-var	nxtyRxLastCmd     = 0;
+var	nxtyRxLastCmd     = NXTY_WAITING_FOR_RSP;
 var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
 var uRxBuffIdx		  = 0;
         
@@ -136,7 +137,8 @@ var nxty = {
       }
     
       // Get ready to receive...
-      uRxBuffIdx = 0;
+      uRxBuffIdx    = 0;
+      nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
     },
      
      
@@ -243,7 +245,7 @@ var nxty = {
 	    	    console.log( "Set Bluetooth Cnx Status Rsp" );
 	    	    
 	    	    // Do not count this command since this may have been initiated by the BT device. 
-                nxtyRxLastCmd = 0;
+                nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
 	    	    break;
 	    	}
 	        

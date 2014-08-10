@@ -1,3 +1,11 @@
+
+
+
+var TechLoopRxIntervalHandle   = null;
+var TechLoopTxIntervalHandle   = null;
+
+
+
 var tech = {
 
      
@@ -39,8 +47,40 @@ var tech = {
             "</table>";
             
 
-		$('body').html(myHtml);  			
+		$('body').html(myHtml);
+		
+		// Send a message to get the header information...
+		nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);
+		
+		// Start the timer to process Rx data
+		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 1000 );
+		
+		// Start the timer to request fresh page data. 
+        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
+		  			
 	},
+
+
+
+    ProcessTechDataLoop: function() 
+    {
+        console.log("Tech: Get Fresh Page loop..." );
+        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);
+    },
+
+    ProcessTechDataLoop: function() 
+    {
+        console.log("Tech: Process Tech Data loop..." );
+
+        if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
+        {
+        }
+        else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
+        {
+        }
+
+        
+    },
 
 
 

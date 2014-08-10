@@ -197,7 +197,7 @@ reg.renderRegView();
 		console.log("App: Main loop..." );
 		
 		// See if status command received yet...
-		if( nxtyRxLastCmd == 0 )
+		if( nxtyRxLastCmd == NXTY_WAITING_FOR_RSP )
 		{
 			// Get the status so we can see if we need to register or not...
 			nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  
