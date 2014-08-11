@@ -185,12 +185,12 @@ var nxty = {
 		// See if our buffer has a complete message...
 		if( uRxBuffIdx != u8RxBuff[0] )
 		{
-            outText = outText + " Count (" + uRxBuffIdx  + ") != length (" + u8RxBuff[0] + ") exit.";
+            outText = outText + " [Cnt(" + uRxBuffIdx  + ") != len(" + u8RxBuff[0] + ") exit]";
 		    console.log( "Nxty Rx: " + outText );
 			return;
 		}
 
-        outText = outText + " Count (" + uRxBuffIdx  + ") == length (" + u8RxBuff[0] + ").";
+        outText = outText + " [Cnt(" + uRxBuffIdx  + ") == len(" + u8RxBuff[0] + ")] process";
         console.log( "Nxty Rx: " + outText );
 
 
@@ -216,14 +216,21 @@ var nxty = {
 	        case NXTY_SYS_SN_RSP:                     console.log( "System SN Rsp" );                break;
 
 	        case NXTY_CELL_INFO_RSP:                  console.log( "Cell Info Rsp" );                break;
-	        case NXTY_GET_MON_MODE_HEADINGS_RSP:      console.log( "Get Mon Mode Headings Rsp" );    break;
-	        case NXTY_GET_MON_MODE_PAGE_RSP:          console.log( "Get Mon Mode Page Rsp" );        break;
+
 	        case NXTY_SW_VERSION_RSP:                 console.log( "SW Version Rsp" );               break;
 	        case NXTY_DOWNLOAD_START_RSP:             console.log( "Download Start Rsp" );           break;
 	        case NXTY_DOWNLOAD_TRANSFER_RSP:          console.log( "Download Transfer Rsp" );        break;
 	        case NXTY_DOWNLOAD_END_RSP:               console.log( "Download End Rsp" );             break;
 	        
 	        
+	        
+	        case NXTY_GET_MON_MODE_HEADINGS_RSP:
+            case NXTY_GET_MON_MODE_PAGE_RSP:
+            {
+                // Do nothing, processed in ProcessTechDataLoop().
+                break;
+            }
+            
 	        case NXTY_REGISTRATION_RSP:
 	        {
 	        	console.log( "Registration Rsp" );

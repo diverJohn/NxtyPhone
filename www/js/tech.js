@@ -56,7 +56,7 @@ var tech = {
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 1000 );
 		
 		// Start the timer to request fresh page data. 
-        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
+        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 5000 );
 		  			
 	},
 
@@ -65,18 +65,26 @@ var tech = {
     GetFreshPageLoop: function() 
     {
         console.log("Tech: Get Fresh Page loop..." );
-        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);
+        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, null, 0);
     },
 
     ProcessTechDataLoop: function() 
     {
-        console.log("Tech: Process Tech Data loop..." );
+
 
         if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
         {
+            console.log("Tech: Process Headings Rsp..." );
+            
+            // Indicate that message has been processed...
+            nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;               
         }
         else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
         {
+            console.log("Tech: Process Page Rsp..." );
+            
+            // Indicate that message has been processed...
+            nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
         }
 
         
