@@ -102,7 +102,9 @@ PrintLog(1, outText );
 			
 
 PrintLog(1, "Try converting u8Sub to string and parse." );
-			var myString   = bluetoothle.bytesToString(u8Sub); 
+//			var myString   = bluetoothle.bytesToString(u8Sub);
+
+			var myString = '{ "headings": ["Head 1", "Head 2"] }'; 
 PrintLog(1, "Done converting u8Sub to myString: " + myString );
 			var myHeadings = JSON.parse(myString);
 PrintLog(1, "Done parsing." );
