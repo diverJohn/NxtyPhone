@@ -4,6 +4,7 @@
 var TechLoopRxIntervalHandle   = null;
 var TechLoopTxIntervalHandle   = null;
 var u8Buff                     = new Uint8Array(10);
+var bLookForRsp                = FALSE;
 
 
 var tech = {
@@ -32,7 +33,7 @@ var tech = {
 			myRegIcon +
             myBluetoothIcon +
 
-            "<br><br><h1 id=myH1></h1><br><br>" +
+            "<br><br><br><h1 id=myH1>Heading</h1><br><br>" +
             "<table align='center'>" +
             "<tr> <th>Description</th>  <th>Value</th></tr>" +
             "<tr> <td id='d0'></td>  <td id='v0'>0</td></tr>" +
@@ -53,6 +54,7 @@ var tech = {
 		
 		// Send a message to get the header information...
 		nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);
+		bLookForRsp = TRUE;
 		
 		// Start the timer to process Rx data
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 1000 );
@@ -77,105 +79,105 @@ var tech = {
         }
         else
         {
-        	u8Buff[2] = 0;	// Request valuesn...
+        	u8Buff[2] = 0;	// Request values...
         } 
-        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);               
+        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);
+        bLookForRsp = TRUE;               
     },
+
+
+
 
     ProcessTechDataLoop: function() 
     {
     	var i;
     	var idTxt;
-    	
-        if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
+
+        if( bLookForRsp )
         {
-			var outText = "Tech: Process Headings Rsp...";
-            
-            // Grab the JSON string from the Rx buffer...
-            // u8RxBuff[0] = len  (should be 255)
-            // u8RxBuff[1] = cmd  (should be headings response, 0x45)
-            // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
-            
-            // Find the end of the JSON string data...
-            for( i = 2; i < 255; i++ )
+            if( window.msgRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
             {
-            	if( u8RxBuff[i] == 0 )
-            	{
-            		break;
-            	}
+    			var outText = "Tech: Process Headings Rsp...";
+                
+                // Grab the JSON string from the Rx buffer...
+                // u8RxBuff[0] = len  (should be 255)
+                // u8RxBuff[1] = cmd  (should be headings response, 0x45)
+                // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
+                
+                // Find the end of the JSON string data...
+                for( i = 2; i < 255; i++ )
+                {
+                	if( u8RxBuff[i] == 0 )
+                	{
+                		break;
+                	}
+                }
+                var u8Sub  = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
+    			
+    			var myString   = bluetoothle.bytesToString(u8Sub);
+    			var myHeadings = JSON.parse(myString);
+    			
+                       
+                for( var i = 0; i < myHeadings.headings.length; i++ )
+                {
+                	outText = outText + "  " + myHeadings.headings[i];
+                }        
+    
+    			PrintLog(1, outText );
+    			            
+                // Immediately grab a page of data...
+                u8Buff[0] = 0;
+                u8Buff[1] = 0;
+                u8Buff[2] = 1;	// Grab the description... 
+                nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);               
             }
-            var u8Sub  = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
-			
-			var myString   = bluetoothle.bytesToString(u8Sub);
-			var myHeadings = JSON.parse(myString);
-			
-                   
-            for( var i = 0; i < myHeadings.headings.length; i++ )
+            else if( window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
             {
-            	outText = outText + "  " + myHeadings.headings[i];
-            }        
-
-			PrintLog(1, outText );
-			            
-            // Indicate that message has been processed...
-            nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
-            
-            // Immediately grab a page of data...
-            u8Buff[0] = 0;
-            u8Buff[1] = 0;
-            u8Buff[2] = 1;	// Grab the description... 
-            nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);               
-        }
-        else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
-        {
-			var outText = "Tech: Process Page Rsp...";
-            
-            // Grab the JSON string from the Rx buffer...
-            // u8RxBuff[0] = len  (should be 255)
-            // u8RxBuff[1] = cmd  (should be headings response, 0x45)
-            // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
-            
-            // Find the end of the JSON string data...
-            for( i = 2; i < 255; i++ )
-            {
-            	if( u8RxBuff[i] == 0 )
-            	{
-            		break;
-            	}
+    			var outText = "Tech: Process Page Rsp...";
+                
+                // Grab the JSON string from the Rx buffer...
+                // u8RxBuff[0] = len  (should be 255)
+                // u8RxBuff[1] = cmd  (should be headings response, 0x45)
+                // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
+                
+                // Find the end of the JSON string data...
+                for( i = 2; i < 255; i++ )
+                {
+                	if( u8RxBuff[i] == 0 )
+                	{
+                		break;
+                	}
+                }
+    
+                var u8Sub    = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
+    			var myString = bluetoothle.bytesToString(u8Sub);
+    			var myData   = JSON.parse(myString);
+    
+               	outText = outText + "  Heading: " + myData.head + " Desc: ";
+               	
+               	document.getElementById("myH1").innerHTML = myData.head;
+                       
+                for( i = 0; i < myData.dsc.length; i++ )
+                {
+                	idTxt = "d" + i;
+                    document.getElementById(idTxt).innerHTML = myData.dsc[i];
+                	outText = outText + "  " + myData.dsc[i];
+                }        
+    
+               	outText = outText + " Val: ";
+                       
+                for( i = 0; i < myData.val.length; i++ )
+                {
+                	idTxt = "v" + i;
+                    document.getElementById(idTxt).innerHTML = myData.val[i];
+                	outText = outText + "  " + myData.val[i];
+                }        
+    
+    
+    			PrintLog(1, outText );
+                bLookForRsp = FALSE;               
             }
-
-            var u8Sub    = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
-			var myString = bluetoothle.bytesToString(u8Sub);
-			var myData   = JSON.parse(myString);
-
-           	outText = outText + "  Heading: " + myData.head + " Desc: ";
-           	
-           	document.getElementById("myH1").innerHTML = myData.head;
-                   
-            for( i = 0; i < myData.dsc.length; i++ )
-            {
-            	idTxt = "d" + i;
-                document.getElementById(idTxt).innerHTML = myData.dsc[i];
-            	outText = outText + "  " + myData.dsc[i];
-            }        
-
-           	outText = outText + " Val: ";
-                   
-            for( i = 0; i < myData.val.length; i++ )
-            {
-            	idTxt = "v" + i;
-                document.getElementById(idTxt).innerHTML = myData.val[i];
-            	outText = outText + "  " + myData.val[i];
-            }        
-
-
-			PrintLog(1, outText );
-			            
-            
-            // Indicate that message has been processed...
-            nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
         }
-
         
     },
 

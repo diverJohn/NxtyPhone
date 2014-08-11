@@ -19,7 +19,7 @@ var MainLoopIntervalHandle = null;
 // Level  2: Raw data
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
-var PrintLogLevel = 3;
+var PrintLogLevel = 1;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
@@ -217,12 +217,7 @@ reg.renderRegView();
 		PrintLog(3, "App: Main loop..." );
 		
 		// See if status command received yet...
-		if( nxtyRxLastCmd == NXTY_WAITING_FOR_RSP )
-		{
-			// Get the status so we can see if we need to register or not...
-			nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  
-		}
-		else if( nxtyRxLastCmd == NXTY_STATUS_RSP )
+		if( msgRxLastCmd == NXTY_STATUS_RSP )
 		{
 			// See if we need to allow the registration button...
 			if( isRegistered == false )
@@ -231,6 +226,12 @@ reg.renderRegView();
 			}
 		    clearInterval(MainLoopIntervalHandle);
 		}
+		else
+		{
+            // Get the status so we can see if we need to register or not...
+            nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  
+        }
+		
 		
 	},
 

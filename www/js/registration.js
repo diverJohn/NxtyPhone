@@ -87,7 +87,7 @@ var reg = {
 			
 			case REG_STATE_CELL_INFO_RSP:
 			{
-				if( window.nxtyRxLastCmd == NXTY_CELL_INFO_RSP )
+				if( window.msgRxLastCmd == NXTY_CELL_INFO_RSP )
 				{
 					// We have received the response from the Cel-Fi unit..
 					regState = REG_STATE_OPER_REG_REQ;
@@ -133,7 +133,7 @@ var reg = {
 			
 			case REG_STATE_REGISTRATION_RSP:
 			{
-				if( nxtyRxLastCmd == NXTY_REGISTRATION_RSP )
+				if( msgRxLastCmd == NXTY_REGISTRATION_RSP )
 				{
 					// We have received the response from the Cel-Fi unit..
 					

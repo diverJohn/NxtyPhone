@@ -3,6 +3,7 @@
 var  NXTY_STD_MSG_SIZE 				   = 12;
 var  NXTY_BIG_MSG_SIZE 				   = 255;
 
+var  NXTY_INIT                         = -1;
 var  NXTY_WAITING_FOR_RSP              = 0x00;
 var  NXTY_SYS_SN_REQ                   = 0x01;
 var  NXTY_SYS_SN_RSP                   = 0x41;
@@ -28,9 +29,10 @@ var  NXTY_STATUS_RSP                   = 0x4B;
 
 
 
-var	nxtyRxLastCmd     = NXTY_WAITING_FOR_RSP;
+var	msgRxLastCmd      = NXTY_INIT;
 var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
 var uRxBuffIdx		  = 0;
+var uTxMsgNotReadyCnt = 0;
         
         
 // Status message response data...
@@ -71,6 +73,24 @@ var nxty = {
     {
       var i;
       var uCrc     = new Uint8Array(1);
+
+        
+      if( msgRxLastCmd == NXTY_WAITING_FOR_RSP )
+      {
+        uTxMsgNotReadyCnt++;
+
+        
+        if( uTxMsgNotReadyCnt < 5 )
+        {
+            PrintLog(1,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " abort" );
+            return;
+        }
+        else
+        {
+            PrintLog(1,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " send Tx and clear count." );
+            uTxMsgNotReadyCnt = 0;
+        }
+      }
 
 
 	  if( isBluetoothCnx == false )
@@ -137,8 +157,8 @@ var nxty = {
       }
     
       // Get ready to receive...
-      uRxBuffIdx    = 0;
-      nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
+      uRxBuffIdx   = 0;
+      msgRxLastCmd = NXTY_WAITING_FOR_RSP;
     },
      
      
@@ -209,7 +229,7 @@ var nxty = {
 	    }
 	    
 	    uCmd 		  = u8RxBuff[1];
-	    nxtyRxLastCmd = uCmd;
+	    msgRxLastCmd = uCmd;
 	    
 	    switch( uCmd )
 	    {
@@ -254,7 +274,7 @@ var nxty = {
 	    	    PrintLog(1,  "Msg: Set Bluetooth Cnx Status Rsp" );
 	    	    
 	    	    // Do not count this command since this may have been initiated by the BT device. 
-                nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
+//                msgRxLastCmd = NXTY_WAITING_FOR_RSP;
 	    	    break;
 	    	}
 	        
