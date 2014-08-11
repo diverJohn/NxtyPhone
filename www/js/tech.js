@@ -95,13 +95,13 @@ var tech = {
 PrintLog(1, outText );
 			
 			// Convert to an encoded string so js can parse...
-//			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
-			var myString    = bluetoothle.bytesToString(u8Sub); 
+			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
+//			var myString    = bluetoothle.bytesToString(u8Sub); 
 
-PrintLog(1, "after u64: " + JSON.stringify(myString) );
+//PrintLog(1, "after u64: " + JSON.stringify(myString) );
 
 			// Let the json parse do its magic...
-			var myHeadings = JSON.parse(myString);
+			var myHeadings = JSON.parse(u64);
 
 PrintLog(1, "after parse" );
 
