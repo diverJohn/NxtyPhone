@@ -5,6 +5,8 @@ var TechLoopRxIntervalHandle   = null;
 var TechLoopTxIntervalHandle   = null;
 var u8Buff                     = new Uint8Array(10);
 var bLookForRsp                = false;
+var userPageInc                = 0;
+var maxPageRows                = 11;
 
 
 var tech = {
@@ -21,17 +23,36 @@ var tech = {
 	},
 
 
+    // Handle the Tech Mode key
+    clearPage: function()
+    {
+        var i;
+        
+        for( i = 0; i < maxPageRows; i++ )
+        {
+            idTxt = "d" + i;
+            document.getElementById(idTxt).innerHTML = "";
+            
+            idTxt = "v" + i;
+            document.getElementById(idTxt).innerHTML = "";
+        }        
+    }
+
     // Handle the left arrow key
     handleLeftKey: function()
     {
-        app.showAlert("Handle Left Arrow...", "");
+//        app.showAlert("Handle Left Arrow...", "");
+        userPageInc = -1;
+        tech.clearPage();
     },
 
 
     // Handle the right arrow key
     handleRightKey: function()
     {
-        app.showAlert("Handle Right Arrow...", "");
+//        app.showAlert("Handle Right Arrow...", "");
+        userPageInc = 1;
+        tech.clearPage();
     },
 
 
@@ -92,8 +113,25 @@ var tech = {
     {
         PrintLog(3, "Tech: Get Fresh Page loop..." );
        
-        u8Buff[0] = 0;
-        u8Buff[1] = 0;
+        if( userPageInc > 0 )
+        {
+            u8Buff[0] = 0;
+            u8Buff[1] = userPageInc;
+        }
+        else if( userPageInc < 0 )
+        {
+            // Set negative page count...
+            u8Buff[0] = 0xFF;
+            u8Buff[1] = 0xFF - (userPageInc + 1);   // -1 = 0xFFFF, -2 = 0xFFFE
+        }
+        else
+        {
+            u8Buff[0] = 0;
+            u8Buff[1] = 0;
+        }
+        
+        userPageInc = 0;
+        
         
         if( document.getElementById('d0').innerHTML.length == 0 )
         {
