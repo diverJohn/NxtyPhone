@@ -94,33 +94,18 @@ var tech = {
 			
 PrintLog(1, outText );
 
-/*
-			PrintLog(1, "Try parsing u8Sub." );			
-			var myHeadings = JSON.parse(u8Sub);
-			PrintLog(1, "Done parsing." );
-*/
 			
 
 PrintLog(1, "Try converting u8Sub to string and parse." );
-//			var myString   = bluetoothle.bytesToString(u8Sub);
+			var myString   = bluetoothle.bytesToString(u8Sub);
 
-			var myString = '{ "headings": ["Head 1", "Head 2"] }'; 
+//			var myString = '{ "headings": ["Head 1", "Head 2"] }'; 
 PrintLog(1, "Done converting u8Sub to myString: " + myString );
 			var myHeadings = JSON.parse(myString);
 PrintLog(1, "Done parsing." );
 
 			
-			
-/*			
-			// Convert to an encoded string so js can parse...
-			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
-
-
-			// Let the json parse do its magic...
-			var myHeadings = JSON.parse(u8Sub);
-
-*/
-                    
+                   
             for( var i = 0; i < myHeadings.headings.length; i++ )
             {
             	outText = outText + "  " + myHeadings.headings[i];
