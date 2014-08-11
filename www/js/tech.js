@@ -13,7 +13,7 @@ var tech = {
 	// Handle the Tech Mode key
 	handleBackKey: function()
 	{
-	 	console.log("Tech Mode Back key pressed");
+	 	PrintLog(1, "Tech: Tech Mode Back key pressed");
 	 	app.renderHomeView();
 	},
 
@@ -64,7 +64,7 @@ var tech = {
 
     GetFreshPageLoop: function() 
     {
-        console.log("Tech: Get Fresh Page loop..." );
+        PrintLog(3, "Tech: Get Fresh Page loop..." );
         nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, null, 0);
     },
 
@@ -74,14 +74,14 @@ var tech = {
 
         if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
         {
-            console.log("Tech: Process Headings Rsp..." );
+            PrintLog(1, "Tech: Process Headings Rsp..." );
             
             // Indicate that message has been processed...
             nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;               
         }
         else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
         {
-            console.log("Tech: Process Page Rsp..." );
+            PrintLog(1, "Tech: Process Page Rsp..." );
             
             // Indicate that message has been processed...
             nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;

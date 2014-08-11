@@ -75,14 +75,14 @@ var nxty = {
 
 	  if( isBluetoothCnx == false )
 	  {
-        console.log( "Nxty: Bluetooth not connected. Can not send message." );
+        PrintLog(1,  "Msg: Bluetooth not connected. Can not send message." );
         return;
 	  }
 
       if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
       {
         // Msg len too big...
-        console.log( "Nxty: Msg too long" );
+        PrintLog(1,  "Msg: Msg too long" );
         return;
       }
         
@@ -152,7 +152,7 @@ var nxty = {
 		if( (uRxBuffIdx + uLenByte) > u8RxBuff.length )
 		{
 			uRxBuffIdx = 0;
-			console.log("Nxty: Rx buffer overflow, data tossed.");
+			PrintLog(1, "Msg: Rx buffer overflow, data tossed.");
 			return;
 		}
 		
@@ -161,7 +161,7 @@ var nxty = {
 			if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
 			{
 				uRxBuffIdx = 0;
-				console.log( "Nxty: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed." );
+				PrintLog(1,  "Msg: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed." );
 				return;
 			}
 		}
@@ -186,12 +186,12 @@ var nxty = {
 		if( uRxBuffIdx != u8RxBuff[0] )
 		{
             outText = outText + " [Cnt(" + uRxBuffIdx  + ") != len(" + u8RxBuff[0] + ") exit]";
-		    console.log( "Nxty Rx: " + outText );
+		    PrintLog(2,  "Msg Rx: " + outText );
 			return;
 		}
 
-        outText = outText + " [Cnt(" + uRxBuffIdx  + ") == len(" + u8RxBuff[0] + ")] process";
-        console.log( "Nxty Rx: " + outText );
+        outText = outText + " [Cnt(" + uRxBuffIdx  + ") == len(" + u8RxBuff[0] + ") process]";
+        PrintLog(2,  "Msg Rx: " + outText );
 
 
 		// Process message................................
@@ -204,7 +204,7 @@ var nxty = {
 	      
 	    if( u8RxBuff[u8RxBuff[0]-1] != uCrc )
 	    {
-	        console.log( "Nxty: Invalid CRC: expected: 0x" + u8RxBuff[u8RxBuff[0]-1].toString(16) + " calc: 0x" + uCrc.toString(16) );
+	        PrintLog(1,  "Msg: Invalid CRC: expected: 0x" + u8RxBuff[u8RxBuff[0]-1].toString(16) + " calc: 0x" + uCrc.toString(16) );
 	        return;
 	    }
 	    
@@ -213,14 +213,12 @@ var nxty = {
 	    
 	    switch( uCmd )
 	    {
-	        case NXTY_SYS_SN_RSP:                     console.log( "System SN Rsp" );                break;
-
-	        case NXTY_CELL_INFO_RSP:                  console.log( "Cell Info Rsp" );                break;
-
-	        case NXTY_SW_VERSION_RSP:                 console.log( "SW Version Rsp" );               break;
-	        case NXTY_DOWNLOAD_START_RSP:             console.log( "Download Start Rsp" );           break;
-	        case NXTY_DOWNLOAD_TRANSFER_RSP:          console.log( "Download Transfer Rsp" );        break;
-	        case NXTY_DOWNLOAD_END_RSP:               console.log( "Download End Rsp" );             break;
+	        case NXTY_SYS_SN_RSP:                     PrintLog(1,  "Msg: System SN Rsp" );                break;
+	        case NXTY_CELL_INFO_RSP:                  PrintLog(1,  "Msg: Cell Info Rsp" );                break;
+	        case NXTY_SW_VERSION_RSP:                 PrintLog(1,  "Msg: SW Version Rsp" );               break;
+	        case NXTY_DOWNLOAD_START_RSP:             PrintLog(1,  "Msg: Download Start Rsp" );           break;
+	        case NXTY_DOWNLOAD_TRANSFER_RSP:          PrintLog(1,  "Msg: Download Transfer Rsp" );        break;
+	        case NXTY_DOWNLOAD_END_RSP:               PrintLog(1,  "Msg: Download End Rsp" );             break;
 	        
 	        
 	        
@@ -233,14 +231,14 @@ var nxty = {
             
 	        case NXTY_REGISTRATION_RSP:
 	        {
-	        	console.log( "Registration Rsp" );
+	        	PrintLog(1,  "Msg: Registration Rsp" );
 	            nxty.UpdateRegIcon(u8RxBuff[2]);
 	        	break;
 	        }
 	        
 	        case NXTY_STATUS_RSP:
 	        {
-	        	console.log( "Status Rsp" );
+	        	PrintLog(1,  "Msg: Status Rsp" );
 	        	nxtyRxstatusHw    = u8RxBuff[2];
 	        	nxtyRxstatusHwRev = u8RxBuff[3];
 	        	nxtyRxstatusUnii  = u8RxBuff[4];
@@ -253,7 +251,7 @@ var nxty = {
 	    
 	    	case NXTY_SET_BLUETOOTH_CNX_STATUS_RSP:
 	    	{   
-	    	    console.log( "Set Bluetooth Cnx Status Rsp" );
+	    	    PrintLog(1,  "Msg: Set Bluetooth Cnx Status Rsp" );
 	    	    
 	    	    // Do not count this command since this may have been initiated by the BT device. 
                 nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
@@ -262,7 +260,7 @@ var nxty = {
 	        
 	        default:
 	        {
-	           console.log( "Undefined command: " + uCmd.toString(16) );
+	           PrintLog(1,  "Msg: Undefined command: " + uCmd.toString(16) );
 	           break;
 	        }
 	    }
@@ -291,9 +289,6 @@ var nxty = {
 	// UpdateRegIcon....................................................................................
 	UpdateRegIcon: function(reg)
 	{
-	
-	    console.log("UpdateRegIcon(" + reg + ")" );
-	
 		if(reg == 1)
 		{
 			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOn )

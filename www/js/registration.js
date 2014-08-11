@@ -17,14 +17,14 @@ var reg = {
 	// Handle the Back key
 	handleBackKey: function()
 	{
-	 	console.log("Reg Mode Back key pressed");
+	 	PrintLog(1, "Reg: Reg Mode Back key pressed");
 	 	app.renderHomeView();
 	},
 
 	// Handle the Register key
 	handleRegKey: function()
 	{
-	 	console.log("Reg key pressed");
+	 	PrintLog(1, "Reg: Reg key pressed");
 	 	
 	 	if( isRegistered == false )
 	 	{
@@ -63,7 +63,7 @@ var reg = {
 
 	RegLoop: function() 
 	{
-		console.log("Reg: Reg loop..." );
+		PrintLog(3, "Reg: Reg loop..." );
 		
 		switch( regState )
 		{

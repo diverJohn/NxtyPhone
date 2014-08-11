@@ -14,6 +14,13 @@ var szMyStatusLine = "<p id='status_line_id' class='status_line'></p>";
 
 var MainLoopIntervalHandle = null;
 
+// Determine which messages get sent to the console.  1 normal, 10 verbose.
+// Level  1: Flow and errors.
+// Level  2: Raw data
+// Level  3: Timing loops
+// Level 10: Bluetooth processing.
+var PrintLogLevel = 1;
+
 
 // UpdateStatusLine....................................................................................
 function UpdateStatusLine(statusText)
@@ -23,15 +30,22 @@ function UpdateStatusLine(statusText)
 
 function HandleButtonDown()
 {
-	console.log("buttonDown");
 	$(this).css("opacity","1.0");
 }
 
 function HandleButtonUp()
 {
-	console.log("buttonUp");
 	$(this).css("opacity","0.5");
 }
+
+function PrintLog(level, txt)
+{
+    if( level <= PrintLogLevel )
+    { 
+        PrintLog(10, txt);
+    }
+}
+
 
 var app = {
      
@@ -40,7 +54,7 @@ var app = {
   	// PhoneGap is now loaded and it is now safe to make calls using PhoneGap
     //
     onDeviceReady: function() {
-    	console.log( "device ready" );
+    	PrintLog(10,  "device ready" );
     	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
@@ -67,7 +81,7 @@ var app = {
 	// Handle the Check for SW Update key
 	handleSwUpdateKey: function(id)
 	{
-	 	console.log("SW Update key pressed");
+	 	PrintLog(1, "SW Update key pressed");
  	
  	
 	 	if( isBluetoothCnx )
@@ -87,7 +101,7 @@ nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
 	// Handle the Teck Mode key
 	handleTechModeKey: function()
 	{
-	 	console.log("Tech Mode key pressed");
+	 	PrintLog(1, "Tech Mode key pressed");
 	 	
 	 	if( isBluetoothCnx )
 	 	{
@@ -104,7 +118,7 @@ tech.renderTechView();
 	// Handle the Register key
 	handleRegKey: function()
 	{
-	 	console.log("Reg key pressed");
+	 	PrintLog(1, "Reg key pressed");
 	 	
 	 	
 	 	if( isBluetoothCnx )
@@ -165,7 +179,7 @@ reg.renderRegView();
 	
 		if( ImRunningOnBrowser )
 		{
-			console.log("running on browser");
+			PrintLog(10, "running on browser");
 	
 	        // Browser...
 	        window.isPhone = false;
@@ -173,7 +187,7 @@ reg.renderRegView();
 	    }
 	    else
 	    {
-		 	console.log("running on phone");
+		 	PrintLog(10, "running on phone");
 		 	
 	        // On a phone....
 	        window.isPhone = true;
@@ -194,7 +208,7 @@ reg.renderRegView();
 
 	MainLoop: function() 
 	{
-		console.log("App: Main loop..." );
+		PrintLog(3, "App: Main loop..." );
 		
 		// See if status command received yet...
 		if( nxtyRxLastCmd == NXTY_WAITING_FOR_RSP )

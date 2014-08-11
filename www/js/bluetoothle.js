@@ -35,7 +35,7 @@ var uTxBuffIdx		  = 0;
 // StartBluetooth...................................................................................
 function StartBluetooth()
 {
-	console.log("BT: Starting bluetooth");
+	PrintLog(10, "BT: Starting bluetooth");
 	bluetoothle.initialize(initializeSuccess, initializeError);
 }
 
@@ -45,18 +45,18 @@ function initializeSuccess(obj)
   if (obj.status == "enabled")
   {
     // If we initialize successfully, start a loop to maintain a connection...
-  	console.log("BT: Initialization successful, starting periodic loop...");
+  	PrintLog(10, "BT: Initialization successful, starting periodic loop...");
   	BluetoothLoop();
   }
   else
   {
-    console.log("BT: Unexpected initialize status: " + obj.status);
+    PrintLog(1, "BT: Unexpected initialize status: " + obj.status);
   }
 }
 
 function initializeError(obj)
 {
-  console.log("BT: Initialize error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Initialize error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -75,7 +75,7 @@ function isConnectedCallback(obj)
 {
 	if(obj.isConnected)
 	{
-		console.log("BT: bluetooth cnx callback: Cnx" );
+		PrintLog(10, "BT: bluetooth cnx callback: Cnx" );
 		UpdateBluetoothIcon( true );
 		
 		if( isBluetoothSubscribed == false )
@@ -86,7 +86,7 @@ function isConnectedCallback(obj)
 	}
 	else
 	{
-	    console.log("BT: bluetooth cnx callback: Not Cnx" );
+	    PrintLog(10, "BT: bluetooth cnx callback: Not Cnx" );
 		UpdateBluetoothIcon( false );
 	    StartBluetoothScan();
 	}
@@ -97,7 +97,7 @@ function isConnectedCallback(obj)
 // StartScan.....................................................................................
 function StartBluetoothScan()
 {
-	console.log("BT: Starting scan for Cel-Fi devices.");
+	PrintLog(10, "BT: Starting scan for Cel-Fi devices.");
     var paramsObj = {"serviceAssignedNumbers":[bridgeServiceUuid]};
     bluetoothle.startScan(startScanSuccess, startScanError, paramsObj);
 }
@@ -106,7 +106,7 @@ function startScanSuccess(obj)
 {
   if (obj.status == "scanResult")
   {
-    console.log("BT: Scan match: " + obj.name + " string: " + JSON.stringify(obj) );
+    PrintLog(10, "BT: Scan match: " + obj.name + " string: " + JSON.stringify(obj) );
   
     var bytes = bluetoothle.encodedStringToBytes(obj.advertisement);
 
@@ -134,29 +134,29 @@ function startScanSuccess(obj)
   }
   else if (obj.status == "scanStarted")
   {
-    console.log("BT: Scan was started successfully, stopping in 5 sec.");
+    PrintLog(10, "BT: Scan was started successfully, stopping in 5 sec.");
     scanTimer = setTimeout(scanTimeout, 5000);
   }
   else
   {
-    console.log("BT: Unexpected start scan status: " + obj.status);
+    PrintLog(1, "BT: Unexpected start scan status: " + obj.status);
   }
 }
 
 function startScanError(obj)
 {
-  console.log("BT: Start scan error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Start scan error: " + obj.error + " - " + obj.message);
 }
 
 function scanTimeout()
 {
-  console.log("BT: Scanning time out, stopping");
+  PrintLog(1, "BT: Scanning time out, stopping");
   bluetoothle.stopScan(stopScanSuccess, stopScanError);
 }
 
 function clearScanTimeout()
 { 
-  console.log("BT: Clearing scanning timeout");
+  PrintLog(10, "BT: Clearing scanning timeout");
   if (scanTimer != null)
   {
     clearTimeout(scanTimer);
@@ -167,17 +167,17 @@ function stopScanSuccess(obj)
 {
   if (obj.status == "scanStopped")
   {
-    console.log("BT: Scan was stopped successfully");
+    PrintLog(10, "BT: Scan was stopped successfully");
   }
   else
   {
-    console.log("BT: Unexpected stop scan status: " + obj.status);
+    PrintLog(10, "BT: Unexpected stop scan status: " + obj.status);
   }
 }
 
 function stopScanError(obj)
 {
-  console.log("BT: Stop scan error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Stop scan error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -216,7 +216,7 @@ function UpdateBluetoothIcon(cnx)
 // If a timeout occurs, the connection attempt should be canceled using disconnect().
 function ConnectBluetoothDevice(address)
 {
-  console.log("BT: Begining connection to: " + address + " with 5 second timeout");
+  PrintLog(10, "BT: Begin connection to: " + address + " with 5 second timeout");
   
   var paramsObj = {"address":address};
   bluetoothle.connect(connectSuccess, connectError, paramsObj);
@@ -227,7 +227,7 @@ function connectSuccess(obj)
 {
   if (obj.status == "connected")
   {
-    console.log("BT: Connected to : " + obj.name + " - " + obj.address);
+    PrintLog(10, "BT: Connected to : " + obj.name + " - " + obj.address);
 
 	// Update the bluetooth icon...
 	UpdateBluetoothIcon( true );
@@ -240,11 +240,11 @@ function connectSuccess(obj)
   }
   else if (obj.status == "connecting")
   {
-    console.log("BT: Connecting to : " + obj.name + " - " + obj.address);
+    PrintLog(10, "BT: Connecting to : " + obj.name + " - " + obj.address);
   }
   else
   {
-    console.log("BT: Unexpected connect status: " + obj.status);
+    PrintLog(1, "BT: Unexpected connect status: " + obj.status);
     
     if( obj.status == "disconnected" )
     {
@@ -256,19 +256,19 @@ function connectSuccess(obj)
 
 function connectError(obj)
 {
-  console.log("BT: Connect error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Connect error: " + obj.error + " - " + obj.message);
   clearConnectTimeout();
 }
 
 function connectTimeout()
 {
-  console.log("BT: Connection timed out");
+  PrintLog(1, "BT: Connection timed out");
   DisconnectBluetoothDevice();
 }
 
 function clearConnectTimeout()
 { 
-  console.log("BT: Clearing connect timeout");
+  PrintLog(10, "BT: Clearing connect timeout");
   if (connectTimer != null)
   {
     clearTimeout(connectTimer);
@@ -287,7 +287,7 @@ function disconnectSuccess(obj)
 {
     if (obj.status == "disconnected")
     {
-        console.log("BT: Disconnect device success");
+        PrintLog(10, "BT: Disconnect device success");
         
         // Update the bluetooth icon...
         UpdateBluetoothIcon( false );
@@ -296,17 +296,17 @@ function disconnectSuccess(obj)
     }
     else if (obj.status == "disconnecting")
     {
-        console.log("BT: Disconnecting device");
+        PrintLog(10, "BT: Disconnecting device");
     }
     else
   	{
-    	console.log("BT: Unexpected disconnect status: " + obj.status);
+    	PrintLog(1, "BT: Unexpected disconnect status: " + obj.status);
   	}
 }
 
 function disconnectError(obj)
 {
-  console.log("BT: Disconnect error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Disconnect error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -320,18 +320,18 @@ function closeSuccess(obj)
 {
     if (obj.status == "closed")
     {
-        console.log("BT Closed device");
+        PrintLog(10, "BT Closed device");
         UpdateBluetoothIcon( false );
     }
     else
   	{
-      console.log("BT: Unexpected close status: " + obj.status);
+      PrintLog(1, "BT: Unexpected close status: " + obj.status);
   	}
 }
 
 function closeError(obj)
 {
-  console.log("BT: Close error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Close error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -344,14 +344,14 @@ function DiscoverBluetoothDevice()
 /*
     if (window.device.platform == iOSPlatform)
     {
-//      console.log("Discovering heart rate service");
+//      PrintLog(10, "Discovering heart rate service");
 //      var paramsObj = {"serviceAssignedNumbers":[heartRateServiceAssignedNumber]};
 //      bluetoothle.services(servicesHeartSuccess, servicesHeartError, paramsObj);
     }
     else if (window.device.platform == androidPlatform)
 */    
     {
-      console.log("BT:  Android platform.  Beginning discovery");
+      PrintLog(10, "BT:  Android platform.  Beginning discovery");
       bluetoothle.discover(discoverSuccess, discoverError);
     }
 }
@@ -360,21 +360,21 @@ function discoverSuccess(obj)
 {
 	if (obj.status == "discovered")
     {
-    	console.log("BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + "stringify: " + JSON.stringify(obj));
+    	PrintLog(10, "BT: Discovery completed.  Name: " + obj.name + " add: " + obj.address + "stringify: " + JSON.stringify(obj));
 
     	// Now subscribe to the bluetooth tx characteristic...
     	SubscribeBluetoothDevice();
 	}
   	else
   	{
-    	console.log("BT: Unexpected discover status: " + obj.status);
+    	PrintLog(1, "BT: Unexpected discover status: " + obj.status);
     	DisconnectBluetoothDevice();
   	}
 }
 
 function discoverError(obj)
 {
-  console.log("Discover error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "Discover error: " + obj.error + " - " + obj.message);
   DisconnectBluetoothDevice();
 }
 
@@ -396,7 +396,7 @@ function subscribeSuccess(obj)
 {   
     if (obj.status == "subscribedResult")
     {
-//        console.log("BT: Subscription data received");
+        PrintLog(10, "BT: Subscription data received");
 
         var bytes = bluetoothle.encodedStringToBytes(obj.value);
  
@@ -412,7 +412,7 @@ function subscribeSuccess(obj)
         //Check for data
         if (bytes.length == 0)
         {
-            console.log("BT: Subscription result had zero length data");
+            PrintLog(10, "BT: Subscription result had zero length data");
             return;
         }
 
@@ -433,30 +433,30 @@ function subscribeSuccess(obj)
             var u8 = new Uint8Array(u8bytes)[0];
             hr = u8;
         }
-        console.log("Heart Rate: " + hr);
+        PrintLog(10, "Heart Rate: " + hr);
 */        
         
     }
     else if (obj.status == "subscribed")
     {
-        console.log("BT: Subscription started");
+        PrintLog(10, "BT: Subscription started");
 		isBluetoothSubscribed = true;
     }
     else
   	{
-    	console.log("BT: Unexpected subscribe status: " + obj.status);
+    	PrintLog(1, "BT: Unexpected subscribe status: " + obj.status);
     	DisconnectBluetoothDevice();
   }
 }
 
 function subscribeError(msg)
 {
-  	console.log("BT: Subscribe error: " + msg.error + " - " + msg.message);
+  	PrintLog(1, "BT: Subscribe error: " + msg.error + " - " + msg.message);
 }
 
 function unsubscribeDevice()
 {
-  console.log("BT: Unsubscribing heart service");
+  PrintLog(10, "BT: Unsubscribing heart service");
   var paramsObj = {"serviceAssignedNumber":bridgeServiceUuid, "characteristicAssignedNumber":bridgeTxCharacteristicUuid};
   bluetoothle.unsubscribe(unsubscribeSuccess, unsubscribeError, paramsObj);
 }
@@ -465,19 +465,19 @@ function unsubscribeSuccess(obj)
 {
     if (obj.status == "unsubscribed")
     {
-        console.log("BT: Unsubscribed device");
+        PrintLog(10, "BT: Unsubscribed device");
     	isBluetoothSubscribed = false;
     }
     else
     {
-      console.log("BT: Unexpected unsubscribe status: " + obj.status);
+      PrintLog(1, "BT: Unexpected unsubscribe status: " + obj.status);
       DisconnectBluetoothDevice();
     }
 }
 
 function unsubscribeError(obj)
 {
-  console.log("BT: Unsubscribe error: " + obj.error + " - " + obj.message);
+  PrintLog(1, "BT: Unsubscribe error: " + obj.error + " - " + obj.message);
   DisconnectBluetoothDevice();
 }
 
@@ -492,7 +492,7 @@ function WriteBluetoothDevice( u8 )
 	// Currently the Bluetoothle plugin supports a write of 80 bytes.
 	if( u8.length > u8TxBuff.length )
 	{
-		console.log("Nxty Write: More than " + NXTY_BIG_MSG_SIZE + " bytes." );
+		PrintLog(10, "Nxty Write: More than " + NXTY_BIG_MSG_SIZE + " bytes." );
 	}
 
 	if( u8.length <= 80 )
@@ -506,7 +506,7 @@ function WriteBluetoothDevice( u8 )
         {
             outText = outText + " " + u8[i].toString(16);
         }
-        console.log( "Nxty Tx: " + outText );
+        PrintLog(10,  "Nxty Tx: " + outText );
    	}
    	else
    	{
@@ -526,7 +526,7 @@ function WriteBluetoothDevice( u8 )
         {
             outText = outText + " " + u8Sub[i].toString(16);
         }
-        console.log( "Nxty Tx: " + outText );
+        PrintLog(10,  "Nxty Tx: " + outText );
 		
    	}
 
@@ -542,7 +542,7 @@ function writeSuccess(obj)
     // {"status":"written","serviceUuid":"180F","characteristicUuid":"2A19","value":""};
     if (obj.status == "written")
     {
-        console.log("BT: Write data sent successfully");
+        PrintLog(10, "BT: Write data sent successfully");
         
         // See if we have more to output...
         if( uTxBuffIdx )
@@ -561,7 +561,7 @@ function writeSuccess(obj)
         	{
             	outText = outText + " " + u8Sub[i].toString(16);
         	}
-        	console.log( "Nxty Tx: " + outText );
+        	PrintLog(10,  "Nxty Tx: " + outText );
 
 		    // 1.0.2 of the plugin 
     		var paramsObj = {"value":u64, "serviceUuid":bridgeServiceUuid, "characteristicUuid":bridgeRxCharacteristicUuid};
@@ -580,13 +580,13 @@ function writeSuccess(obj)
     }
     else
     {
-        console.log("BT: Unexpected write status: " + obj.status);
+        PrintLog(1, "BT: Unexpected write status: " + obj.status);
     }
 }
 
 function writeError(msg)
 {
-    console.log("BT: Write error: " + msg.error + " - " + msg.message);
+    PrintLog(1, "BT: Write error: " + msg.error + " - " + msg.message);
 }
 
 
