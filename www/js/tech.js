@@ -86,7 +86,7 @@ PrintLog(1, outText );
 			// Convert to an encoded string so js can parse...
 			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
 
-PrintLog(1, "after u64" );
+PrintLog(1, "after u64: " + JSON.stringify(u64) );
 
 			// Let the json parse do its magic...
 			var myHeadings = JSON.parse(u64);
