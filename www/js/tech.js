@@ -60,7 +60,7 @@ var tech = {
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 1000 );
 		
 		// Start the timer to request fresh page data. 
-        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 2000 );
+        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
 		  			
 	},
 
