@@ -74,7 +74,6 @@ var tech = {
     	
         if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
         {
-//            PrintLog(1, "Tech: Process Headings Rsp..." );
 			var outText = "Tech: Process Headings Rsp...";
             
             // Grab the JSON string from the Rx buffer...
@@ -92,18 +91,8 @@ var tech = {
             }
             var u8Sub  = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
 			
-PrintLog(1, outText );
-
-			
-
-PrintLog(1, "Try converting u8Sub to string and parse." );
 			var myString   = bluetoothle.bytesToString(u8Sub);
-
-//			var myString = '{ "headings": ["Head 1", "Head 2"] }'; 
-PrintLog(1, "Done converting u8Sub to myString: " + myString );
 			var myHeadings = JSON.parse(myString);
-PrintLog(1, "Done parsing." );
-
 			
                    
             for( var i = 0; i < myHeadings.headings.length; i++ )
@@ -118,7 +107,43 @@ PrintLog(1, "Done parsing." );
         }
         else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
         {
-            PrintLog(1, "Tech: Process Page Rsp..." );
+			var outText = "Tech: Process Page Rsp...";
+            
+            // Grab the JSON string from the Rx buffer...
+            // u8RxBuff[0] = len  (should be 255)
+            // u8RxBuff[1] = cmd  (should be headings response, 0x45)
+            // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
+            
+            // Find the end of the JSON string data...
+            for( i = 2; i < 255; i++ )
+            {
+            	if( u8RxBuff[i] == 0 )
+            	{
+            		break;
+            	}
+            }
+
+            var u8Sub    = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
+			var myString = bluetoothle.bytesToString(u8Sub);
+			var myData   = JSON.parse(myString);
+
+           	outText = outText + "  Heading: " + myData.head + " Desc: ";
+                   
+            for( var i = 0; i < myData.dsc.length; i++ )
+            {
+            	outText = outText + "  " + myData.dsc[i];
+            }        
+
+           	outText = outText + " Val: ";
+                   
+            for( var i = 0; i < myData.val.length; i++ )
+            {
+            	outText = outText + "  " + myData.val[i];
+            }        
+
+
+			PrintLog(1, outText );
+			            
             
             // Indicate that message has been processed...
             nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
