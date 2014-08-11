@@ -33,6 +33,7 @@ var tech = {
             "<br><br><h1 id=myH1></h1><br><br>" +
             "<table align='center'>" +
             "<tr> <th>Description</th>  <th>Value</th></tr>" +
+            "<tr> <td id='d0'></td>  <td id='v0'>0</td></tr>" +
             "<tr> <td id='d1'></td>  <td id='v1'>0</td></tr>" +
             "<tr> <td id='d2'></td>  <td id='v2'>0</td></tr>" +
             "<tr> <td id='d3'></td>  <td id='v3'>0</td></tr>" +
@@ -43,7 +44,6 @@ var tech = {
             "<tr> <td id='d8'></td>  <td id='v8'>0</td></tr>" +
             "<tr> <td id='d9'></td>  <td id='v9'>0</td></tr>" +
             "<tr> <td id='d10'></td> <td id='v10'>0</td></tr>" +
-            "<tr> <td id='d11'></td> <td id='v11'>0</td></tr>" +
             "</table>";
             
 
@@ -104,7 +104,10 @@ var tech = {
 			PrintLog(1, outText );
 			            
             // Indicate that message has been processed...
-            nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;               
+            nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
+            
+            // Immediately grab a page of data...
+            nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, null, 0);               
         }
         else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
         {
@@ -134,7 +137,7 @@ var tech = {
                    
             for( i = 0; i < myData.dsc.length; i++ )
             {
-            	idTxt = "d1";
+            	idTxt = "d" + i;
                 document.getElementById(idTxt).innerHTML = myData.dsc[i];
             	outText = outText + "  " + myData.dsc[i];
             }        
@@ -143,7 +146,7 @@ var tech = {
                    
             for( i = 0; i < myData.val.length; i++ )
             {
-            	idTxt = "v1";
+            	idTxt = "v" + i;
                 document.getElementById(idTxt).innerHTML = myData.val[i];
             	outText = outText + "  " + myData.val[i];
             }        
