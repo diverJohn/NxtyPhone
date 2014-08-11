@@ -8,11 +8,13 @@ var TechLoopTxIntervalHandle   = null;
 
 var tech = {
 
-     
+    var u8Buff = new Uint8Array(10);	 
 
 	// Handle the Tech Mode key
 	handleBackKey: function()
 	{
+	    clearInterval(TechLoopRxIntervalHandle);
+	    clearInterval(TechLoopTxIntervalHandle);
 	 	PrintLog(1, "Tech: Tech Mode Back key pressed");
 	 	app.renderHomeView();
 	},
@@ -65,7 +67,19 @@ var tech = {
     GetFreshPageLoop: function() 
     {
         PrintLog(3, "Tech: Get Fresh Page loop..." );
-        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, null, 0);
+       
+        u8Buff[0] = 0;
+        u8Buff[1] = 0;
+        
+        if( document.getElementById('d0').innerHTML.length == 0 )
+        {
+        	u8Buff[2] = 1;	// Request descriptions...
+        }
+        else
+        {
+        	u8Buff[2] = 0;	// Request valuesn...
+        } 
+        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);               
     },
 
     ProcessTechDataLoop: function() 
@@ -107,7 +121,10 @@ var tech = {
             nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;
             
             // Immediately grab a page of data...
-            nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, null, 0);               
+            u8Buff[0] = 0;
+            u8Buff[1] = 0;
+            u8Buff[2] = 1;	// Grab the description... 
+            nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);               
         }
         else if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
         {
