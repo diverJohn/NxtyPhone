@@ -3,12 +3,12 @@
 
 var TechLoopRxIntervalHandle   = null;
 var TechLoopTxIntervalHandle   = null;
-
+var u8Buff                     = new Uint8Array(10);
 
 
 var tech = {
 
-    var u8Buff = new Uint8Array(10);	 
+	 
 
 	// Handle the Tech Mode key
 	handleBackKey: function()
