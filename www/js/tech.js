@@ -93,18 +93,31 @@ var tech = {
             var u8Sub  = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
 			
 PrintLog(1, outText );
-			
-			// Convert to an encoded string so js can parse...
-//			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
-//			var myString    = bluetoothle.bytesToString(u8Sub); 
 
-//PrintLog(1, "after u64: " + JSON.stringify(myString) );
+/*
+			PrintLog(1, "Try parsing u8Sub." );			
+			var myHeadings = JSON.parse(u8Sub);
+			PrintLog(1, "Done parsing." );
+*/
+			
+
+PrintLog(1, "Try converting u8Sub to string and parse." );
+			var myString   = bluetoothle.bytesToString(u8Sub); 
+PrintLog(1, "Done converting u8Sub to myString: " + myString );
+			var myHeadings = JSON.parse(myString);
+PrintLog(1, "Done parsing." );
+
+			
+			
+/*			
+			// Convert to an encoded string so js can parse...
+			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
+
 
 			// Let the json parse do its magic...
 			var myHeadings = JSON.parse(u8Sub);
 
-PrintLog(1, "after parse" );
-
+*/
                     
             for( var i = 0; i < myHeadings.headings.length; i++ )
             {
