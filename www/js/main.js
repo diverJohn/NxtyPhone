@@ -42,7 +42,7 @@ function PrintLog(level, txt)
 {
     if( level <= PrintLogLevel )
     { 
-        PrintLog(10, txt);
+        console.log(txt);
     }
 }
 
