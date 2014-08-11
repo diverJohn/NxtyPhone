@@ -70,12 +70,30 @@ var tech = {
 
     ProcessTechDataLoop: function() 
     {
-
-
         if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
         {
-            PrintLog(1, "Tech: Process Headings Rsp..." );
+//            PrintLog(1, "Tech: Process Headings Rsp..." );
+			var outText = "Tech: Process Headings Rsp...";
             
+            // Grab the JSON string from the Rx buffer...
+            // u8RxBuff[0] = len  (should be 255)
+            // u8RxBuff[1] = cmd  (should be headings response, 0x45)
+            // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
+            var u8Sub  = u8RxBuff.subarray(2, 254);		// u8RxBuff[2] to [253].
+			
+			// Convert to an encoded string so js can parse...
+			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
+
+			// Let the json parse do its magic...
+			var myHeadings = JSON.parse(u64);
+                    
+            for( var i = 0; i < myHeadings.headings.length; i++ )
+            {
+            	outText = outText + "  " + myHeadings.headings[i];
+            }        
+
+			PrintLog(1, outText );
+			            
             // Indicate that message has been processed...
             nxtyRxLastCmd = NXTY_WAITING_FOR_RSP;               
         }

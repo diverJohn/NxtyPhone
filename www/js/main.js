@@ -21,23 +21,7 @@ var MainLoopIntervalHandle = null;
 // Level 10: Bluetooth processing.
 var PrintLogLevel = 1;
 
-
-// UpdateStatusLine....................................................................................
-function UpdateStatusLine(statusText)
-{
-	document.getElementById("status_line_id").innerHTML = statusText;
-}
-
-function HandleButtonDown()
-{
-	$(this).css("opacity","1.0");
-}
-
-function HandleButtonUp()
-{
-	$(this).css("opacity","0.5");
-}
-
+// PrintLog............................................................................................
 function PrintLog(level, txt)
 {
     if( level <= PrintLogLevel )
@@ -45,6 +29,27 @@ function PrintLog(level, txt)
         console.log(txt);
     }
 }
+
+// UpdateStatusLine....................................................................................
+function UpdateStatusLine(statusText)
+{
+	document.getElementById("status_line_id").innerHTML = statusText;
+}
+
+// HandleButtonDown............................................................................................
+function HandleButtonDown()
+{
+	// No transparency when pressed...
+	$(this).css("opacity","1.0");
+}
+
+// HandleButtonUp............................................................................................
+function HandleButtonUp()
+{
+	$(this).css("opacity","0.5");
+}
+
+
 
 
 var app = {
