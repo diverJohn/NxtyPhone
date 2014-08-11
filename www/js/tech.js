@@ -43,7 +43,7 @@ var tech = {
     {
 //        app.showAlert("Handle Left Arrow...", "");
         userPageInc = -1;
-        tech.clearPage();
+//        tech.clearPage();
     },
 
 
@@ -52,7 +52,7 @@ var tech = {
     {
 //        app.showAlert("Handle Right Arrow...", "");
         userPageInc = 1;
-        tech.clearPage();
+//        tech.clearPage();
     },
 
 
