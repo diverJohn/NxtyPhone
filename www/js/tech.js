@@ -62,7 +62,7 @@ var tech = {
 
 
 
-    ProcessTechDataLoop: function() 
+    GetFreshPageLoop: function() 
     {
         console.log("Tech: Get Fresh Page loop..." );
         nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);

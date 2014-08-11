@@ -396,7 +396,7 @@ function subscribeSuccess(obj)
 {   
     if (obj.status == "subscribedResult")
     {
-        console.log("BT: Subscription data received");
+//        console.log("BT: Subscription data received");
 
         var bytes = bluetoothle.encodedStringToBytes(obj.value);
  

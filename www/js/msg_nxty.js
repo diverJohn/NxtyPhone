@@ -179,15 +179,19 @@ var nxty = {
 				outText = outText + " " + pRxMsgData[i].toString(16);
 			}
 		}
-		console.log( "Nxty Rx: " + outText );
+
         
 
 		// See if our buffer has a complete message...
 		if( uRxBuffIdx != u8RxBuff[0] )
 		{
-			console.log( "Nxty: Length (" + u8RxBuff[0] + ") does not equal count (" + uRxBuffIdx + ") yet, exit.");
+            outText = outText + " Count (" + uRxBuffIdx  + ") != length (" + u8RxBuff[0] + ") exit.";
+		    console.log( "Nxty Rx: " + outText );
 			return;
 		}
+
+        outText = outText + " Count (" + uRxBuffIdx  + ") == length (" + u8RxBuff[0] + ").";
+        console.log( "Nxty Rx: " + outText );
 
 
 		// Process message................................
