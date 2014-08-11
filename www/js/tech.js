@@ -70,6 +70,8 @@ var tech = {
 
     ProcessTechDataLoop: function() 
     {
+    	var i;
+    	
         if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
         {
 //            PrintLog(1, "Tech: Process Headings Rsp..." );
@@ -79,7 +81,16 @@ var tech = {
             // u8RxBuff[0] = len  (should be 255)
             // u8RxBuff[1] = cmd  (should be headings response, 0x45)
             // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
-            var u8Sub  = u8RxBuff.subarray(2, 254);		// u8RxBuff[2] to [253].
+            
+            // Find the end of the JSON string data...
+            for( i = 2; i < 255; i++ )
+            {
+            	if( u8RxBuff[i] == 0 )
+            	{
+            		break;
+            	}
+            }
+            var u8Sub  = u8RxBuff.subarray(2, i);		// u8RxBuff[2] to [i-1].
 			
 PrintLog(1, outText );
 			
