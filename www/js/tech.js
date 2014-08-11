@@ -30,20 +30,20 @@ var tech = {
 			myRegIcon +
             myBluetoothIcon +
 
-            "<br><br><h1>UNII Engineering Data</h1><br><br>" +
+            "<br><br><h1 id=myH1></h1><br><br>" +
             "<table align='center'>" +
             "<tr> <th>Description</th>  <th>Value</th></tr>" +
-            "<tr> <td id='d1'>5 GHz DL Freq</td>  <td id='v1'>0</td></tr>" +
-            "<tr>  <td id='d2'>5 GHz UL Freq</td>  <td id='v2'>0</td></tr>" +
-            "<tr>  <td id='d3'>UNII Modem State</td>  <td id='v3'>Down</td></tr>" +
-            "<tr>  <td id='d4'>NU RSSI</td>  <td id='v4'>0</td></tr>" +
-            "<tr>  <td id='d5'>CU RSSI</td>  <td id='v5'>0</td></tr>" +
-            "<tr>  <td id='d6'>NU Tx Pwr</td>  <td id='v6'>0</td></tr>" +
-            "<tr>  <td id='d7'>CU Tx Pwr</td>  <td id='v7'>0</td></tr>" +
-            "<tr>  <td id='d8'>Ctrl Chan BER</td>  <td id='v8'>0</td></tr>" +
-            "<tr>  <td id='d9'>Radar Detect Cnt</td>  <td id='v9'>0</td></tr>" +
-            "<tr>  <td id='d10'>Distance Metric</td>  <td id='v10'>0</td></tr>" +
-            "<tr>  <td id='d11'>ID</td>  <td id='v11'>0</td></tr>" +
+            "<tr> <td id='d1'></td>  <td id='v1'>0</td></tr>" +
+            "<tr> <td id='d2'></td>  <td id='v2'>0</td></tr>" +
+            "<tr> <td id='d3'></td>  <td id='v3'>0</td></tr>" +
+            "<tr> <td id='d4'></td>  <td id='v4'>0</td></tr>" +
+            "<tr> <td id='d5'></td>  <td id='v5'>0</td></tr>" +
+            "<tr> <td id='d6'></td>  <td id='v6'>0</td></tr>" +
+            "<tr> <td id='d7'></td>  <td id='v7'>0</td></tr>" +
+            "<tr> <td id='d8'></td>  <td id='v8'>0</td></tr>" +
+            "<tr> <td id='d9'></td>  <td id='v9'>0</td></tr>" +
+            "<tr> <td id='d10'></td> <td id='v10'>0</td></tr>" +
+            "<tr> <td id='d11'></td> <td id='v11'>0</td></tr>" +
             "</table>";
             
 
@@ -71,6 +71,7 @@ var tech = {
     ProcessTechDataLoop: function() 
     {
     	var i;
+    	var idTxt;
     	
         if( window.nxtyRxLastCmd == NXTY_GET_MON_MODE_HEADINGS_RSP )
         {
@@ -128,16 +129,22 @@ var tech = {
 			var myData   = JSON.parse(myString);
 
            	outText = outText + "  Heading: " + myData.head + " Desc: ";
+           	
+           	document.getElementById("myH1").innerHTML = myData.head;
                    
-            for( var i = 0; i < myData.dsc.length; i++ )
+            for( i = 0; i < myData.dsc.length; i++ )
             {
+            	idTxt = "d" + i+1;
+                document.getElementById(idTxt).innerHTML = myData.dsc[i];
             	outText = outText + "  " + myData.dsc[i];
             }        
 
            	outText = outText + " Val: ";
                    
-            for( var i = 0; i < myData.val.length; i++ )
+            for( i = 0; i < myData.val.length; i++ )
             {
+            	idTxt = "v" + i+1;
+                document.getElementById(idTxt).innerHTML = myData.val[i];
             	outText = outText + "  " + myData.val[i];
             }        
 
