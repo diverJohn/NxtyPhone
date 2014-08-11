@@ -36,7 +36,7 @@ var tech = {
             idTxt = "v" + i;
             document.getElementById(idTxt).innerHTML = "";
         }        
-    }
+    },
 
     // Handle the left arrow key
     handleLeftKey: function()
