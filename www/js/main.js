@@ -19,7 +19,7 @@ var MainLoopIntervalHandle = null;
 // Level  2: Raw data
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
-var PrintLogLevel = 1;
+var PrintLogLevel = 3;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
@@ -67,8 +67,10 @@ var app = {
             StartBluetooth();
         }
         
+        // Start the handler to be called every second...
+		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 
+		
         app.renderHomeView();
-
     },   
        
        
@@ -175,8 +177,7 @@ reg.renderRegView();
  		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
  		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
 
-		// Start the handler to be called every second...
-		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 			
+			
 	},
 
 
