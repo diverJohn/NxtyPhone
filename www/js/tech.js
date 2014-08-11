@@ -4,7 +4,7 @@
 var TechLoopRxIntervalHandle   = null;
 var TechLoopTxIntervalHandle   = null;
 var u8Buff                     = new Uint8Array(10);
-var bLookForRsp                = FALSE;
+var bLookForRsp                = false;
 
 
 var tech = {
@@ -54,7 +54,7 @@ var tech = {
 		
 		// Send a message to get the header information...
 		nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);
-		bLookForRsp = TRUE;
+		bLookForRsp = true;
 		
 		// Start the timer to process Rx data
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 1000 );
@@ -82,7 +82,7 @@ var tech = {
         	u8Buff[2] = 0;	// Request values...
         } 
         nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);
-        bLookForRsp = TRUE;               
+        bLookForRsp = true;               
     },
 
 
@@ -175,7 +175,7 @@ var tech = {
     
     
     			PrintLog(1, outText );
-                bLookForRsp = FALSE;               
+                bLookForRsp = false;               
             }
         }
         
