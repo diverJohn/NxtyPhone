@@ -75,10 +75,15 @@ var nxty = {
       var uCrc     = new Uint8Array(1);
 
         
+      if( isBluetoothCnx == false )
+      {
+        PrintLog(1,  "Msg: Bluetooth not connected. Can not send message." );
+        return;
+      }        
+        
       if( msgRxLastCmd == NXTY_WAITING_FOR_RSP )
       {
         uTxMsgNotReadyCnt++;
-
         
         if( uTxMsgNotReadyCnt < 5 )
         {
@@ -91,13 +96,6 @@ var nxty = {
             uTxMsgNotReadyCnt = 0;
         }
       }
-
-
-	  if( isBluetoothCnx == false )
-	  {
-        PrintLog(1,  "Msg: Bluetooth not connected. Can not send message." );
-        return;
-	  }
 
       if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
       {
