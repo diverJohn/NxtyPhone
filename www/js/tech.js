@@ -81,11 +81,18 @@ var tech = {
             // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
             var u8Sub  = u8RxBuff.subarray(2, 254);		// u8RxBuff[2] to [253].
 			
+PrintLog(1, outText );
+			
 			// Convert to an encoded string so js can parse...
 			var u64    = bluetoothle.bytesToEncodedString(u8Sub); 
 
+PrintLog(1, "after u64" );
+
 			// Let the json parse do its magic...
 			var myHeadings = JSON.parse(u64);
+
+PrintLog(1, "after parse" );
+
                     
             for( var i = 0; i < myHeadings.headings.length; i++ )
             {
