@@ -93,10 +93,11 @@ var nxty = {
         else
         {
             PrintLog(1,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " send Tx and clear count." );
-            uTxMsgNotReadyCnt = 0;
         }
       }
 
+      uTxMsgNotReadyCnt = 0;
+      
       if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
       {
         // Msg len too big...

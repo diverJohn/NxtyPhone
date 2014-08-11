@@ -21,6 +21,20 @@ var tech = {
 	},
 
 
+    // Handle the left arrow key
+    handleLeftKey: function()
+    {
+        app.showAlert("Handle Left Arrow...", "");
+    },
+
+
+    // Handle the right arrow key
+    handleRightKey: function()
+    {
+        app.showAlert("Handle Right Arrow...", "");
+    },
+
+
 	renderTechView: function() 
 	{
 
@@ -47,10 +61,18 @@ var tech = {
             "<tr> <td id='d8'></td>  <td id='v8'>0</td></tr>" +
             "<tr> <td id='d9'></td>  <td id='v9'>0</td></tr>" +
             "<tr> <td id='d10'></td> <td id='v10'>0</td></tr>" +
-            "</table>";
+            "</table>" +
+            "<button id='left_arrow_id'  type='button' class='myLeftArrow' onclick='tech.handleLeftKey()'><img src='img/arrow_left.png' /></button>" +
+            "<button id='right_arrow_id' type='button' class='myRightArrow' onclick='tech.handleRightKey()'><img src='img/arrow_right.png' /></button>";
             
 
 		$('body').html(myHtml);
+		
+		document.getElementById("left_arrow_id").addEventListener('touchstart', HandleButtonDown );
+        document.getElementById("left_arrow_id").addEventListener('touchend',   HandleButtonUp );
+        document.getElementById("right_arrow_id").addEventListener('touchstart', HandleButtonDown );
+        document.getElementById("right_arrow_id").addEventListener('touchend',   HandleButtonUp );
+		
 		
 		// Send a message to get the header information...
 		nxty.SendNxtyMsg(NXTY_GET_MON_MODE_HEADINGS_REQ, null, 0);

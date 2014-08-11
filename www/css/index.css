@@ -129,6 +129,20 @@ td {background-color:white; text-align: center; opacity: 0.75; border: 1px solid
 
 }
 
+.myLeftArrow {
+    background-color: Transparent;
+    border-color: Transparent;
+    float: left;
+    opacity: 0.50;
+}
+
+.myRightArrow {
+    background-color: Transparent;
+    border-color: Transparent;
+    float: right;
+    opacity: 0.50;
+}
+
 
 .bt_icon {
     background-color: Transparent;
@@ -153,6 +167,7 @@ td {background-color:white; text-align: center; opacity: 0.75; border: 1px solid
     position: fixed;
     top: 5px;
     left: 0px;
+    opacity: 0.50;
 }
 
 
