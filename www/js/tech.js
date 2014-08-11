@@ -134,7 +134,7 @@ var tech = {
                    
             for( i = 0; i < myData.dsc.length; i++ )
             {
-            	idTxt = "d" + i+1;
+            	idTxt = "d1";
                 document.getElementById(idTxt).innerHTML = myData.dsc[i];
             	outText = outText + "  " + myData.dsc[i];
             }        
@@ -143,7 +143,7 @@ var tech = {
                    
             for( i = 0; i < myData.val.length; i++ )
             {
-            	idTxt = "v" + i+1;
+            	idTxt = "v1";
                 document.getElementById(idTxt).innerHTML = myData.val[i];
             	outText = outText + "  " + myData.val[i];
             }        
