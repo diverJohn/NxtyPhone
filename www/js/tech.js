@@ -195,6 +195,14 @@ var tech = {
             {
     			var outText = "Tech: Process Page Rsp...";
                 
+                // JSON data from device looks like...
+                //     { 
+                //       “page”:0,
+                //       “head”:”This is the heading”,
+                //       “lbl”: ["5 GHz DL Freq", "5 GHz UL Freq", ...],
+                //       “val”: [“5000 Hz”, “4000 Hz”, ...]
+                //     }
+                
                 // Grab the JSON string from the Rx buffer...
                 // u8RxBuff[0] = len  (should be 255)
                 // u8RxBuff[1] = cmd  (should be headings response, 0x45)
@@ -213,15 +221,15 @@ var tech = {
     			var myString = bluetoothle.bytesToString(u8Sub);
     			var myData   = JSON.parse(myString);
     
-               	outText = outText + "  Heading: " + myData.head + " Desc: ";
+               	outText = outText + " Page: " + myData.page + "  Heading: " + myData.head + " Label: ";
                	
                	document.getElementById("myH1").innerHTML = myData.head;
                        
-                for( i = 0; i < myData.dsc.length; i++ )
+                for( i = 0; i < myData.lbl.length; i++ )
                 {
                 	idTxt = "d" + i;
-                    document.getElementById(idTxt).innerHTML = myData.dsc[i];
-                	outText = outText + "  " + myData.dsc[i];
+                    document.getElementById(idTxt).innerHTML = myData.lbl[i];
+                	outText = outText + "  " + myData.lbl[i];
                 }        
     
                	outText = outText + " Val: ";
