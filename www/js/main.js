@@ -52,6 +52,9 @@ function HandleButtonUp()
 // HandleButtonUp............................................................................................
 function SendCloud()
 {
+
+console.log("SendCloud() begin...");
+
     $.ajax({
         type       : "POST",
         url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
@@ -67,6 +70,8 @@ function SendCloud()
             alert(JSON.stringify(response));
         }
     });
+    
+console.log("SendCloud() end...");    
 }
 
 var app = {
@@ -116,7 +121,8 @@ SendCloud();
 	 	}
 	 	else
 	 	{
-nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
+SendCloud();	 	
+//nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
 	 	}
