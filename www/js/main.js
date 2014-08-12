@@ -26,7 +26,7 @@ function PrintLog(level, txt)
 {
     if( level <= PrintLogLevel )
     { 
-        console.error(txt);
+        console.log(txt);
     }
 }
 
@@ -50,7 +50,7 @@ function HandleButtonUp()
 }
 
 // HandleButtonUp............................................................................................
-function SendCloud(dataText)
+function SendCloudData(dataText)
 {
     var param = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
     
