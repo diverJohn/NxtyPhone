@@ -61,7 +61,8 @@ function SendCloud(dataText)
         url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
         contentType: "application/json;charset=utf-8",
 //        data: JSON.stringify( {'data':[{'dataItems': {'heading':'This is heading 7','5_GHz_UL_Freq': 12}}]} ),
-        data: JSON.stringify( param ),
+//        data: JSON.stringify( param ),
+        data:      param,
         dataType   : 'json',
         success    : function(response) {
                 console.log( "SendCloud success: " + param );;
