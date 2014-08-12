@@ -77,7 +77,7 @@ var nxty = {
         
       if( isBluetoothCnx == false )
       {
-        PrintLog(1,  "Msg: Bluetooth not connected. Can not send message." );
+        PrintLog(99,  "Msg: Bluetooth not connected. Can not send message." );
         return;
       }        
         
@@ -87,12 +87,12 @@ var nxty = {
         
         if( uTxMsgNotReadyCnt < 5 )
         {
-            PrintLog(1,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " abort" );
+            PrintLog(99,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " abort" );
             return;
         }
         else
         {
-            PrintLog(1,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " send Tx and clear count." );
+            PrintLog(99,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " send Tx and clear count." );
         }
       }
 
@@ -101,7 +101,7 @@ var nxty = {
       if( uLenByte > (NXTY_BIG_MSG_SIZE-3) )
       {
         // Msg len too big...
-        PrintLog(1,  "Msg: Msg too long" );
+        PrintLog(99,  "Msg: Msg too long" );
         return;
       }
         
@@ -171,7 +171,7 @@ var nxty = {
 		if( (uRxBuffIdx + uLenByte) > u8RxBuff.length )
 		{
 			uRxBuffIdx = 0;
-			PrintLog(1, "Msg: Rx buffer overflow, data tossed.");
+			PrintLog(99, "Msg: Rx buffer overflow, data tossed.");
 			return;
 		}
 		
@@ -180,7 +180,7 @@ var nxty = {
 			if( !((pRxMsgData[0] == NXTY_STD_MSG_SIZE) || (pRxMsgData[0] == NXTY_BIG_MSG_SIZE)) )
 			{
 				uRxBuffIdx = 0;
-				PrintLog(1,  "Msg: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed." );
+				PrintLog(99,  "Msg: Message len, 1st byte should be 12 or 255, len = " + pRxMsgData[0] + ", data tossed." );
 				return;
 			}
 		}
@@ -223,7 +223,7 @@ var nxty = {
 	      
 	    if( u8RxBuff[u8RxBuff[0]-1] != uCrc )
 	    {
-	        PrintLog(1,  "Msg: Invalid CRC: expected: 0x" + u8RxBuff[u8RxBuff[0]-1].toString(16) + " calc: 0x" + uCrc.toString(16) );
+	        PrintLog(99,  "Msg: Invalid CRC: expected: 0x" + u8RxBuff[u8RxBuff[0]-1].toString(16) + " calc: 0x" + uCrc.toString(16) );
 	        return;
 	    }
 	    
@@ -279,7 +279,7 @@ var nxty = {
 	        
 	        default:
 	        {
-	           PrintLog(1,  "Msg: Undefined command: " + uCmd.toString(16) );
+	           PrintLog(99,  "Msg: Undefined command: " + uCmd.toString(16) );
 	           break;
 	        }
 	    }

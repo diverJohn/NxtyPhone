@@ -19,14 +19,19 @@ var MainLoopIntervalHandle = null;
 // Level  2: Raw data
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
+// Level 99: Error, print in red.
 var PrintLogLevel = 1;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
 {
-    if( level <= PrintLogLevel )
-    { 
+    if( level == 99 )
+    {
         console.error(txt);
+    }
+    else if( level <= PrintLogLevel )
+    { 
+        console.log(txt);
     }
 }
 

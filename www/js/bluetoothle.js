@@ -50,13 +50,13 @@ function initializeSuccess(obj)
   }
   else
   {
-    PrintLog(1, "BT: Unexpected initialize status: " + obj.status);
+    PrintLog(99, "BT: Unexpected initialize status: " + obj.status);
   }
 }
 
 function initializeError(obj)
 {
-  PrintLog(1, "BT: Initialize error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Initialize error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -139,18 +139,18 @@ function startScanSuccess(obj)
   }
   else
   {
-    PrintLog(1, "BT: Unexpected start scan status: " + obj.status);
+    PrintLog(99, "BT: Unexpected start scan status: " + obj.status);
   }
 }
 
 function startScanError(obj)
 {
-  PrintLog(1, "BT: Start scan error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Start scan error: " + obj.error + " - " + obj.message);
 }
 
 function scanTimeout()
 {
-  PrintLog(1, "BT: Scanning time out, stopping");
+  PrintLog(10, "BT: Scanning time out, stopping");
   bluetoothle.stopScan(stopScanSuccess, stopScanError);
 }
 
@@ -177,7 +177,7 @@ function stopScanSuccess(obj)
 
 function stopScanError(obj)
 {
-  PrintLog(1, "BT: Stop scan error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Stop scan error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -244,7 +244,7 @@ function connectSuccess(obj)
   }
   else
   {
-    PrintLog(1, "BT: Unexpected connect status: " + obj.status);
+    PrintLog(99, "BT: Unexpected connect status: " + obj.status);
     
     if( obj.status == "disconnected" )
     {
@@ -256,7 +256,7 @@ function connectSuccess(obj)
 
 function connectError(obj)
 {
-  PrintLog(1, "BT: Connect error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Connect error: " + obj.error + " - " + obj.message);
   clearConnectTimeout();
 }
 
@@ -300,13 +300,13 @@ function disconnectSuccess(obj)
     }
     else
   	{
-    	PrintLog(1, "BT: Unexpected disconnect status: " + obj.status);
+    	PrintLog(99, "BT: Unexpected disconnect status: " + obj.status);
   	}
 }
 
 function disconnectError(obj)
 {
-  PrintLog(1, "BT: Disconnect error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Disconnect error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -325,13 +325,13 @@ function closeSuccess(obj)
     }
     else
   	{
-      PrintLog(1, "BT: Unexpected close status: " + obj.status);
+      PrintLog(99, "BT: Unexpected close status: " + obj.status);
   	}
 }
 
 function closeError(obj)
 {
-  PrintLog(1, "BT: Close error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Close error: " + obj.error + " - " + obj.message);
 }
 
 
@@ -367,14 +367,14 @@ function discoverSuccess(obj)
 	}
   	else
   	{
-    	PrintLog(1, "BT: Unexpected discover status: " + obj.status);
+    	PrintLog(99, "BT: Unexpected discover status: " + obj.status);
     	DisconnectBluetoothDevice();
   	}
 }
 
 function discoverError(obj)
 {
-  PrintLog(1, "Discover error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "Discover error: " + obj.error + " - " + obj.message);
   DisconnectBluetoothDevice();
 }
 
@@ -444,14 +444,14 @@ function subscribeSuccess(obj)
     }
     else
   	{
-    	PrintLog(1, "BT: Unexpected subscribe status: " + obj.status);
+    	PrintLog(99, "BT: Unexpected subscribe status: " + obj.status);
     	DisconnectBluetoothDevice();
   }
 }
 
 function subscribeError(msg)
 {
-  	PrintLog(1, "BT: Subscribe error: " + msg.error + " - " + msg.message);
+  	PrintLog(99, "BT: Subscribe error: " + msg.error + " - " + msg.message);
 }
 
 function unsubscribeDevice()
@@ -470,14 +470,14 @@ function unsubscribeSuccess(obj)
     }
     else
     {
-      PrintLog(1, "BT: Unexpected unsubscribe status: " + obj.status);
+      PrintLog(99, "BT: Unexpected unsubscribe status: " + obj.status);
       DisconnectBluetoothDevice();
     }
 }
 
 function unsubscribeError(obj)
 {
-  PrintLog(1, "BT: Unsubscribe error: " + obj.error + " - " + obj.message);
+  PrintLog(99, "BT: Unsubscribe error: " + obj.error + " - " + obj.message);
   DisconnectBluetoothDevice();
 }
 
@@ -580,13 +580,13 @@ function writeSuccess(obj)
     }
     else
     {
-        PrintLog(1, "BT: Unexpected write status: " + obj.status);
+        PrintLog(99, "BT: Unexpected write status: " + obj.status);
     }
 }
 
 function writeError(msg)
 {
-    PrintLog(1, "BT: Write error: " + msg.error + " - " + msg.message);
+    PrintLog(99, "BT: Write error: " + msg.error + " - " + msg.message);
 }
 
 
