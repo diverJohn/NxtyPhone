@@ -26,7 +26,7 @@ function PrintLog(level, txt)
 {
     if( level <= PrintLogLevel )
     { 
-        console.log(txt);
+        console.error(txt);
     }
 }
 
