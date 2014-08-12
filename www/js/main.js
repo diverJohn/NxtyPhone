@@ -26,7 +26,7 @@ function PrintLog(level, txt)
 {
     if( level <= PrintLogLevel )
     { 
-        console.log(txt);
+        console.error(txt);
     }
 }
 
@@ -54,7 +54,7 @@ function SendCloudData(dataText)
 {
     var param = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
     
-    console.log( "SendCloud: " + param );
+    console.log( "SendCloudData: " + param );
     
     $.ajax({
         type       : "POST",
@@ -65,7 +65,7 @@ function SendCloudData(dataText)
         data:      param,
         dataType   : 'json',
         success    : function(response) {
-                console.log( "SendCloud success: " + param );;
+                console.log( "SendCloudData success: " + param );;
         },
         error      : function(response) {
             console.error(JSON.stringify(response));
@@ -116,12 +116,12 @@ var app = {
 	 	if( isBluetoothCnx )
 	 	{
 //	 		swupdate.renderSwUpdateView();
-SendCloud(99);
+SendCloudData(99);
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	 		
 	 	}
 	 	else
 	 	{
-SendCloud(99);	 	
+SendCloudData(99);	 	
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
