@@ -241,6 +241,7 @@ var tech = {
                 	outText = outText + "  " + myData.val[i];
                 }        
     
+    SendCloud(myData.val[i]);
     
     			PrintLog(1, outText );
                 bLookForRsp = false;               
