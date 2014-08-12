@@ -53,6 +53,9 @@ function HandleButtonUp()
 function SendCloud(dataText)
 {
     var param = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
+    
+    console.log( "SendCloud: " + param );
+    
     $.ajax({
         type       : "POST",
         url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
