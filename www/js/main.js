@@ -50,7 +50,7 @@ function HandleButtonUp()
 }
 
 // HandleButtonUp............................................................................................
-function SendCloud(dataString)
+function SendCloud()
 {
     $.ajax({
         type       : "POST",
@@ -111,7 +111,8 @@ var app = {
 	 	if( isBluetoothCnx )
 	 	{
 //	 		swupdate.renderSwUpdateView();
-nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	 		
+SendCloud();
+//nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	 		
 	 	}
 	 	else
 	 	{
