@@ -49,8 +49,25 @@ function HandleButtonUp()
 	$(this).css("opacity","0.5");
 }
 
-
-
+// HandleButtonUp............................................................................................
+function SendCloud(dataString)
+{
+    $.ajax({
+        type       : "POST",
+        url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify( {'data':[{'dataItems': {'heading':'This is heading 7','5_GHz_UL_Freq': 12}}]} ),
+        dataType   : 'json',
+        success    : function(response) {
+            console.error(JSON.stringify(response));
+            alert('Works!');
+        },
+        error      : function(response) {
+            console.error(JSON.stringify(response));
+            alert(JSON.stringify(response));
+        }
+    });
+}
 
 var app = {
      
