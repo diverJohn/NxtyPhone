@@ -74,7 +74,7 @@ h1 {
 
 
 //table, td, th { border: 1px solid black;}
-table {width: 80%; border-collapse: collapse; border: 3px solid black; font-size:18px;}
+table {width: 95%; border-collapse: collapse; border: 3px solid black; font-size:18px;}
 th {background-color:gray; color:white; text-align: center;}
 td {background-color:white; text-align: center; opacity: 0.75; border: 1px solid black; }
 

@@ -18,10 +18,11 @@
     <gap:plugin name="com.randdusing.bluetoothle" version="1.0.2" />
  
  <!-- Android debugging using gapdebug...  -->
+ <!--
  <gap:config-file platform="android" parent="/manifest">
      <application android:debuggable="true" />
 </gap:config-file>
- 
+ -->
  
      <!--
         If you do not want any permissions to be added to your app, add the
