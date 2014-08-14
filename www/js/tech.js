@@ -70,7 +70,7 @@ var tech = {
 
             "<br><br><br><h1 id=myH1>Heading</h1><br><br>" +
             "<table align='center'>" +
-            "<tr> <th>Description</th>  <th>Value</th></tr>" +
+            "<tr> <th>Description</th>  <th>Value</th> <th>Units</th> </tr>" +
             "<tr> <td id='d0'></td>  <td id='v0'>0</td>  <td id='u0'>0</td></tr>" +
             "<tr> <td id='d1'></td>  <td id='v1'>0</td>  <td id='u1'>0</td></tr>" +
             "<tr> <td id='d2'></td>  <td id='v2'>0</td>  <td id='u2'>0</td></tr>" +
@@ -242,7 +242,7 @@ var tech = {
                 	outText = outText + "  " + myData.val[i];
                 }        
     
-    SendCloud(myData.val[0]);
+    SendCloudData(myData.val[0]);
     
                 outText = outText + " Unit: ";
                        

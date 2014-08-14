@@ -20,7 +20,7 @@ var MainLoopIntervalHandle = null;
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
-var PrintLogLevel = 10;
+var PrintLogLevel = 3;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
