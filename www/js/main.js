@@ -54,7 +54,7 @@ function HandleButtonUp()
 	$(this).css("opacity","0.5");
 }
 
-// HandleButtonUp............................................................................................
+// SendCloudData............................................................................................
 function SendCloudData(dataText)
 {
     var param = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
