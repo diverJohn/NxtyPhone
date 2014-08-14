@@ -39,7 +39,12 @@ body {
     width:100%;
 }
 
-a img{border:none;outline:none;background:none;}
+/* Remove orange border.... */
+textarea:focus, input:focus{
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);    
+    -webkit-user-modify: read-write-plaintext-only;
+}
+
 
 /* Portrait layout (default) */
 .app {
