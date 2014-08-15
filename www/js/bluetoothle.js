@@ -66,9 +66,7 @@ function initializeError(obj)
 function BluetoothLoop()
 {
 	bluetoothle.isConnected( isConnectedCallback );
-	
-	// Check again in 15 seconds...
-	BluetoothCnxTimer = setTimeout(BluetoothLoop, 15000);
+
 }
 
 function isConnectedCallback(obj)
@@ -78,6 +76,9 @@ function isConnectedCallback(obj)
 		PrintLog(10, "BT: bluetooth cnx callback: Cnx" );
 		UpdateBluetoothIcon( true );
 		
+		// Check again in 15 seconds...
+        BluetoothCnxTimer = setTimeout(BluetoothLoop, 15000);
+        
 		if( isBluetoothSubscribed == false )
 		{
 		  // Run Discover and if successful then subscribe to the Tx of our device
@@ -88,6 +89,10 @@ function isConnectedCallback(obj)
 	{
 	    PrintLog(10, "BT: bluetooth cnx callback: Not Cnx" );
 		UpdateBluetoothIcon( false );
+		  
+        // Check again in 5 seconds...
+        BluetoothCnxTimer = setTimeout(BluetoothLoop, 5000);
+    
 	    StartBluetoothScan();
 	}
 }
