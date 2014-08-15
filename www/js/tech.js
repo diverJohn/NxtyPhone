@@ -242,7 +242,7 @@ var tech = {
                 	outText = outText + "  " + myData.val[i];
                 }        
     
-    SendCloudData(myData.val[0]);
+//    SendCloudData(myData.val[0]);
     
                 outText = outText + " Unit: ";
                        

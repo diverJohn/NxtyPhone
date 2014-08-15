@@ -10,6 +10,11 @@ var szBtIconOff    = "<img src='img/bluetooth_off.png' />";
 var szRegIconOn    = "<img src='img/reg_yes.png' />";
 var szRegIconOff   = "<img src='img/reg_no.png' />";
 var szMyStatusLine = "<p id='status_line_id' class='status_line'></p>";
+//var myModel        = "590NABC-DE-F";
+//var mySn           = "12345678";
+var myModel        = "modelTest";
+var mySn           = "12345";
+var myUrl          = "https://nextivity-sandbox-connect.axeda.com:443/ammp/";
 
 
 var MainLoopIntervalHandle = null;
@@ -58,26 +63,28 @@ function HandleButtonUp()
 // SendCloudData............................................................................................
 function SendCloudData(dataText)
 {
-    var param = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
+//    var myData    = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
+    var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
+    var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
     
-    console.log( "SendCloudData: " + param );
+    PrintLog( 1, "SendCloudData: " + myData + "to" + myDataUrl );
     
     $.ajax({
         type       : "POST",
-        url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
+//        url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
+        url        : myUrl,
         contentType: "application/json;charset=utf-8",
-//        data: JSON.stringify( {'data':[{'dataItems': {'heading':'This is heading 7','5_GHz_UL_Freq': 12}}]} ),
-//        data: JSON.stringify( param ),
-        data:      param,
-        dataType   : 'json',
-        success    : function(response) {
-                console.log( "SendCloudData success: " + param );;
-        },
-        error      : function(response) {
-            console.error(JSON.stringify(response));
-        }
+        data       : myData,
+        dataType   : 'json',    // response format
+        success    : function(response) 
+                    {
+                        PrintLog( 1, "SendCloudData success..." );;
+                    },
+        error      : function(response) 
+                    {
+                        PrintLog( 99, JSON.stringify(response) );
+                    }
     });
-    
 }
 
 var app = {
@@ -122,12 +129,12 @@ var app = {
 	 	if( isBluetoothCnx )
 	 	{
 //	 		swupdate.renderSwUpdateView();
-SendCloudData(99);
+SendCloudData( "'5_GHz_UL_Freq':" + 109 );
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	 		
 	 	}
 	 	else
 	 	{
-SendCloudData(99);	 	
+SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
