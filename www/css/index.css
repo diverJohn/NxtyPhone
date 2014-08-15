@@ -51,7 +51,13 @@ body {
 }
 
  
-
+.background {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    min-width: 100%;
+    z-index: -10000;
+}
 
 
 
