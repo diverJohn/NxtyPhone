@@ -31,7 +31,7 @@ body {
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     
    
-    background: white url('../img/background.png');
+    background: white url('../img/background.png') no-repeat fixed center ;
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
