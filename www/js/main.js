@@ -53,7 +53,7 @@ function HandleButtonDown()
 function HandleButtonUp()
 {
 	$(this).css("opacity","0.5");
-	return false;
+	return true;
 }
 
 // SendCloudData............................................................................................
