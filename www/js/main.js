@@ -10,10 +10,10 @@ var szBtIconOff    = "<img src='img/bluetooth_off.png' />";
 var szRegIconOn    = "<img src='img/reg_yes.png' />";
 var szRegIconOff   = "<img src='img/reg_no.png' />";
 var szMyStatusLine = "<p id='status_line_id' class='status_line'></p>";
-//var myModel        = "590NABC-DE-F";
-//var mySn           = "12345678";
-var myModel        = "modelTest";
-var mySn           = "12345";
+var myModel        = "590NABC-DE-F";
+var mySn           = "12345678";
+//var myModel        = "modelTest";
+//var mySn           = "12345";
 var myUrl          = "https://nextivity-sandbox-connect.axeda.com:443/ammp/";
 
 
@@ -63,22 +63,21 @@ function HandleButtonUp()
 // SendCloudData............................................................................................
 function SendCloudData(dataText)
 {
-//    var myData    = "{'data':[{'dataItems': {'5_GHz_UL_Freq':" + dataText + "}}]}";
     var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
     var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
     
-    PrintLog( 1, "SendCloudData: " + myData + " to " + myDataUrl );
+    PrintLog( 1, "SendCloudData: " + myData );
+    PrintLog( 2, "SendCloudDataUrl: " + myDataUrl );
     
     $.ajax({
         type       : "POST",
-//        url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
         url        : myDataUrl,
         contentType: "application/json;charset=utf-8",
         data       : myData,
         dataType   : 'json',    // response format
         success    : function(response) 
                     {
-                        PrintLog( 1, "SendCloudData success..." );;
+                        PrintLog( 10, "SendCloudData success..." );;
                     },
         error      : function(response) 
                     {
@@ -86,6 +85,35 @@ function SendCloudData(dataText)
                     }
     });
 }
+
+// SendCloudAsset............................................................................................
+function SendCloudAsset()
+{
+    var myAsset    = "{'id': {'mn':" + myModel + ", 'sn':" + mySn + ", 'tn': '0' }, 'pingRate': 3600 }";
+    
+    var myAssetUrl = myUrl + "assets/1/" + myModel + "!" + mySn;
+    
+    PrintLog( 1, "SendCloudAsset: " + myAsset );
+    PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
+    
+    $.ajax({
+        type       : "POST",
+        url        : myAssetUrl,
+        contentType: "application/json;charset=utf-8",
+        data       : myAsset,
+        dataType   : 'json',    // response format
+        success    : function(response) 
+                    {
+                        PrintLog( 1, "SendCloudAsset success..." );;
+                    },
+        error      : function(response) 
+                    {
+                        PrintLog( 99, JSON.stringify(response) );
+                    }
+    });
+}
+
+
 
 var app = {
      
@@ -129,7 +157,8 @@ var app = {
 	 	if( isBluetoothCnx )
 	 	{
 //	 		swupdate.renderSwUpdateView();
-SendCloudData( "'5_GHz_UL_Freq':" + 109 );
+//SendCloudData( "'5_GHz_UL_Freq':" + 109 );
+SendCloudAsset();
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	 		
 	 	}
 	 	else
