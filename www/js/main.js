@@ -52,6 +52,7 @@ function HandleButtonDown()
 function HandleButtonUp()
 {
 	$(this).css("opacity","0.5");
+	$(this).css("outline", "none" );
 }
 
 // SendCloudData............................................................................................
@@ -159,9 +160,6 @@ tech.renderTechView();
 	 	
 	 	if( isBluetoothCnx )
 	 	{
-
-//var u8 = new Uint8Array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]);			
-//nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8, u8.length ); 			
 			reg.renderRegView();
 	 	}
 	 	else
@@ -188,7 +186,7 @@ reg.renderRegView();
 			"<img src='img/header_main.png' width='100%' />" +
 			myBluetoothIcon +
             myRegIcon +
-            "<br> <br> <br> <br>" +
+            "<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>" +
    			"<button id='sw_button_id' type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button id='tk_button_id' type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
