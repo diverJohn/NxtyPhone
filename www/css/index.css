@@ -17,26 +17,12 @@
  * under the License.
  */
  
-/* 
+ 
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
-*/
 
 
-/* Remove orange border.... */
-/* try 1 did not work...
-textarea:focus, input:focus{
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);    
-    -webkit-user-modify: read-write-plaintext-only;
-}
-*/
-
-*, *:active, *:focus  {
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
-    -webkit-focus-ring-color: rgba(255, 255, 255, 0); 
-    outline: none;
-}
 
 
 body {
