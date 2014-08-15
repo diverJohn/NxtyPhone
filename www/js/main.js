@@ -46,14 +46,12 @@ function HandleButtonDown()
 {
 	// No transparency when pressed...
 	$(this).css("opacity","1.0");
-	return true;
 }
 
 // HandleButtonUp............................................................................................
 function HandleButtonUp()
 {
 	$(this).css("opacity","0.5");
-	return true;
 }
 
 // SendCloudData............................................................................................
