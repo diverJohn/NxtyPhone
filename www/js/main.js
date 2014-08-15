@@ -67,12 +67,12 @@ function SendCloudData(dataText)
     var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
     var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
     
-    PrintLog( 1, "SendCloudData: " + myData + "to" + myDataUrl );
+    PrintLog( 1, "SendCloudData: " + myData + " to " + myDataUrl );
     
     $.ajax({
         type       : "POST",
 //        url        : "https://nextivity-sandbox-connect.axeda.com:443/ammp/data/1/modelTest!12345",
-        url        : myUrl,
+        url        : myDataUrl,
         contentType: "application/json;charset=utf-8",
         data       : myData,
         dataType   : 'json',    // response format
