@@ -89,9 +89,9 @@ function SendCloudData(dataText)
 // SendCloudAsset............................................................................................
 function SendCloudAsset()
 {
-    var myAsset    = "{'id': {'mn':" + myModel + ", 'sn':" + mySn + ", 'tn': '0' }, 'pingRate': 3600 }";
+    var myAsset    = "{'id': {'mn':'" + myModel + "', 'sn':'" + mySn + "', 'tn': '0' }, 'pingRate': 3600 }";
     
-    var myAssetUrl = myUrl + "assets/1/" + myModel + "!" + mySn;
+    var myAssetUrl = myUrl + "assets/1";
     
     PrintLog( 1, "SendCloudAsset: " + myAsset );
     PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
@@ -164,6 +164,7 @@ SendCloudAsset();
 	 	else
 	 	{
 SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
+SendCloudAsset();
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
@@ -291,8 +292,11 @@ reg.renderRegView();
 		}
 		else
 		{
-            // Get the status so we can see if we need to register or not...
-            nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  
+		    if( isBluetoothCnx )
+            {
+                // Get the status so we can see if we need to register or not...
+                nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
+            }  
         }
 		
 		
