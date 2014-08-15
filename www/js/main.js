@@ -183,15 +183,15 @@ reg.renderRegView();
 		var myRegButton     = isRegistered   ? "<button id='reg_button_id' type='button' class='mybutton' onclick='app.handleRegKey()'></button>" : "<button id='reg_button_id' type='button' class='mybutton' onclick='app.handleRegKey()'><img src='img/button_Register.png' /></button>";
 		
 		var myHtml = 
-			"<div class='background'><img src='img/background.png' width='100%'/></div>" +
 			"<img src='img/header_main.png' width='100%' />" +
 			myBluetoothIcon +
             myRegIcon +
-            "<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>" +
+            "<div class='background'><img src='img/background.png' width='100%'/>" +
    			"<button id='sw_button_id' type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button id='tk_button_id' type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
-  			szMyStatusLine;
+  			szMyStatusLine +
+  			"</div>";
   			
 		$('body').html(myHtml); 
 		
