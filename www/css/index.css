@@ -24,6 +24,15 @@
 
 
 
+html, body {
+    height: 100%;
+}
+html {
+    overflow-y: hidden;
+}
+body {
+    overflow-y: scroll;
+}
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
@@ -35,8 +44,7 @@ body {
     
 
        
-/*    background: white url('../img/background.png') no-repeat fixed center center;*/   
-    background: white url('../img/background.png') no-repeat scroll center center;   
+    background: white url('../img/background.png') no-repeat fixed center center;   
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
