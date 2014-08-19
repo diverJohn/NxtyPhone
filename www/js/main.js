@@ -25,7 +25,7 @@ var MainLoopIntervalHandle = null;
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
-var PrintLogLevel = 2;
+var PrintLogLevel = 1;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
@@ -70,7 +70,12 @@ function SendCloudAsset()
         mySn = nxtySn[0].toString(16);
         for( var i = 1; i < nxtySn.length; i++ )
         {
-          mySn = mySn + nxtySn[i].toString(16);
+            if( nxtySn[i] < 0x10 )
+            {
+                mySn = mySn + "0";  // Add a leading 0.
+            }
+            
+            mySn = mySn + nxtySn[i].toString(16);
         }
 
 
