@@ -29,7 +29,8 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    
+ 
+ /*   
     background-color:#E4E4E4;
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -42,8 +43,9 @@ body {
         color-stop(0.51, #E4E4E4)
     );
     background-attachment:fixed;
+*/
        
-/*    background: white url('../img/background.png') no-repeat fixed center ; */
+    background: white url('../img/background.png') no-repeat fixed center ; 
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -61,7 +63,7 @@ body {
 
 /* Portrait layout (default) */
 .app {
-//    background:url(../img/background.png) no-repeat center top; /* 170px x 200px */
+    background:url(../img/background.png) no-repeat center top; /* 170px x 200px */
     position:absolute;             /* position in the center of the screen */
     left:50%;
     top:50%;
@@ -72,6 +74,9 @@ body {
     margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
                                    /* offset horizontal: half of text area width */
 }
+
+
+
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
