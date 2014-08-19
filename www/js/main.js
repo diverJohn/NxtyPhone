@@ -85,7 +85,7 @@ function SendCloudAsset()
         PrintLog( 1, "SendCloudAsset: " + myAsset );
         PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
         
-/*        
+        
         $.ajax({
             type       : "POST",
             url        : myAssetUrl,
@@ -101,7 +101,7 @@ function SendCloudAsset()
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
-*/        
+        
         
     }
     else
