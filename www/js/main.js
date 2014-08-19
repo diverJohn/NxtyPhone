@@ -10,7 +10,7 @@ var szBtIconOff    = "<img src='img/bluetooth_off.png' />";
 var szRegIconOn    = "<img src='img/reg_yes.png' />";
 var szRegIconOff   = "<img src='img/reg_no.png' />";
 var szMyStatusLine = "<p id='status_line_id' class='status_line'></p>";
-var myModel        = "590NABC-DE-F";
+var myModel        = "MN8";
 var mySn           = "12345678";
 //var myModel        = "modelTest";
 //var mySn           = "12345";
@@ -60,58 +60,82 @@ function HandleButtonUp()
 	$(this).css("outline", "none" );       // Used to remove orange box for android 4+
 }
 
-// SendCloudData............................................................................................
-function SendCloudData(dataText)
-{
-    var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
-    var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
-    
-    PrintLog( 1, "SendCloudData: " + myData );
-    PrintLog( 2, "SendCloudDataUrl: " + myDataUrl );
-    
-    $.ajax({
-        type       : "POST",
-        url        : myDataUrl,
-        contentType: "application/json;charset=utf-8",
-        data       : myData,
-        dataType   : 'json',    // response format
-        success    : function(response) 
-                    {
-                        PrintLog( 10, "SendCloudData success..." );;
-                    },
-        error      : function(response) 
-                    {
-                        PrintLog( 99, JSON.stringify(response) );
-                    }
-    });
-}
 
 // SendCloudAsset............................................................................................
 function SendCloudAsset()
 {
-    var myAsset    = "{'id': {'mn':'" + myModel + "', 'sn':'" + mySn + "', 'tn': '0' }, 'pingRate': 3600 }";
-    
-    var myAssetUrl = myUrl + "assets/1";
-    
-    PrintLog( 1, "SendCloudAsset: " + myAsset );
-    PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
-    
-    $.ajax({
-        type       : "POST",
-        url        : myAssetUrl,
-        contentType: "application/json;charset=utf-8",
-        data       : myAsset,
-        dataType   : 'json',    // response format
-        success    : function(response) 
-                    {
-                        PrintLog( 1, "SendCloudAsset success..." );;
-                    },
-        error      : function(response) 
-                    {
-                        PrintLog( 99, JSON.stringify(response) );
-                    }
-    });
+    if( isNxtyStatusCurrent && isNxtySnCurrent )
+    {
+        myModel = "MN" + nxtyRxStatusBuildConfig;
+        mySn = nxtySn[0].toString(10);
+        for( var i = 1; i < nxtySn.length; i++ )
+        {
+          mySn = mySn + nxtySn[i].toString(10);
+        }
+
+
+        var myAsset    = "{'id': {'mn':'" + myModel + "', 'sn':'" + mySn + "', 'tn': '0' }, 'pingRate': 3600 }";
+        var myAssetUrl = myUrl + "assets/1";
+        
+        PrintLog( 1, "SendCloudAsset: " + myAsset );
+        PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
+        
+        $.ajax({
+            type       : "POST",
+            url        : myAssetUrl,
+            contentType: "application/json;charset=utf-8",
+            data       : myAsset,
+            dataType   : 'json',    // response format
+            success    : function(response) 
+                        {
+                            PrintLog( 1, "SendCloudAsset success..." );;
+                        },
+            error      : function(response) 
+                        {
+                            PrintLog( 99, JSON.stringify(response) );
+                        }
+        });
+    }
+    else
+    {
+        PrintLog( 99, "SendCloudAsset: Model and SN not available yet" );
+    }
 }
+
+// SendCloudData............................................................................................
+function SendCloudData(dataText)
+{
+    if( (myModel != null) && (mySn != null) )
+    {
+        var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
+        var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
+        
+        PrintLog( 1, "SendCloudData: " + myData );
+        PrintLog( 2, "SendCloudDataUrl: " + myDataUrl );
+        
+        $.ajax({
+            type       : "POST",
+            url        : myDataUrl,
+            contentType: "application/json;charset=utf-8",
+            data       : myData,
+            dataType   : 'json',    // response format
+            success    : function(response) 
+                        {
+                            PrintLog( 10, "SendCloudData success..." );;
+                        },
+            error      : function(response) 
+                        {
+                            PrintLog( 99, JSON.stringify(response) );
+                        }
+        });
+    }
+    else
+    {
+        PrintLog( 99, "SendCloudData: Model and SN not available yet" );
+    }
+    
+}
+
 
 
 
@@ -123,6 +147,10 @@ var app = {
     //
     onDeviceReady: function() {
     	PrintLog(10,  "device ready" );
+    	
+    	isNxtyStatusCurrent = false;
+    	isNxtySnCurrent     = false;
+    	
     	
     	// Only start bluetooth if on a phone...
     	if( window.isPhone )
@@ -283,7 +311,7 @@ reg.renderRegView();
 		PrintLog(3, "App: Main loop..." );
 		
 		// See if status command received yet...
-		if( msgRxLastCmd == NXTY_STATUS_RSP )
+		if( isNxtyStatusCurrent == true )
 		{
 			// See if we need to allow the registration button...
 			if( isRegistered == false )
@@ -296,8 +324,17 @@ reg.renderRegView();
 		{
 		    if( isBluetoothCnx )
             {
-                // Get the status so we can see if we need to register or not...
-                nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
+                if( isNxtySnCurrent == false )
+                {
+                    // Get the serial number.   It was already passed in the advertising message
+                    // but just in case that changes.
+                    nxty.SendNxtyMsg(NXTY_SYS_SN_REQ, null, 0);
+                }
+                else if( isNxtyStatusCurrent == false )
+                {
+                    // Get the status so we can see if we need to register or not...
+                    nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
+                }
             }  
         }
 		

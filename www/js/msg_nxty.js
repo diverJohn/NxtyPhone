@@ -33,13 +33,20 @@ var	msgRxLastCmd      = NXTY_INIT;
 var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
 var uRxBuffIdx		  = 0;
 var uTxMsgNotReadyCnt = 0;
+
+
         
+// Serial Number response data...        
+var nxtySn  = new Uint8Array(8);
+var isNxtySnCurrent = false;
         
 // Status message response data...
-var nxtyRxstatusHw    = null;
-var nxtyRxstatusHwRev = null;
-var nxtyRxstatusUnii  = null;
-var nxtyRxstatusReg   = null;
+var isNxtyStatusCurrent     = false;
+var nxtyRxStatusHw          = null;
+var nxtyRxStatusHwRev       = null;
+var nxtyRxStatusUnii        = null;
+var nxtyRxStatusReg         = null;
+var nxtyRxStatusBuildConfig = null
 
 
 var crc8_table = new Uint8Array([ 
@@ -232,7 +239,19 @@ var nxty = {
 	    
 	    switch( uCmd )
 	    {
-	        case NXTY_SYS_SN_RSP:                     PrintLog(1,  "Msg: System SN Rsp" );                break;
+	        case NXTY_SYS_SN_RSP: 
+	        {
+	           PrintLog(1,  "Msg: System SN Rsp" );
+	           for( i = 0; i < nxtySn.length; i++ )
+	           {
+	               nxtySn[i] = u8RxBuff[2+i];
+	           }
+	           
+               isNxtySnCurrent = true;
+	           break;
+	        }
+	        
+	        
 	        case NXTY_CELL_INFO_RSP:                  PrintLog(1,  "Msg: Cell Info Rsp" );                break;
 	        case NXTY_SW_VERSION_RSP:                 PrintLog(1,  "Msg: SW Version Rsp" );               break;
 	        case NXTY_DOWNLOAD_START_RSP:             PrintLog(1,  "Msg: Download Start Rsp" );           break;
@@ -258,13 +277,23 @@ var nxty = {
 	        case NXTY_STATUS_RSP:
 	        {
 	        	PrintLog(1,  "Msg: Status Rsp" );
-	        	nxtyRxstatusHw    = u8RxBuff[2];
-	        	nxtyRxstatusHwRev = u8RxBuff[3];
-	        	nxtyRxstatusUnii  = u8RxBuff[4];
-	        	nxtyRxstatusReg   = u8RxBuff[5];
+	        	nxtyRxStatusHw    = u8RxBuff[2];
+	        	nxtyRxStatusHwRev = u8RxBuff[3];
+	        	nxtyRxStatusUnii  = u8RxBuff[4];
+	        	nxtyRxStatusReg   = u8RxBuff[5];
 	        	
-	        	nxty.UpdateRegIcon(nxtyRxstatusReg);
+	        	nxty.UpdateRegIcon(nxtyRxStatusReg);
+
+                // Create a 16 bit view	        	
+	        	var u16 = new Int16Array(u8RxBuff.buffer);
 	        	
+	        	// u8RxBuff[0] and [1] = u16[0]
+	        	// u8RxBuff[2] and [3] = u16[1]
+                // u8RxBuff[4] and [5] = u16[2]
+                // u8RxBuff[6] and [7] = u16[3]  --> BuildConfig
+                nxtyRxStatusBuildConfig = u16[3];
+	        	
+	        	isNxtyStatusCurrent = true;
 	        	break;
 	       	}
 	    
