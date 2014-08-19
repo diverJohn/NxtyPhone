@@ -30,8 +30,9 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
  
- /*   
-    background-color:#E4E4E4;
+ 
+    background-color: #ADD8E6;
+/*    
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -45,7 +46,7 @@ body {
     background-attachment:fixed;
 */
        
-    background: white url('../img/background.png') no-repeat fixed center ; 
+/*   background: white url('../img/background.png') no-repeat fixed center ; */ 
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -63,7 +64,7 @@ body {
 
 /* Portrait layout (default) */
 .app {
-    background:url(../img/background.png) no-repeat center top; /* 170px x 200px */
+/*    background:url(../img/background.png) no-repeat center top; */ /* 170px x 200px */
     position:absolute;             /* position in the center of the screen */
     left:50%;
     top:50%;
