@@ -47,7 +47,13 @@ body {
 }
 
  
-
+html { 
+  background: white url('../img/background.png') no-repeat center center fixed;   
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
 
 
@@ -203,8 +209,4 @@ p.status_line {
 #child {
     display: table-cell;
     vertical-align: middle;
-}
-
-#myBackground{
-    background: white url('../img/background.png') no-repeat fixed center center;  
 }
