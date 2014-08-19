@@ -221,7 +221,6 @@ reg.renderRegView();
 		
 		var myHtml = 
 			"<img src='img/header_main.png' width='100%' />" +
-            "<img src='img/background_main.png' width='100%' />" +
    			myBluetoothIcon +
             myRegIcon +
    			"<button id='sw_button_id' type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
