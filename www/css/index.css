@@ -31,24 +31,11 @@ body {
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
  
  
-/*    background-color: #ADD8E6; */      /* LightBlue */
-    background-color:#E4E4E4;  
+/*    background-color:#E4E4E4; */  
     
-/*    
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;
-*/
+
        
-/*   background: white url('../img/background.png') no-repeat fixed center ; */ 
+/*    background: white url('../img/background.png') no-repeat fixed center ; */  
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
