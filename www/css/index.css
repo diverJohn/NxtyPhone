@@ -35,7 +35,7 @@ body {
     
 
        
-    background: white url('../img/background.png') no-repeat fixed center center;   
+/*    background: white url('../img/background.png') no-repeat fixed center center; */   
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -203,4 +203,8 @@ p.status_line {
 #child {
     display: table-cell;
     vertical-align: middle;
+}
+
+#myBackground{
+    background: white url('../img/background.png') no-repeat fixed center center;  
 }
