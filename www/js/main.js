@@ -226,7 +226,8 @@ reg.renderRegView();
    			"<button id='sw_button_id' type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button id='tk_button_id' type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
-  			szMyStatusLine;
+  			szMyStatusLine +
+  			"<div id='bg'>  <img src='../img/background.png' alt=''> </div>";
   			
 		$('body').html(myHtml); 
 		
