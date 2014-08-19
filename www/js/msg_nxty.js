@@ -18,6 +18,11 @@ var  NXTY_GET_MON_MODE_PAGE_REQ        = 0x06;
 var  NXTY_GET_MON_MODE_PAGE_RSP        = 0x46;
 var  NXTY_SW_VERSION_REQ               = 0x07;
 var  NXTY_SW_VERSION_RSP               = 0x47;
+var    NXTY_SW_CF_NU_TYPE              = 0x01;
+var    NXTY_SW_CF_CU_TYPE              = 0x02;
+var    NXTY_SW_NU_PIC_TYPE             = 0x03;
+var    NXTY_SW_CU_PIC_TYPE             = 0x04;
+var    NXTY_SW_BT_TYPE                 = 0x05;
 var  NXTY_DOWNLOAD_START_REQ           = 0x08;
 var  NXTY_DOWNLOAD_START_RSP           = 0x48;
 var  NXTY_DOWNLOAD_TRANSFER_REQ        = 0x09;
@@ -40,8 +45,12 @@ var uTxMsgNotReadyCnt = 0;
 
         
 // Serial Number response data...        
-var nxtySn  = new Uint8Array(6);
-var isNxtySnCurrent = false;
+var nxtySn                  = new Uint8Array(6);
+var nxtySwCuCf              = null;
+var nxtySw   NXTY_SW_CF_CU_TYPE              = 0x02;
+var    NXTY_SW_NU_PIC_TYPE             = 0x03;
+var    NXTY_SW_CU_PIC_TYPE             = 0x04;
+var    NXTY_SW_BT_TYPE                 = 0x05;
         
 // Status message response data...
 var isNxtyStatusCurrent     = false;
@@ -50,6 +59,11 @@ var nxtyRxStatusHwRev       = null;
 var nxtyRxStatusUnii        = null;
 var nxtyRxStatusReg         = null;
 var nxtyRxStatusBuildConfig = null
+
+
+// Software Version response data...
+var u8CurrentVerReq         = new Uint8Array(1);
+var isNxtySwVerCfCurrent    = false;
 
 
 var crc8_table = new Uint8Array([ 
@@ -256,7 +270,14 @@ var nxty = {
 	        
 	        
 	        case NXTY_CELL_INFO_RSP:                  PrintLog(1,  "Msg: Cell Info Rsp" );                break;
-	        case NXTY_SW_VERSION_RSP:                 PrintLog(1,  "Msg: SW Version Rsp" );               break;
+	        
+	        case NXTY_SW_VERSION_RSP:
+	        {
+	           PrintLog(1,  "Msg: SW Version Rsp" );
+	           break;
+	        }
+	        
+	        
 	        case NXTY_DOWNLOAD_START_RSP:             PrintLog(1,  "Msg: Download Start Rsp" );           break;
 	        case NXTY_DOWNLOAD_TRANSFER_RSP:          PrintLog(1,  "Msg: Download Transfer Rsp" );        break;
 	        case NXTY_DOWNLOAD_END_RSP:               PrintLog(1,  "Msg: Download End Rsp" );             break;

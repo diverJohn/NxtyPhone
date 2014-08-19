@@ -316,6 +316,7 @@ reg.renderRegView();
 
 	MainLoop: function() 
 	{
+	
 		PrintLog(3, "App: Main loop..." );
 		
 		// See if status command received yet...
@@ -327,6 +328,34 @@ reg.renderRegView();
 				document.getElementById("reg_button_id").innerHTML = "<img src='img/button_Register.png' />";
 			}
 		    clearInterval(MainLoopIntervalHandle);
+		    
+		    // Notify the cloud that we are here...
+		    SendCloudAsset();
+		    
+		    // Send some preliminary data to the cloud...
+		    var myText = "'Registered':";
+		    
+		    if( isRegistered )
+		    {
+		      myText = myText + 1;
+		    }
+		    else
+		    {
+              myText = myText + 0;
+		    }
+		    
+		    
+	
+        
+		    myText += "'SwVer_CF':" +         "xx.yy.zz",
+		    
+                “BuildId_CF”:       “0x05000059”,
+                “SwVer_PIC:         “xx.yy.xx”,
+                “SwVer_BT:      “xx.yy.zz”, 
+                  “OperatorCode”:   “0000”,
+		    
+		    SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 
+		    
 		}
 		else
 		{
@@ -334,14 +363,19 @@ reg.renderRegView();
             {
                 if( isNxtySnCurrent == false )
                 {
-                    // Get the serial number.   It was already passed in the advertising message
-                    // but just in case that changes.
+                    // Get the serial number.   It was already passed in the advertising message...
                     nxty.SendNxtyMsg(NXTY_SYS_SN_REQ, null, 0);
                 }
                 else if( isNxtyStatusCurrent == false )
                 {
                     // Get the status so we can see if we need to register or not...
                     nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
+                }
+                else if( nxtySwCuCf == null )
+                {
+                    // Get the Cell Fi software version...
+                    u8CurrentVerReq = NXTY_SW_CF_CU_TYPE;
+                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
                 }
             }  
         }
