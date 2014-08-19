@@ -31,7 +31,9 @@ body {
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
  
  
-    background-color: #ADD8E6;
+/*    background-color: #ADD8E6; */      /* LightBlue */
+    background-color: #FFE4B5;      /* moccasin  */
+    
 /*    
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
