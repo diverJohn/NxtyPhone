@@ -70,7 +70,7 @@ function SendCloudAsset()
         mySn = nxtySn[0].toString(16);
         for( var i = 1; i < nxtySn.length; i++ )
         {
-          mySn = mySn + nxtySn[i].toString(10);
+          mySn = mySn + nxtySn[i].toString(16);
         }
 
 
