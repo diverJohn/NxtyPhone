@@ -35,7 +35,8 @@ body {
     
 
        
-    background: white url('../img/background.png') no-repeat fixed center center;   
+/*    background: white url('../img/background.png') no-repeat fixed center center;*/   
+    background: white url('../img/background.png') no-repeat scroll center center;   
     
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
