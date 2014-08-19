@@ -287,6 +287,11 @@ var nxty = {
 	        	
 	        	nxty.UpdateRegIcon(nxtyRxStatusReg);
 
+                // Swap BuildConfig bytes...
+                var uTemp   = u8RxBuff[6];
+                u8RxBuff[6] = u8RxBuff[7];
+                u8RxBuff[7] = uTemp;
+                
                 // Create a 16 bit view	        	
                 var u16 = new Uint16Array(u8RxBuff.buffer.slice(0, 12));   // Grab bytes 0 to 11.	        	
 	        	

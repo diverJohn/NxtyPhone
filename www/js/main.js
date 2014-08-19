@@ -67,7 +67,7 @@ function SendCloudAsset()
     if( isNxtyStatusCurrent && isNxtySnCurrent )
     {
         myModel = "MN" + nxtyRxStatusBuildConfig;
-        mySn = nxtySn[0].toString(10);
+        mySn = nxtySn[0].toString(16);
         for( var i = 1; i < nxtySn.length; i++ )
         {
           mySn = mySn + nxtySn[i].toString(10);
@@ -80,6 +80,7 @@ function SendCloudAsset()
         PrintLog( 1, "SendCloudAsset: " + myAsset );
         PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
         
+/*        
         $.ajax({
             type       : "POST",
             url        : myAssetUrl,
@@ -95,6 +96,8 @@ function SendCloudAsset()
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
+*/        
+        
     }
     else
     {
