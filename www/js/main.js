@@ -221,14 +221,16 @@ reg.renderRegView();
 		
 		var myHtml = 
 			"<img src='img/header_main.png' width='100%' />" +
+			
    			myBluetoothIcon +
             myRegIcon +
-/*            "<br><br><br><br><br><br><br><br><br><br>" +
+/*            
+            "<br><br><br><br><br><br><br><br><br><br>" +
    			"<button id='sw_button_id' type='button' class='mybutton' onclick='app.handleSwUpdateKey()'><img src='img/button_SwUpdate.png' /></button>" +
 			"<button id='tk_button_id' type='button' class='mybutton' onclick='app.handleTechModeKey()'><img src='img/button_TechMode.png'/></button>" +
   			myRegButton +
-*/  			
-  			szMyStatusLine;
+  			szMyStatusLine */;
+  			
   			
 		$('body').html(myHtml); 
 		
