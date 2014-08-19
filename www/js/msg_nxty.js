@@ -31,6 +31,9 @@ var  NXTY_STATUS_RSP                   = 0x4B;
 
 var	msgRxLastCmd      = NXTY_INIT;
 var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
+
+ 
+
 var uRxBuffIdx		  = 0;
 var uTxMsgNotReadyCnt = 0;
 
@@ -285,7 +288,7 @@ var nxty = {
 	        	nxty.UpdateRegIcon(nxtyRxStatusReg);
 
                 // Create a 16 bit view	        	
-	        	var u16 = new Int16Array(u8RxBuff.buffer);
+                var u16 = new Uint16Array(u8RxBuff.buffer.slice(0, 12));   // Grab bytes 0 to 11.	        	
 	        	
 	        	// u8RxBuff[0] and [1] = u16[0]
 	        	// u8RxBuff[2] and [3] = u16[1]
