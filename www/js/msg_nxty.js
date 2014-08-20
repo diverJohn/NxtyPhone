@@ -46,7 +46,7 @@ var uTxMsgNotReadyCnt = 0;
         
 // Serial Number response data...        
 var nxtySn                  = new Uint8Array(6);
-
+var isNxtySnCurrent         = false;
         
 // Status message response data...
 var isNxtyStatusCurrent     = false;
