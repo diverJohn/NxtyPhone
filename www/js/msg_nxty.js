@@ -46,11 +46,7 @@ var uTxMsgNotReadyCnt = 0;
         
 // Serial Number response data...        
 var nxtySn                  = new Uint8Array(6);
-var nxtySwCuCf              = null;
-var nxtySw   NXTY_SW_CF_CU_TYPE              = 0x02;
-var    NXTY_SW_NU_PIC_TYPE             = 0x03;
-var    NXTY_SW_CU_PIC_TYPE             = 0x04;
-var    NXTY_SW_BT_TYPE                 = 0x05;
+
         
 // Status message response data...
 var isNxtyStatusCurrent     = false;
@@ -63,7 +59,13 @@ var nxtyRxStatusBuildConfig = null
 
 // Software Version response data...
 var u8CurrentVerReq         = new Uint8Array(1);
-var isNxtySwVerCfCurrent    = false;
+var nxtySwVerCucf           = null;  // NU Sw ver same as CU so just use CU.
+var nxtySwBuildIdCu         = null;
+var nxtySwVerNuPic          = null;
+var nxtySwVerCuPic          = null;
+var nxtySwVerBt             = null;
+
+
 
 
 var crc8_table = new Uint8Array([ 
@@ -274,6 +276,24 @@ var nxty = {
 	        case NXTY_SW_VERSION_RSP:
 	        {
 	           PrintLog(1,  "Msg: SW Version Rsp" );
+	           if( u8CurrentVerReq == NXTY_SW_CF_CU_TYPE )
+	           {
+	               nxtySwCuCf      = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]);  
+	               nxtySwBuildIdCu = "0x" + U8ToHexText(u8RxBuff[6]) + U8ToHexText(u8RxBuff[7]) + U8ToHexText(u8RxBuff[8]) + U8ToHexText(u8RxBuff[9]);
+	           }
+               else if( u8CurrentVerReq == NXTY_SW_NU_PIC_TYPE )
+               {
+                   nxtySwNuPic     = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+               }
+               else if( u8CurrentVerReq == NXTY_SW_CU_PIC_TYPE )
+               {
+                   nxtySwCuPic     = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+               }
+               else if( u8CurrentVerReq == NXTY_SW_BT_TYPE )
+               {
+                    nxtySwBt       = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+               }
+	           
 	           break;
 	        }
 	        

@@ -61,6 +61,19 @@ function HandleButtonUp()
 }
 
 
+// HandleButtonUp............................................................................................
+function U8ToHexText(u8)
+{
+    if( u8 < 0x10 )
+    {
+        return( "0" + u8.toString(16) );     // Add a leading 0....
+    }
+    else
+    {
+        return( u8.toString(16) );     // Add a leading 0....
+    }
+}
+
 // SendCloudAsset............................................................................................
 function SendCloudAsset()
 {
@@ -319,8 +332,8 @@ reg.renderRegView();
 	
 		PrintLog(3, "App: Main loop..." );
 		
-		// See if status command received yet...
-		if( isNxtyStatusCurrent == true )
+		// See if SN command received yet since it is the last requested...
+		if( isNxtySnCurrent == true )
 		{
 			// See if we need to allow the registration button...
 			if( isRegistered == false )
@@ -337,46 +350,63 @@ reg.renderRegView();
 		    
 		    if( isRegistered )
 		    {
-		      myText = myText + 1;
+		      myText += 1;
 		    }
 		    else
 		    {
-              myText = myText + 0;
+              myText += 0;
 		    }
 		    
+       
+		    myText += ", 'SwVer_CF':"    + nxtySwVerCucf;
+		    myText += ", 'BuildId_CF':"  + nxtySwBuildIdCu;
+            myText += ", 'SwVerNu_PIC':" + nxtySwVerNuPic;
+            myText += ", 'SwVerCu_PIC':" + nxtySwVerCuPic;
+            myText += ", 'SwVer_BT':"    + nxtySwVerBt; 
+            myText += ", 'OperatorCode': '0000'";
 		    
-	
-        
-		    myText += "'SwVer_CF':" +         "xx.yy.zz",
-		    
-                “BuildId_CF”:       “0x05000059”,
-                “SwVer_PIC:         “xx.yy.xx”,
-                “SwVer_BT:      “xx.yy.zz”, 
-                  “OperatorCode”:   “0000”,
-		    
-		    SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 
-		    
+		    SendCloudData( myText ); 
 		}
 		else
 		{
 		    if( isBluetoothCnx )
             {
-                if( isNxtySnCurrent == false )
-                {
-                    // Get the serial number.   It was already passed in the advertising message...
-                    nxty.SendNxtyMsg(NXTY_SYS_SN_REQ, null, 0);
-                }
-                else if( isNxtyStatusCurrent == false )
+                if( isNxtyStatusCurrent == false )
                 {
                     // Get the status so we can see if we need to register or not...
                     nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
-                }
-                else if( nxtySwCuCf == null )
+                }                
+                else if( nxtySwVerCuCf == null )
                 {
                     // Get the Cell Fi software version...
                     u8CurrentVerReq = NXTY_SW_CF_CU_TYPE;
                     nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
                 }
+                else if( nxtySwVerNuPic == null )
+                {
+                    // Get the NU PIC software version...
+                    u8CurrentVerReq = NXTY_SW_NU_PIC_TYPE;
+                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                }
+                else if( nxtySwVerCuPic == null )
+                {
+                    // Get the CU PIC software version...
+                    u8CurrentVerReq = NXTY_SW_CU_PIC_TYPE;
+                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                }
+                else if( nxtySwVerBt == null )
+                {
+                    // Get the BT software version...
+                    u8CurrentVerReq = NXTY_SW_BT_TYPE;
+                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                }
+                else if( isNxtySnCurrent == false )
+                {
+                    // Get the serial number.   
+                    // Although it was already passed in the advertising message, get it again...
+                    nxty.SendNxtyMsg(NXTY_SYS_SN_REQ, null, 0);
+                }
+
             }  
         }
 		
