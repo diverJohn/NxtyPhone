@@ -107,7 +107,7 @@ var nxty = {
         return;
       }        
         
-/*        
+        
       if( msgRxLastCmd == NXTY_WAITING_FOR_RSP )
       {
         uTxMsgNotReadyCnt++;
@@ -122,7 +122,7 @@ var nxty = {
             PrintLog(99,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " send Tx and clear count." );
         }
       }
-*/
+
 
       uTxMsgNotReadyCnt = 0;
       
