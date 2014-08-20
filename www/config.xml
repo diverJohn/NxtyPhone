@@ -75,9 +75,7 @@
     <gap:plugin name="org.apache.cordova.dialogs" />
 
 
-<gap:config-file platform="android" parent="/manifest">
-     <application android:debuggable="true" />
-</gap:config-file>
+
 
 
     <!-- Third party plugins -->
