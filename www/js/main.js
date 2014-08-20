@@ -358,7 +358,7 @@ reg.renderRegView();
 		    }
 		    
        
-		    myText += ", 'SwVer_CF':"    + nxtySwVerCucf;
+		    myText += ", 'SwVer_CF':"    + nxtySwVerCuCf;
 		    myText += ", 'BuildId_CF':"  + nxtySwBuildIdCu;
             myText += ", 'SwVerNu_PIC':" + nxtySwVerNuPic;
             myText += ", 'SwVerCu_PIC':" + nxtySwVerCuPic;

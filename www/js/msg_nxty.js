@@ -59,7 +59,7 @@ var nxtyRxStatusBuildConfig = null
 
 // Software Version response data...
 var u8CurrentVerReq         = new Uint8Array(1);
-var nxtySwVerCucf           = null;  // NU Sw ver same as CU so just use CU.
+var nxtySwVerCuCf           = null;  // NU Sw ver same as CU so just use CU.
 var nxtySwBuildIdCu         = null;
 var nxtySwVerNuPic          = null;
 var nxtySwVerCuPic          = null;
