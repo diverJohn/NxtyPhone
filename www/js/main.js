@@ -345,6 +345,7 @@ reg.renderRegView();
 		    // Notify the cloud that we are here...
 		    SendCloudAsset();
 		    
+/*		    
 		    // Send some preliminary data to the cloud...
 		    var myText = "'Registered':";
 		    
@@ -365,7 +366,9 @@ reg.renderRegView();
             myText += ", 'SwVer_BT':"    + nxtySwVerBt; 
             myText += ", 'OperatorCode': '0000'";
 		    
-		    SendCloudData( myText ); 
+		    SendCloudData( myText );
+*/		    
+		     
 		}
 		else
 		{
@@ -375,7 +378,8 @@ reg.renderRegView();
                 {
                     // Get the status so we can see if we need to register or not...
                     nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
-                }                
+                }   
+/*
                 else if( nxtySwVerCuCf == null )
                 {
                     // Get the Cell Fi software version...
@@ -400,6 +404,7 @@ reg.renderRegView();
                     u8CurrentVerReq = NXTY_SW_BT_TYPE;
                     nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
                 }
+*/                
                 else if( isNxtySnCurrent == false )
                 {
                     // Get the serial number.   
