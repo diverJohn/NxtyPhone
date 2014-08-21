@@ -107,7 +107,7 @@ var nxty = {
         return;
       }        
         
-        
+       
       if( msgRxLastCmd == NXTY_WAITING_FOR_RSP )
       {
         uTxMsgNotReadyCnt++;
@@ -157,7 +157,7 @@ var nxty = {
         uStdBuff[NXTY_STD_MSG_SIZE-1] = uCrc;
     
         // Send the data..
-        WriteBluetoothDevice(uStdBuff);
+//jdo        WriteBluetoothDevice(uStdBuff);
         
       }
       else
