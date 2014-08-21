@@ -30,14 +30,15 @@ var PrintLogLevel = 10;
 // PrintLog............................................................................................
 function PrintLog(level, txt)
 {
+    var d = new Date();
     if( level == 99 )
     {
-        console.log("**** Error: (" + getSeconds() + "." + getMilliseconds() + ") " + txt);
+        console.log("**** Error: (" + d.getSeconds() + "." + d.getMilliseconds() + ") " + txt);
 //jdo        console.error(txt);            // console.error does not work on phonegap
     }
     else if( level <= PrintLogLevel )
     { 
-        console.log("(" + getSeconds() + "." + getMilliseconds() + ") " + txt);
+        console.log("(" + d.getSeconds() + "." + d.getMilliseconds() + ") " + txt);
     }
 }
 
