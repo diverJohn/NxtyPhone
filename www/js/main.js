@@ -212,9 +212,9 @@ SendCloudAsset();
 	 	}
 	 	else
 	 	{
-SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
-SendCloudAsset();
-//nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
+//SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
+//SendCloudAsset();
+nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
 	 	}

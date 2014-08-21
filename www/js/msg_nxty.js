@@ -54,7 +54,7 @@ var nxtyRxStatusHw          = null;
 var nxtyRxStatusHwRev       = null;
 var nxtyRxStatusUnii        = null;
 var nxtyRxStatusReg         = null;
-var nxtyRxStatusBuildConfig = null
+var nxtyRxStatusBuildConfig = null;
 
 
 // Software Version response data...
