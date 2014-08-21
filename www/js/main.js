@@ -32,7 +32,8 @@ function PrintLog(level, txt)
 {
     if( level == 99 )
     {
-        console.error(txt);
+        console.log(txt);
+//jdo        console.error(txt);
     }
     else if( level <= PrintLogLevel )
     { 
