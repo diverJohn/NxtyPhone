@@ -32,12 +32,12 @@ function PrintLog(level, txt)
 {
     if( level == 99 )
     {
-        console.log("**** Error: " + txt);
+        console.log("**** Error: (" + getSeconds() + "." + getMilliseconds() + ") " + txt);
 //jdo        console.error(txt);            // console.error does not work on phonegap
     }
     else if( level <= PrintLogLevel )
     { 
-        console.log(txt);
+        console.log("(" + getSeconds() + "." + getMilliseconds() + ") " + txt);
     }
 }
 
