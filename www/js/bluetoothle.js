@@ -45,7 +45,7 @@ function initializeSuccess(obj)
   if (obj.status == "enabled")
   {
     // If we initialize successfully, start a loop to maintain a connection...
-  	PrintLog(10, "BT: Initialization successful, starting periodic loop...");
+  	PrintLog(10, "BT: Initialization successful, starting periodic bluetooth maintenance loop...");
   	BluetoothLoop();
   }
   else
@@ -62,7 +62,7 @@ function initializeError(obj)
 
 
 // BluetoothLoop...................................................................................
-// Check every 15 seconds for a connection and subscription...
+// Check every 5 seconds if not connected and subscribed and every 15 seconds if already connected...
 function BluetoothLoop()
 {
 	bluetoothle.isConnected( isConnectedCallback );
@@ -76,7 +76,7 @@ function isConnectedCallback(obj)
 		PrintLog(10, "BT: bluetooth cnx callback: Cnx" );
 		UpdateBluetoothIcon( true );
 		
-		// Check again in 15 seconds...
+		// Check again in 15 seconds since we are connected...
         BluetoothCnxTimer = setTimeout(BluetoothLoop, 15000);
         
 		if( isBluetoothSubscribed == false )
@@ -139,8 +139,8 @@ function startScanSuccess(obj)
   }
   else if (obj.status == "scanStarted")
   {
-    PrintLog(10, "BT: Scan was started successfully, stopping in 5 sec.");
-    scanTimer = setTimeout(scanTimeout, 5000);
+    PrintLog(10, "BT: Scan was started successfully, stopping in 4 sec.");
+    scanTimer = setTimeout(scanTimeout, 4000);
   }
   else
   {
