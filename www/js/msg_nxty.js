@@ -157,7 +157,7 @@ var nxty = {
         uStdBuff[NXTY_STD_MSG_SIZE-1] = uCrc;
     
         // Send the data..
-//jdo        WriteBluetoothDevice(uStdBuff);
+        WriteBluetoothDevice(uStdBuff);
         
       }
       else
