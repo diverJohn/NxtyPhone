@@ -25,15 +25,15 @@ var MainLoopIntervalHandle = null;
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
-var PrintLogLevel = 10;
+var PrintLogLevel = 1;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
 {
     if( level == 99 )
     {
-        console.log(txt);
-//jdo        console.error(txt);
+        console.log("**** Error: " + txt);
+//jdo        console.error(txt);            // console.error does not work on phonegap
     }
     else if( level <= PrintLogLevel )
     { 
