@@ -159,23 +159,13 @@ function SendCloudData(dataText)
     
 }
 
-function showPosition(position) {
-    alert('Latitude: '          + position.coords.latitude          + '\n' +
-          'Longitude: '         + position.coords.longitude         + '\n' +
-          'Altitude: '          + position.coords.altitude          + '\n' +
-          'Accuracy: '          + position.coords.accuracy          + '\n' +
-          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-          'Heading: '           + position.coords.heading           + '\n' +
-          'Speed: '             + position.coords.speed             + '\n' +
-          'Timestamp: '         + position.timestamp                + '\n');
-}
+
 
 // onSuccess Callback
 // This method accepts a Position object, which contains the
 // current GPS coordinates
 //
 var onSuccess = function(position) {
-PrintLog(1,"OnSuccess"); 
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
           'Altitude: '          + position.coords.altitude          + '\n' +
@@ -250,7 +240,7 @@ SendCloudAsset();
 
     if (navigator.geolocation) {
 PrintLog(1,"Geolocation by phone");    
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
     } else { 
     PrintLog(1,"Geolocation by plugin"); 
        navigator.geolocation.getCurrentPosition(onSuccess, onError);
