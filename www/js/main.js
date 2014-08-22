@@ -159,6 +159,16 @@ function SendCloudData(dataText)
     
 }
 
+function showPosition(position) {
+    alert('Latitude: '          + position.coords.latitude          + '\n' +
+          'Longitude: '         + position.coords.longitude         + '\n' +
+          'Altitude: '          + position.coords.altitude          + '\n' +
+          'Accuracy: '          + position.coords.accuracy          + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+          'Heading: '           + position.coords.heading           + '\n' +
+          'Speed: '             + position.coords.speed             + '\n' +
+          'Timestamp: '         + position.timestamp                + '\n');
+}
 
 // onSuccess Callback
 // This method accepts a Position object, which contains the
@@ -237,7 +247,12 @@ SendCloudAsset();
 //SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
 //SendCloudAsset();
 
-navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+       navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+
 
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
 		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
