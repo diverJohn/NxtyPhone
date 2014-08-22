@@ -240,7 +240,7 @@ SendCloudAsset();
 navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
-//		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
+		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
 	 	}
 
