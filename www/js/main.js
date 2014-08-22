@@ -248,8 +248,10 @@ SendCloudAsset();
 //SendCloudAsset();
 
     if (navigator.geolocation) {
+PrintLog(1,"Geolocation by phone");    
         navigator.geolocation.getCurrentPosition(showPosition);
     } else { 
+    PrintLog(1,"Geolocation by plugin"); 
        navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
 
