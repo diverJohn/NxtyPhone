@@ -239,7 +239,7 @@ SendCloudAsset();
 //SendCloudAsset();
 
     
-       navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:2000});
+       navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:10000});
 
 
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
