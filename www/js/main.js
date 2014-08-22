@@ -238,13 +238,8 @@ SendCloudAsset();
 //SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
 //SendCloudAsset();
 
-    if (navigator.geolocation) {
-PrintLog(1,"Geolocation by phone");    
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    } else { 
-    PrintLog(1,"Geolocation by plugin"); 
-       navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    }
+    
+       navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:2000});
 
 
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
