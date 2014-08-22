@@ -160,7 +160,27 @@ function SendCloudData(dataText)
 }
 
 
+// onSuccess Callback
+// This method accepts a Position object, which contains the
+// current GPS coordinates
+//
+var onSuccess = function(position) {
+    alert('Latitude: '          + position.coords.latitude          + '\n' +
+          'Longitude: '         + position.coords.longitude         + '\n' +
+          'Altitude: '          + position.coords.altitude          + '\n' +
+          'Accuracy: '          + position.coords.accuracy          + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+          'Heading: '           + position.coords.heading           + '\n' +
+          'Speed: '             + position.coords.speed             + '\n' +
+          'Timestamp: '         + position.timestamp                + '\n');
+};
 
+// onError Callback receives a PositionError object
+//
+function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
 
 var app = {
      
@@ -216,8 +236,11 @@ SendCloudAsset();
 	 	{
 //SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
 //SendCloudAsset();
-nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
-		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
+
+navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+//nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
+//		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
 	 	}
 
@@ -298,29 +321,9 @@ reg.renderRegView();
 
 
 
-// onSuccess Callback
-// This method accepts a Position object, which contains the
-// current GPS coordinates
-//
-var onSuccess = function(position) {
-    alert('Latitude: '          + position.coords.latitude          + '\n' +
-          'Longitude: '         + position.coords.longitude         + '\n' +
-          'Altitude: '          + position.coords.altitude          + '\n' +
-          'Accuracy: '          + position.coords.accuracy          + '\n' +
-          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-          'Heading: '           + position.coords.heading           + '\n' +
-          'Speed: '             + position.coords.speed             + '\n' +
-          'Timestamp: '         + position.timestamp                + '\n');
-};
 
-// onError Callback receives a PositionError object
-//
-function onError(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
-}
 
-navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
 			
 	},
 
