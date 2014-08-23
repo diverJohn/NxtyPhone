@@ -135,7 +135,7 @@ function SendCloudData(dataText)
         
         PrintLog( 1, "SendCloudData: " + myDataUrl + "  " + myData );
         
-/*        
+        
         $.ajax({
             type       : "POST",
             url        : myDataUrl,
@@ -151,7 +151,7 @@ function SendCloudData(dataText)
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
-*/
+
         
     }
     else
