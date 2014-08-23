@@ -143,6 +143,7 @@ var nxty = {
         uStdBuff[0] = NXTY_STD_MSG_SIZE;
         uStdBuff[1] = uCmdByte;
       
+PrintLog(1, "SendNxtyMsg: pMsgData: " + pMsgData + " len: " + uLenByte );      
         if( uLenByte && (pMsgData != null) )
         {
           for( i = 0; i < uLenByte; i++ )

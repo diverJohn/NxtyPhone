@@ -431,7 +431,7 @@ SendCloudAsset();
             else if( nxtySwVerNuPic == null )
             {
                 // We now have the Cel-Fi SW version so send the data to the cloud
-                SendCloudData( "'SwVer_CF':" + nxtySwVerCuCf +", 'BuildId_CF':"  + nxtySwBuildIdCu );
+                SendCloudData( "'SwVer_CF':'" + nxtySwVerCuCf +"', 'BuildId_CF':'"  + nxtySwBuildIdCu + "'" );
             
                 // Get the NU PIC software version...
                 u8CurrentVerReq = NXTY_SW_NU_PIC_TYPE;
@@ -440,7 +440,7 @@ SendCloudAsset();
             else if( nxtySwVerCuPic == null )
             {
                 // We now have the NU PIC SW version so send the data to the cloud
-                SendCloudData( "'SwVerNu_PIC':" + nxtySwVerNuPic );
+                SendCloudData( "'SwVerNu_PIC':'" + nxtySwVerNuPic + "'" );
             
                 // Get the CU PIC software version...
                 u8CurrentVerReq = NXTY_SW_CU_PIC_TYPE;
@@ -449,7 +449,7 @@ SendCloudAsset();
             else if( nxtySwVerBt == null )
             {
                 // We now have the CU PIC SW version so send the data to the cloud
-                SendCloudData( "'SwVerCu_PIC':" + nxtySwVerCuPic );
+                SendCloudData( "'SwVerCu_PIC':'" + nxtySwVerCuPic + "'" );
             
                 // Get the BT software version...
                 u8CurrentVerReq = NXTY_SW_BT_TYPE;
@@ -458,7 +458,7 @@ SendCloudAsset();
             else
             {
                 // We now have the BT SW version so send the data to the cloud
-                SendCloudData( "'SwVer_BT':" + nxtySwVerBt );
+                SendCloudData( "'SwVer_BT':'" + nxtySwVerBt + "'" );
             
                 // End the main loop...
                 clearInterval(MainLoopIntervalHandle);
