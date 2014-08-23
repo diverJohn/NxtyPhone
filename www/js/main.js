@@ -15,6 +15,7 @@ var mySn           = "12345678";
 //var myModel        = "modelTest";
 //var mySn           = "12345";
 var myUrl          = "https://nextivity-sandbox-connect.axeda.com:443/ammp/";
+var myOperatorCode = "0000";
 
 
 var MainLoopIntervalHandle = null;
@@ -431,7 +432,7 @@ SendCloudAsset();
             else if( nxtySwVerNuPic == null )
             {
                 // We now have the Cel-Fi SW version so send the data to the cloud
-                SendCloudData( "'SwVer_CF':'" + nxtySwVerCuCf +"', 'BuildId_CF':'"  + nxtySwBuildIdCu + "'" );
+                SendCloudData( "'SwVer_CF':'" + nxtySwVerCuCf + "', 'BuildId_CF':'"  + nxtySwBuildIdCu + "'" );
             
                 // Get the NU PIC software version...
                 nxtyCurrentVerReq = NXTY_SW_NU_PIC_TYPE;
@@ -461,7 +462,8 @@ SendCloudAsset();
             else
             {
                 // We now have the BT SW version so send the data to the cloud
-                SendCloudData( "'SwVer_BT':'" + nxtySwVerBt + "'" );
+                SendCloudData( "'SwVer_BT':'" + nxtySwVerBt + "', 'OperatorCode':'" + myOperatorCode + "'"  );
+                
             
                 // End the main loop...
                 clearInterval(MainLoopIntervalHandle);
