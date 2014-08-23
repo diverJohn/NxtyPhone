@@ -381,7 +381,7 @@ SendCloudAsset();
 
 	mainLoop: function() 
 	{
-        var myText;
+        var u8TempBuff = new Uint8Array(5);  
 		PrintLog(3, "App: Main loop..." );
 		
         if( isBluetoothCnx )
@@ -425,8 +425,9 @@ SendCloudAsset();
 
             
                 // Get the Cell Fi software version...
-                u8CurrentVerReq = NXTY_SW_CF_CU_TYPE;
-                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                nxtyCurrentVerReq = NXTY_SW_CF_CU_TYPE;
+                u8TempBuff[0]     = nxtyCurrentVerReq;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8TempBuff, 1);
             }
             else if( nxtySwVerNuPic == null )
             {
@@ -434,8 +435,9 @@ SendCloudAsset();
                 SendCloudData( "'SwVer_CF':'" + nxtySwVerCuCf +"', 'BuildId_CF':'"  + nxtySwBuildIdCu + "'" );
             
                 // Get the NU PIC software version...
-                u8CurrentVerReq = NXTY_SW_NU_PIC_TYPE;
-                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                nxtyCurrentVerReq = NXTY_SW_NU_PIC_TYPE;
+                u8TempBuff[0]     = nxtyCurrentVerReq;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8TempBuff, 1);                
             }
             else if( nxtySwVerCuPic == null )
             {
@@ -443,8 +445,9 @@ SendCloudAsset();
                 SendCloudData( "'SwVerNu_PIC':'" + nxtySwVerNuPic + "'" );
             
                 // Get the CU PIC software version...
-                u8CurrentVerReq = NXTY_SW_CU_PIC_TYPE;
-                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                nxtyCurrentVerReq = NXTY_SW_CU_PIC_TYPE;
+                u8TempBuff[0]     = nxtyCurrentVerReq;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8TempBuff, 1);                
             }
             else if( nxtySwVerBt == null )
             {
@@ -452,8 +455,9 @@ SendCloudAsset();
                 SendCloudData( "'SwVerCu_PIC':'" + nxtySwVerCuPic + "'" );
             
                 // Get the BT software version...
-                u8CurrentVerReq = NXTY_SW_BT_TYPE;
-                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                nxtyCurrentVerReq = NXTY_SW_BT_TYPE;
+                u8TempBuff[0]     = nxtyCurrentVerReq;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8TempBuff, 1);                
             }
             else
             {

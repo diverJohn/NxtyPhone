@@ -58,7 +58,7 @@ var nxtyRxStatusBuildConfig = null;
 
 
 // Software Version response data...
-var u8CurrentVerReq         = new Uint8Array(1);
+var nxtyCurrentVerReq       = null;
 var nxtySwVerCuCf           = null;  // NU Sw ver same as CU so just use CU.
 var nxtySwBuildIdCu         = null;
 var nxtySwVerNuPic          = null;
@@ -143,15 +143,12 @@ var nxty = {
         uStdBuff[0] = NXTY_STD_MSG_SIZE;
         uStdBuff[1] = uCmdByte;
       
-PrintLog(1, "SendNxtyMsg: pMsgData: " + pMsgData + " len: " + uLenByte );      
+     
         if( uLenByte && (pMsgData != null) )
         {
-PrintLog(1, "SendNxtyMsg: inside if" );          
           for( i = 0; i < uLenByte; i++ )
           {
-           
             uStdBuff[2+i] = pMsgData[i];
-PrintLog(1, "SendNxtyMsg: uStdBuff[2+i]: " + uStdBuff[2+i] );             
           }
         }
     
@@ -282,20 +279,20 @@ PrintLog(1, "SendNxtyMsg: uStdBuff[2+i]: " + uStdBuff[2+i] );
 	        case NXTY_SW_VERSION_RSP:
 	        {
 	           PrintLog(1,  "Msg: SW Version Rsp" );
-	           if( u8CurrentVerReq == NXTY_SW_CF_CU_TYPE )
+	           if( nxtyCurrentVerReq == NXTY_SW_CF_CU_TYPE )
 	           {
 	               nxtySwVerCuCf   = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]);  
 	               nxtySwBuildIdCu = "0x" + U8ToHexText(u8RxBuff[6]) + U8ToHexText(u8RxBuff[7]) + U8ToHexText(u8RxBuff[8]) + U8ToHexText(u8RxBuff[9]);
 	           }
-               else if( u8CurrentVerReq == NXTY_SW_NU_PIC_TYPE )
+               else if( nxtyCurrentVerReq == NXTY_SW_NU_PIC_TYPE )
                {
                    nxtySwVerNuPic  = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
                }
-               else if( u8CurrentVerReq == NXTY_SW_CU_PIC_TYPE )
+               else if( nxtyCurrentVerReq == NXTY_SW_CU_PIC_TYPE )
                {
                    nxtySwVerCuPic  = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
                }
-               else if( u8CurrentVerReq == NXTY_SW_BT_TYPE )
+               else if( nxtyCurrentVerReq == NXTY_SW_BT_TYPE )
                {
                     nxtySwVerBt    = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
                }
