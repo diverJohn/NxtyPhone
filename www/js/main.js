@@ -21,8 +21,9 @@ var MainLoopIntervalHandle = null;
 
 // Determine which messages get sent to the console.  1 normal, 10 verbose.
 // Level  1: Flow and errors.
-// Level  2: Raw data
+// Level  2: Raw bluetooth data
 // Level  3: Timing loops
+// Level  4: Cloud data
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
 var PrintLogLevel = 3;
@@ -97,8 +98,7 @@ function SendCloudAsset()
         var myAsset    = "{'id': {'mn':'" + myModel + "', 'sn':'" + mySn + "', 'tn': '0' }, 'pingRate': 3600 }";
         var myAssetUrl = myUrl + "assets/1";
         
-        PrintLog( 1, "SendCloudAsset: " + myAsset );
-        PrintLog( 1, "SendCloudAssetUrl: " + myAssetUrl );
+        PrintLog( 1, "SendCloudAsset: " + myAssetUrl + "  " + myAsset );
         
         
         $.ajax({
@@ -133,8 +133,7 @@ function SendCloudData(dataText)
         var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
         var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
         
-        PrintLog( 1, "SendCloudData: " + myData );
-        PrintLog( 2, "SendCloudDataUrl: " + myDataUrl );
+        PrintLog( 1, "SendCloudData: " + myDataUrl + "  " + myData );
         
 /*        
         $.ajax({
