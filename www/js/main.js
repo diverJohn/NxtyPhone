@@ -174,7 +174,7 @@ function SendCloudLocation(lat, long)
         
         PrintLog( 1, "SendCloudLocation: " + myDataUrl + "  " + myData );
         
-/*        
+        
         $.ajax({
             type       : "POST",
             url        : myDataUrl,
@@ -190,7 +190,7 @@ function SendCloudLocation(lat, long)
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
-*/        
+        
         
     }
     else
@@ -268,8 +268,7 @@ var app = {
             StartBluetooth();
         }
         
-        // Request location...should ask before....
-        navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {timeout:10000});
+
         
         // Start the handler to be called every second...
 		MainLoopIntervalHandle = setInterval(app.mainLoop, 1000 ); 
@@ -462,7 +461,10 @@ SendCloudAsset();
             {
                 // We now have both the status and SN so notify the cloud that we are here...
                 SendCloudAsset();
-
+                
+                // Request location...should ask before....
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {timeout:10000});
+        
                 // Update the registered status...
                 if( isRegistered )
                 {
