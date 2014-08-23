@@ -41,7 +41,6 @@ var tech = {
     // Handle the left arrow key
     handleLeftKey: function()
     {
-//        app.showAlert("Handle Left Arrow...", "");
         userPageInc = -1;
 //        tech.clearPage();
     },
@@ -50,7 +49,6 @@ var tech = {
     // Handle the right arrow key
     handleRightKey: function()
     {
-//        app.showAlert("Handle Right Arrow...", "");
         userPageInc = 1;
 //        tech.clearPage();
     },

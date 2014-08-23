@@ -161,11 +161,12 @@ function SendCloudData(dataText)
 
 
 
-// onSuccess Callback
+// Geolocation Callbacks
 // This method accepts a Position object, which contains the
 // current GPS coordinates
 //
-var onSuccess = function(position) {
+var geoSuccess = function(position) 
+{
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
           'Altitude: '          + position.coords.altitude          + '\n' +
@@ -176,13 +177,27 @@ var onSuccess = function(position) {
           'Timestamp: '         + position.timestamp                + '\n');
 };
 
-// onError Callback receives a PositionError object
+// geoError Callback receives a PositionError object
 //
-function onError(error) {
+function geoError(error) 
+{
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
 }
 
+showAlert: function (message, title) 
+{
+  if(window.isPhone) 
+  {
+    navigator.notification.alert(message, null, title, 'ok');
+  } 
+  else 
+  {
+    alert(title ? (title + ": " + message) : message);
+  }
+}
+
+// ..................................................................................
 var app = {
      
     // deviceready Event Handler
@@ -209,13 +224,7 @@ var app = {
     },   
        
        
-    showAlert: function (message, title) {
-      if(window.isPhone) {
-        navigator.notification.alert(message, null, title, 'ok');
-      } else {
-        alert(title ? (title + ": " + message) : message);
-      }
-    },
+
 
 
 
@@ -236,20 +245,18 @@ SendCloudAsset();
 	 	else
 	 	{
 //SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
-//SendCloudAsset();
-
-    
-       navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:10000});
-
-
+SendCloudAsset();
+   
+//       navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {timeout:10000});
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
-		 	this.showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
+            showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
 	 	}
 
 	},
 
-	// Handle the Teck Mode key
+
+	// Handle the Tech Mode key
 	handleTechModeKey: function()
 	{
 	 	PrintLog(1, "Tech Mode key pressed");
@@ -260,8 +267,15 @@ SendCloudAsset();
 	 	}
 	 	else
 	 	{
-tech.renderTechView();	 	
-	//	 	this.showAlert("Tech mode not allowed...", "Bluetooth not connected.");
+            if( ImRunningOnBrowser )
+            {
+                // Allow the browser to go into Tech mode
+                tech.renderTechView();
+            }
+            else
+            {	 	
+	            showAlert("Tech mode not allowed...", "Bluetooth not connected.");
+	        }
 	 	}
 	},
 
@@ -278,8 +292,14 @@ tech.renderTechView();
 	 	}
 	 	else
 	 	{
-reg.renderRegView();
-//		 	this.showAlert("Registration mode not allowed...", "Bluetooth not connected.");
+            if( ImRunningOnBrowser )
+            {
+                reg.renderRegView();
+            }
+            else
+            {
+                showAlert("Registration mode not allowed...", "Bluetooth not connected.");
+            }
 	 	}
 	 	
 	 	
@@ -319,14 +339,6 @@ reg.renderRegView();
  		
  		document.getElementById("reg_button_id").addEventListener('touchstart', HandleButtonDown );
  		document.getElementById("reg_button_id").addEventListener('touchend',   HandleButtonUp );
-
-
-
-
-
-
-
-
 			
 	},
 

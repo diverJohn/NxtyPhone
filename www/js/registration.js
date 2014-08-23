@@ -33,7 +33,7 @@ var reg = {
 	   	}
 	   	else
 	   	{
-	   		app.showAlert("No need to re-register.", "Already Registered.");
+	   		showAlert("No need to re-register.", "Already Registered.");
 	   	}	
 	 		 	
 	},
