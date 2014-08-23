@@ -169,7 +169,7 @@ function SendCloudLocation(lat, long)
 {
     if( (myModel != null) && (mySn != null) )
     {
-        var myData    = "{'locations':[{'latitude':" + lat + ", 'longitude':" + long}]}";
+        var myData    = "{'locations':[{'latitude':" + lat + ", 'longitude':" + long + "}]}";
         var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
         
         PrintLog( 1, "SendCloudLocation: " + myDataUrl + "  " + myData );
