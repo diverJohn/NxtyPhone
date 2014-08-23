@@ -25,7 +25,7 @@ var MainLoopIntervalHandle = null;
 // Level  3: Timing loops
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
-var PrintLogLevel = 10;
+var PrintLogLevel = 3;
 
 // PrintLog............................................................................................
 function PrintLog(level, txt)
@@ -136,6 +136,7 @@ function SendCloudData(dataText)
         PrintLog( 1, "SendCloudData: " + myData );
         PrintLog( 2, "SendCloudDataUrl: " + myDataUrl );
         
+/*        
         $.ajax({
             type       : "POST",
             url        : myDataUrl,
@@ -151,6 +152,8 @@ function SendCloudData(dataText)
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
+*/
+        
     }
     else
     {
@@ -219,7 +222,7 @@ var app = {
         }
         
         // Start the handler to be called every second...
-		MainLoopIntervalHandle = setInterval(app.MainLoop, 1000 ); 
+		MainLoopIntervalHandle = setInterval(app.mainLoop, 1000 ); 
 		
         app.renderHomeView();
     },   
@@ -344,7 +347,8 @@ SendCloudAsset();
 	},
 
 
-	initialize: function() {
+	initialize: function() 
+	{
 	
 		if( ImRunningOnBrowser )
 		{
@@ -375,96 +379,95 @@ SendCloudAsset();
 
 
 
-	MainLoop: function() 
+	mainLoop: function() 
 	{
-	
+        var myText;
 		PrintLog(3, "App: Main loop..." );
 		
-		// See if SN command received yet since it is the last requested...
-		if( isNxtySnCurrent == true )
-		{
-			// See if we need to allow the registration button...
-			if( isRegistered == false )
-			{
-				document.getElementById("reg_button_id").innerHTML = "<img src='img/button_Register.png' />";
-			}
-		    clearInterval(MainLoopIntervalHandle);
-		    
-		    // Notify the cloud that we are here...
-		    SendCloudAsset();
-		    
-/*		    
-		    // Send some preliminary data to the cloud...
-		    var myText = "'Registered':";
-		    
-		    if( isRegistered )
-		    {
-		      myText += 1;
-		    }
-		    else
-		    {
-              myText += 0;
-		    }
-		    
-       
-		    myText += ", 'SwVer_CF':"    + nxtySwVerCuCf;
-		    myText += ", 'BuildId_CF':"  + nxtySwBuildIdCu;
-            myText += ", 'SwVerNu_PIC':" + nxtySwVerNuPic;
-            myText += ", 'SwVerCu_PIC':" + nxtySwVerCuPic;
-            myText += ", 'SwVer_BT':"    + nxtySwVerBt; 
-            myText += ", 'OperatorCode': '0000'";
-		    
-		    SendCloudData( myText );
-*/		    
-		     
-		}
-		else
-		{
-		    if( isBluetoothCnx )
+        if( isBluetoothCnx )
+        {
+            if( isNxtyStatusCurrent == false )
             {
-                if( isNxtyStatusCurrent == false )
+                // Get the status so we can see if we need to register or not...
+                nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
+            } 
+            else if( isNxtySnCurrent == false )
+            {
+                // If we can't get the Sn then the reg button will be updated every
+                // time thru the loop.  We could add a flag and only update it once
+                // but if we get the Status msg from above then we are almost 
+                // guaranteed to get the Sn and other msgs below.
+                
+                // We now have the status message response so look at the registered bit...
+                if( isRegistered == false )
                 {
-                    // Get the status so we can see if we need to register or not...
-                    nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);
-                }   
-/*
-                else if( nxtySwVerCuCf == null )
-                {
-                    // Get the Cell Fi software version...
-                    u8CurrentVerReq = NXTY_SW_CF_CU_TYPE;
-                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                    document.getElementById("reg_button_id").innerHTML = "<img src='img/button_Register.png' />";
                 }
-                else if( nxtySwVerNuPic == null )
+            
+                // Get the serial number.   
+                // Although it was already passed in the advertising message, get it again...
+                nxty.SendNxtyMsg(NXTY_SYS_SN_REQ, null, 0);
+            }
+            else if( nxtySwVerCuCf == null )
+            {
+                // We now have both the status and SN so notify the cloud that we are here...
+                SendCloudAsset();
+
+                // Update the registered status...
+                if( isRegistered )
                 {
-                    // Get the NU PIC software version...
-                    u8CurrentVerReq = NXTY_SW_NU_PIC_TYPE;
-                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+                    SendCloudData( "'Registered':" + 1 );
                 }
-                else if( nxtySwVerCuPic == null )
+                else
                 {
-                    // Get the CU PIC software version...
-                    u8CurrentVerReq = NXTY_SW_CU_PIC_TYPE;
-                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
-                }
-                else if( nxtySwVerBt == null )
-                {
-                    // Get the BT software version...
-                    u8CurrentVerReq = NXTY_SW_BT_TYPE;
-                    nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
-                }
-*/                
-                else if( isNxtySnCurrent == false )
-                {
-                    // Get the serial number.   
-                    // Although it was already passed in the advertising message, get it again...
-                    nxty.SendNxtyMsg(NXTY_SYS_SN_REQ, null, 0);
+                    SendCloudData( "'Registered':" + 0 );
                 }
 
-            }  
-        }
+            
+                // Get the Cell Fi software version...
+                u8CurrentVerReq = NXTY_SW_CF_CU_TYPE;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+            }
+            else if( nxtySwVerNuPic == null )
+            {
+                // We now have the Cel-Fi SW version so send the data to the cloud
+                SendCloudData( "'SwVer_CF':" + nxtySwVerCuCf +", 'BuildId_CF':"  + nxtySwBuildIdCu );
+            
+                // Get the NU PIC software version...
+                u8CurrentVerReq = NXTY_SW_NU_PIC_TYPE;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+            }
+            else if( nxtySwVerCuPic == null )
+            {
+                // We now have the NU PIC SW version so send the data to the cloud
+                SendCloudData( "'SwVerNu_PIC':" + nxtySwVerNuPic );
+            
+                // Get the CU PIC software version...
+                u8CurrentVerReq = NXTY_SW_CU_PIC_TYPE;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+            }
+            else if( nxtySwVerBt == null )
+            {
+                // We now have the CU PIC SW version so send the data to the cloud
+                SendCloudData( "'SwVerCu_PIC':" + nxtySwVerCuPic );
+            
+                // Get the BT software version...
+                u8CurrentVerReq = NXTY_SW_BT_TYPE;
+                nxty.SendNxtyMsg(NXTY_SW_VERSION_REQ, u8CurrentVerReq, 1);
+            }
+            else
+            {
+                // We now have the BT SW version so send the data to the cloud
+                SendCloudData( "'SwVer_BT':" + nxtySwVerBt );
+            
+                // End the main loop...
+                clearInterval(MainLoopIntervalHandle);
+            }
+
+        }   // End if( isBluetoothCnx )
 		
 		
-	},
+	}, // End of MainLoop()
 
 
 
