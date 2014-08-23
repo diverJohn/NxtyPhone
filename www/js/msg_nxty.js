@@ -146,9 +146,12 @@ var nxty = {
 PrintLog(1, "SendNxtyMsg: pMsgData: " + pMsgData + " len: " + uLenByte );      
         if( uLenByte && (pMsgData != null) )
         {
+PrintLog(1, "SendNxtyMsg: inside if" );          
           for( i = 0; i < uLenByte; i++ )
           {
+           
             uStdBuff[2+i] = pMsgData[i];
+PrintLog(1, "SendNxtyMsg: uStdBuff[2+i]: " + uStdBuff[2+i] );             
           }
         }
     
