@@ -190,12 +190,14 @@ function SendCloudLocation(lat, long)
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
+*/        
+        
     }
     else
     {
         PrintLog( 99, "SendCloudLocation: Model and SN not available yet" );
     }
-*/
+
     
 }
 
