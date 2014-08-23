@@ -16,6 +16,8 @@ var mySn           = "12345678";
 //var mySn           = "12345";
 var myUrl          = "https://nextivity-sandbox-connect.axeda.com:443/ammp/";
 var myOperatorCode = "0000";
+var myLat          = 32.987838;             // Nextivity lat
+var myLong         = -117.074195;           // Nextivity long
 
 
 var MainLoopIntervalHandle = null;
@@ -131,7 +133,7 @@ function SendCloudData(dataText)
 {
     if( (myModel != null) && (mySn != null) )
     {
-        var myData    = "{'data':[{'dataItems': {" + dataText + "}}]}";
+        var myData    = "{'data':[{'di': {" + dataText + "}}]}";
         var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
         
         PrintLog( 1, "SendCloudData: " + myDataUrl + "  " + myData );
@@ -162,6 +164,40 @@ function SendCloudData(dataText)
     
 }
 
+// SendCloudLocation............................................................................................
+function SendCloudLocation(lat, long)
+{
+    if( (myModel != null) && (mySn != null) )
+    {
+        var myData    = "{'locations':[{'latitude':" + lat + ", 'longitude':" + long}]}";
+        var myDataUrl = myUrl + "data/1/" + myModel + "!" + mySn;
+        
+        PrintLog( 1, "SendCloudLocation: " + myDataUrl + "  " + myData );
+        
+/*        
+        $.ajax({
+            type       : "POST",
+            url        : myDataUrl,
+            contentType: "application/json;charset=utf-8",
+            data       : myData,
+            dataType   : 'json',    // response format
+            success    : function(response) 
+                        {
+                            PrintLog( 10, "SendCloudData success..." );;
+                        },
+            error      : function(response) 
+                        {
+                            PrintLog( 99, JSON.stringify(response) );
+                        }
+        });
+    }
+    else
+    {
+        PrintLog( 99, "SendCloudLocation: Model and SN not available yet" );
+    }
+*/
+    
+}
 
 
 // Geolocation Callbacks
@@ -170,6 +206,8 @@ function SendCloudData(dataText)
 //
 function geoSuccess(position) 
 {
+    SendCloudLocation( position.coords.latitude, position.coords.longitude );
+/*    
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
           'Altitude: '          + position.coords.altitude          + '\n' +
@@ -178,14 +216,20 @@ function geoSuccess(position)
           'Heading: '           + position.coords.heading           + '\n' +
           'Speed: '             + position.coords.speed             + '\n' +
           'Timestamp: '         + position.timestamp                + '\n');
+*/          
 }
 
 // geoError Callback receives a PositionError object
 //
 function geoError(error) 
 {
+
+/* 
+silent...
+
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
+*/          
 }
 
 function showAlert(message, title) 
@@ -221,6 +265,9 @@ var app = {
             StartBluetooth();
         }
         
+        // Request location...should ask before....
+        navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {timeout:10000});
+        
         // Start the handler to be called every second...
 		MainLoopIntervalHandle = setInterval(app.mainLoop, 1000 ); 
 		
@@ -251,7 +298,7 @@ SendCloudAsset();
 //SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
 SendCloudAsset();
    
-//       navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {timeout:10000});
+
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
             showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
 		 	
