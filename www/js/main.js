@@ -165,7 +165,7 @@ function SendCloudData(dataText)
 // This method accepts a Position object, which contains the
 // current GPS coordinates
 //
-var geoSuccess = function(position) 
+function geoSuccess(position) 
 {
     alert('Latitude: '          + position.coords.latitude          + '\n' +
           'Longitude: '         + position.coords.longitude         + '\n' +
@@ -175,7 +175,7 @@ var geoSuccess = function(position)
           'Heading: '           + position.coords.heading           + '\n' +
           'Speed: '             + position.coords.speed             + '\n' +
           'Timestamp: '         + position.timestamp                + '\n');
-};
+}
 
 // geoError Callback receives a PositionError object
 //
@@ -185,7 +185,7 @@ function geoError(error)
           'message: ' + error.message + '\n');
 }
 
-showAlert: function (message, title) 
+function showAlert(message, title) 
 {
   if(window.isPhone) 
   {
@@ -196,6 +196,7 @@ showAlert: function (message, title)
     alert(title ? (title + ": " + message) : message);
   }
 }
+
 
 // ..................................................................................
 var app = {
