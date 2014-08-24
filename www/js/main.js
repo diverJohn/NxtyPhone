@@ -220,7 +220,8 @@ function SendCloudPoll()
         }
 
 
-        var myAssetUrl = myUrl + "assets/1/" + myModel + "!" + mySn;
+//        var myAssetUrl = myUrl + "assets/1/" + myModel + "!" + mySn;
+        var myAssetUrl = myUrl + "assets/1/modelTest!12345";
         PrintLog( 1, "SendCloudPoll: " + myAssetUrl );
         
         
