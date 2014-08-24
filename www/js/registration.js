@@ -135,7 +135,7 @@ var reg = {
 			{
 				// Poll the cloud...
 				myPollResponse = null;
-				SendCloudAsset();
+				SendCloudPoll();
 				
 				if( myPollResponse != null )
 				{

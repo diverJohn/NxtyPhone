@@ -113,7 +113,6 @@ function SendCloudAsset()
             dataType   : 'json',    // response format
             success    : function(response) 
                         {
-                            myPollResponse = response;
                             PrintLog( 1, "SendCloudAsset success..." + JSON.stringify(response) );
                         },
             error      : function(response) 
@@ -202,6 +201,56 @@ function SendCloudLocation(lat, long)
 
     
 }
+
+// SendCloudPoll............................................................................................
+function SendCloudPoll()
+{
+    if( isNxtyStatusCurrent && isNxtySnCurrent )
+    {
+        myModel = "MN" + nxtyRxStatusBuildConfig;
+        mySn = nxtySn[0].toString(16);
+        for( var i = 1; i < nxtySn.length; i++ )
+        {
+            if( nxtySn[i] < 0x10 )
+            {
+                mySn = mySn + "0";  // Add a leading 0.
+            }
+            
+            mySn = mySn + nxtySn[i].toString(16);
+        }
+
+
+        var myAssetUrl = myUrl + "assets/1";
+        
+        PrintLog( 1, "SendCloudPoll: " + myAssetUrl );
+        
+        
+        $.ajax({
+            type       : "POST",
+            url        : myAssetUrl,
+//            contentType: "application/json;charset=utf-8",
+//            data       : myAsset,
+            dataType   : 'json',    // response format
+            success    : function(response) 
+                        {
+                            myPollResponse = response;
+                            PrintLog( 1, "SendCloudPoll success..." + JSON.stringify(response) );
+                        },
+            error      : function(response) 
+                        {
+                            PrintLog( 99, JSON.stringify(response) );
+                        }
+        });
+        
+        
+    }
+    else
+    {
+        PrintLog( 99, "SendCloudPoll: Model and SN not available yet" );
+    }
+}
+
+
 
 
 // Geolocation Callbacks
