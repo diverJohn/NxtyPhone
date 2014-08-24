@@ -112,6 +112,7 @@ var reg = {
                     navigator.notification.activityStart("Registering...", "Requesting Operator Info...");
                     regState        = REG_STATE_OPER_REG_RSP;
                     regTimeoutCount = 0;
+                    myPollResponse  = null;
 				}
 				else
 				{   
@@ -134,7 +135,6 @@ var reg = {
 			case REG_STATE_OPER_REG_RSP:
 			{
 				// Poll the cloud...
-				myPollResponse = null;
 				SendCloudPoll();
 				
 				if( myPollResponse != null )
