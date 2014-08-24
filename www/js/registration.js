@@ -101,9 +101,9 @@ var reg = {
 				{
                     // We have received the response from the Cel-Fi unit..
                     // Send the data from the Cel-Fi unit to the cloud...
-                    var myText = "'plmnid':'"        + myPlmnid    + "'" +
-                                 "'regDataToOp':'"   + regDataToOp + "'" +
-                                 "'regDataFromOp':'0'"                   +          // Fill return with 0
+                    var myText = "'plmnid':'"        + myPlmnid    + "', " +
+                                 "'regDataToOp':'"   + regDataToOp + "', " +
+                                 "'regDataFromOp':'0', "                   +        // Fill return with 0
                                  "'regAction':'true'";                              // Fire the event.
                     
                     SendCloudData( myText );
