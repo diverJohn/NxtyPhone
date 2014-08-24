@@ -149,7 +149,7 @@ function SendCloudData(dataText)
             dataType   : 'json',    // response format
             success    : function(response) 
                         {
-                            PrintLog( 10, "SendCloudData success..." );;
+                            PrintLog( 10, "SendCloudData success..." + JSON.stringify(response)  );
                         },
             error      : function(response) 
                         {
@@ -185,7 +185,7 @@ function SendCloudLocation(lat, long)
             dataType   : 'json',    // response format
             success    : function(response) 
                         {
-                            PrintLog( 10, "SendCloudData success..." );;
+                            PrintLog( 10, "SendCloudLocation success..." + JSON.stringify(response) );
                         },
             error      : function(response) 
                         {
