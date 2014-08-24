@@ -5,13 +5,13 @@ var	regState			    = null;
 var REG_STATE_INIT				= 1;
 var REG_STATE_CELL_INFO_REQ		= 2;
 var REG_STATE_CELL_INFO_RSP		= 3;
-var REG_STATE_OPER_REG_REQ  	= 4;
-var REG_STATE_OPER_REG_RSP  	= 5;
-var REG_STATE_REGISTRATION_REQ 	= 6;
-var REG_STATE_REGISTRATION_RSP 	= 7;
+var REG_STATE_OPER_REG_RSP  	= 4;
+var REG_STATE_REGISTRATION_REQ 	= 5;
+var REG_STATE_REGISTRATION_RSP 	= 6;
 
 var myPlmnid                    = "no plmind";
 var regDataToOp                 = "registration data to operator";
+var regTimeoutCount             = 0;
 
 var reg = {
 
@@ -74,8 +74,10 @@ var reg = {
 		
 			case REG_STATE_INIT:
 			{
-				regState = REG_STATE_CELL_INFO_REQ;
-	 			RegLoopIntervalHandle = setInterval(reg.RegLoop, 4000 );
+				regState              = REG_STATE_CELL_INFO_REQ;
+	 			RegLoopIntervalHandle = setInterval(reg.RegLoop, 1000 );
+                regTimeoutCount       = 0;
+
 	 			
 	 			// Make sure that the action is false so the watching event will see a false to true transition.
 	 			SendCloudData(  "'regAction':'false'" );
@@ -85,6 +87,7 @@ var reg = {
 
 			case REG_STATE_CELL_INFO_REQ:
 			{
+                // Send a message to the Cel-Fi unit to gather Cell Info...			
 				nxty.SendNxtyMsg(NXTY_CELL_INFO_REQ, null, 0);
 				UpdateStatusLine("Requesting Cell Info from Cel-Fi device.");
                 navigator.notification.activityStart("Registering...", "Requesting Cell Info...");
@@ -94,37 +97,39 @@ var reg = {
 			
 			case REG_STATE_CELL_INFO_RSP:
 			{
+                // Wait in this state until the Cel-Fi unit responds...
 				if( window.msgRxLastCmd == NXTY_CELL_INFO_RSP )
 				{
-
-					
-					regState = REG_STATE_OPER_REG_REQ;
+                    // We have received the response from the Cel-Fi unit..
+                    // Send the data from the Cel-Fi unit to the cloud...
+                    var myText = "'plmnid':'"        + myPlmnid    + "'" +
+                                 "'regDataToOp':'"   + regDataToOp + "'" +
+                                 "'regDataFromOp':'0'"                   +          // Fill return with 0
+                                 "'regAction':'true'";                              // Fire the event.
+                    
+                    SendCloudData( myText );
+                        
+                    UpdateStatusLine("Sending Operator Registration Request.");
+                    navigator.notification.activityStart("Registering...", "Requesting Operator Info...");
+                    regState        = REG_STATE_OPER_REG_RSP;
+                    regTimeoutCount = 0;
 				}
 				else
-				{
-                    // jdo:  after so many waits try again?
+				{   
+				    regTimeoutCount += 1;
+				    
+				    if( regTimeoutCount >= 10 )
+				    {
+                        // after 10 times exit stage left...
+                        clearInterval(RegLoopIntervalHandle);
+                        UpdateStatusLine("Failed to receive Cell Info from Cel-Fi device.");
+                        showAlert("No Cell Info response from Cel-Fi device.", "Timeout.");
+				    }
 				}
 				break;
 			}
 			
 			
-
-			case REG_STATE_OPER_REG_REQ:
-			{
-			    // We have received the response from the Cel-Fi unit..
-                // Send the data from the Cel-Fi unit to the cloud...
-                var myText = "'plmnid':'"        + myPlmnid    + "'" +
-                             "'regDataToOp':'"   + regDataToOp + "'" +
-                             "'regDataFromOp':'0'"                   +          // Fill return with 0
-                             "'regAction':'true'";                              // Fire the event.
-                
-                SendCloudData( myText );
-                    
-				UpdateStatusLine("Sending Operator Registration Request.");
-				navigator.notification.activityStart("Registering...", "Requesting Operator Info...");
-				regState = REG_STATE_OPER_REG_RSP;
-				break;
-			}
 			
 			case REG_STATE_OPER_REG_RSP:
 			{
