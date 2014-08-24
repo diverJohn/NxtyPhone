@@ -122,6 +122,7 @@ var reg = {
 				    {
                         // after 10 times exit stage left...
                         clearInterval(RegLoopIntervalHandle);
+                        navigator.notification.activityStop();
                         UpdateStatusLine("Failed to receive Cell Info from Cel-Fi device.");
                         showAlert("No Cell Info response from Cel-Fi device.", "Timeout.");
 				    }
