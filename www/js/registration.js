@@ -139,8 +139,12 @@ var reg = {
 				
 				if( myPollResponse != null )
 				{
+				    var rsp   = JSON.parse(myPollResponse);
+				    var u8rsp = bluetoothle.stringToBytes(rsp.NextSong); 
+				    
+                
 				    // Received a response from the cloud... 
-                    nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, null, 0);
+                    nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8rsp, u8rsp.length);
                     UpdateStatusLine("Authenticating...");
                     navigator.notification.activityStart("Registering...", "Authenticating...");
                     regState        = REG_STATE_REGISTRATION_RSP;
