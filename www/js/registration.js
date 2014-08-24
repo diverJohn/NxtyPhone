@@ -6,8 +6,7 @@ var REG_STATE_INIT				= 1;
 var REG_STATE_CELL_INFO_REQ		= 2;
 var REG_STATE_CELL_INFO_RSP		= 3;
 var REG_STATE_OPER_REG_RSP  	= 4;
-var REG_STATE_REGISTRATION_REQ 	= 5;
-var REG_STATE_REGISTRATION_RSP 	= 6;
+var REG_STATE_REGISTRATION_RSP 	= 5;
 
 var myPlmnid                    = "no plmind";
 var regDataToOp                 = "registration data to operator";
@@ -134,26 +133,36 @@ var reg = {
 			
 			case REG_STATE_OPER_REG_RSP:
 			{
-				// jdo:  Poll the cloud...
+				// Poll the cloud...
+				myPollResponse = null;
+				SendCloudAsset();
 				
-				regState = REG_STATE_REGISTRATION_REQ;
+				if( myPollResponse != null )
+				{
+				    // Received a response from the cloud... 
+                    nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, null, 0);
+                    UpdateStatusLine("Authenticating...");
+                    navigator.notification.activityStart("Registering...", "Authenticating...");
+                    regState        = REG_STATE_REGISTRATION_RSP;
+                    regTimeoutCount = 0;
+				}
+				else
+				{
+	                regTimeoutCount += 1;
+                    
+                    if( regTimeoutCount >= 10 )
+                    {
+                        // after 10 times exit stage left...
+                        clearInterval(RegLoopIntervalHandle);
+                        navigator.notification.activityStop();
+                        UpdateStatusLine("Failed to receive response from Operator.");
+                        showAlert("No response from Operator.", "Timeout.");
+                    }
+				}
+
 				break;
 			}
 
-			
-			
-			
-			case REG_STATE_REGISTRATION_REQ:
-			{
-			
-				// jdo add data from the cloud
-				
-				nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, null, 0);
-				UpdateStatusLine("Authenticating...");
-                navigator.notification.activityStart("Registering...", "Authenticating...");
-				regState = REG_STATE_REGISTRATION_RSP;
-				break;
-			}
 			
 			case REG_STATE_REGISTRATION_RSP:
 			{
@@ -175,6 +184,19 @@ var reg = {
 					clearInterval(RegLoopIntervalHandle);
 					
 					// jdo:  after so many waits try again?
+				}
+				else
+				{
+                    regTimeoutCount += 1;
+                    
+                    if( regTimeoutCount >= 10 )
+                    {
+                        // after 10 times exit stage left...
+                        clearInterval(RegLoopIntervalHandle);
+                        navigator.notification.activityStop();
+                        UpdateStatusLine("Failed to receive Authentication response from Cel-Fi device.");
+                        showAlert("No Authentication response from Cel-Fi device.", "Timeout.");
+                    }
 				}
 			
 				break;

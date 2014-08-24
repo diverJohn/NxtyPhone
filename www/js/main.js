@@ -18,6 +18,7 @@ var myUrl          = "https://nextivity-sandbox-connect.axeda.com:443/ammp/";
 var myOperatorCode = "0000";
 var myLat          = 32.987838;             // Nextivity lat
 var myLong         = -117.074195;           // Nextivity long
+var myPollResponse = null;
 
 
 var MainLoopIntervalHandle = null;
@@ -112,7 +113,8 @@ function SendCloudAsset()
             dataType   : 'json',    // response format
             success    : function(response) 
                         {
-                            PrintLog( 1, "SendCloudAsset success..." );;
+                            myPollResponse = response;
+                            PrintLog( 1, "SendCloudAsset success..." + JSON.stringify(response) );
                         },
             error      : function(response) 
                         {
