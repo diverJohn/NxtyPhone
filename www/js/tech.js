@@ -114,11 +114,13 @@ var tech = {
         if( userPageInc > 0 )
         {
             u8Buff[0] = userPageInc;
+            u8Buff[1] = 1;  // Request descriptions...
         }
         else if( userPageInc < 0 )
         {
             // Set negative page count...
             u8Buff[0] = 0xFF - (userPageInc + 1);   // -1 = 0xFF, -2 = 0xFE
+            u8Buff[1] = 1;  // Request descriptions...
         }
         else
         {
