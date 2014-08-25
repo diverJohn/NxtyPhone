@@ -113,19 +113,16 @@ var tech = {
        
         if( userPageInc > 0 )
         {
-            u8Buff[0] = 0;
-            u8Buff[1] = userPageInc;
+            u8Buff[0] = userPageInc;
         }
         else if( userPageInc < 0 )
         {
             // Set negative page count...
-            u8Buff[0] = 0xFF;
-            u8Buff[1] = 0xFF - (userPageInc + 1);   // -1 = 0xFFFF, -2 = 0xFFFE
+            u8Buff[0] = 0xFF - (userPageInc + 1);   // -1 = 0xFF, -2 = 0xFE
         }
         else
         {
             u8Buff[0] = 0;
-            u8Buff[1] = 0;
         }
         
         userPageInc = 0;
@@ -133,13 +130,16 @@ var tech = {
         
         if( document.getElementById('d0').innerHTML.length == 0 )
         {
-        	u8Buff[2] = 1;	// Request descriptions...
+        	u8Buff[1] = 1;	// Request descriptions...
         }
         else
         {
-        	u8Buff[2] = 0;	// Request values...
+        	u8Buff[1] = 0;	// Request values...
         } 
-        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);
+        
+        // u8Buff[0] = +/- 15 page increment
+        // u8Buff[1] = descriptions or value flag
+        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 2);
         bLookForRsp = true;               
     },
 
