@@ -238,24 +238,27 @@ var tech = {
     
                	outText = outText + " Val: ";
                        
-                // See if any values have been included, if so then update...       
-                for( i = 0; i < myData.val.length; i++ )
-                {
-                	idTxt = "v" + i;
-                    document.getElementById(idTxt).innerHTML = myData.val[i];
-                	outText = outText + "  " + myData.val[i];
-                	
-                	if( i == 0 )
-                	{
-                	   cloudText = "'P" + myData.page + "_head':" + myData.head + "'";
-                	}
-                	
-                	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
-                }        
-    
-    
+                // See if any values have been included, if so then update...   
+                if( myData.val.length != 0 )
+                {    
+                    for( i = 0; i < myData.val.length; i++ )
+                    {
+                    	idTxt = "v" + i;
+                        document.getElementById(idTxt).innerHTML = myData.val[i];
+                    	outText = outText + "  " + myData.val[i];
+                    	
+                    	if( i == 0 )
+                    	{
+                    	   cloudText = "'P" + myData.page + "_head':'" + myData.head + "'";
+                    	}
+                    	
+                    	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
+                    }
+                            
 PrintLog(1, cloudText );    
-//    SendCloudData(myData.val[0]);
+//SendCloudData(cloudText);
+                }
+    
     
                 outText = outText + " Unit: ";
                        
