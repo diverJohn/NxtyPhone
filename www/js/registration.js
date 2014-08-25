@@ -139,11 +139,14 @@ var reg = {
 				
 				if( myPollResponse != null )
 				{
+
 				
 PrintLog(1, "myPollRespone is " + JSON.stringify(myPollResponse) );				
-				    var rsp   = JSON.parse(JSON.stringify(myPollResponse));
+PrintLog(1, "NextSong is " + myPollResponse.NextSong );
+    
+//				    var rsp   = JSON.parse(JSON.stringify(myPollResponse));
 	
-PrintLog(1, "NextSong is " + rsp.NextSong );	
+//PrintLog(1, "NextSong is " + rsp.NextSong );	
 				    
 /*				    
 				    var u8rsp = bluetoothle.stringToBytes(rsp.NextSong); 
