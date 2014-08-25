@@ -248,10 +248,10 @@ var tech = {
                 	
                 	if( i = 0 )
                 	{
-                	   cloudText = "P" + myData.page + "_";
+                	   cloudText = "P" + myData.page + "_" "head:'" + myData.head + "'";
                 	}
                 	
-                	cloudText += "'" + currentLabels[i] + "':" + myData.val[i];
+                	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
                 }        
     
     
