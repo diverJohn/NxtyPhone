@@ -7,7 +7,7 @@ var u8Buff                     = new Uint8Array(10);
 var bLookForRsp                = false;
 var userPageInc                = 0;
 var maxPageRows                = 11;
-var currentLabels[20];
+var currentLabels              = [];            // Create an array
 
 var tech = {
 
