@@ -191,7 +191,7 @@ var tech = {
             else if( window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
             {
     			var outText = "Tech: Process Page Rsp...";
-    			var cloudText;
+    			var cloudText = "Cloud Text";
                 
                 // JSON data from device looks like...
                 //     { 
