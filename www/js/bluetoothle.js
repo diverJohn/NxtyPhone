@@ -511,7 +511,7 @@ function WriteBluetoothDevice( u8 )
         {
             outText = outText + " " + u8[i].toString(16);
         }
-        PrintLog(10,  "Nxty Tx: " + outText );
+        PrintLog(2,  "Msg Tx: " + outText );
    	}
    	else
    	{
@@ -531,7 +531,7 @@ function WriteBluetoothDevice( u8 )
         {
             outText = outText + " " + u8Sub[i].toString(16);
         }
-        PrintLog(10,  "Nxty Tx: " + outText );
+        PrintLog(2,  "Msg Tx: " + outText );
 		
    	}
 
