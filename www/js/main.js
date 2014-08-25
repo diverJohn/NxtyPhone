@@ -349,11 +349,27 @@ SendCloudAsset();
 	 	else
 	 	{
 //SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
-SendCloudAsset();
+//SendCloudAsset();
    
 
 //nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
-            showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
+//            showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
+  
+//                myPollResponse = "{'set':[{'items':{'NextSong':'Howdy'},'priority':0},{'items':{'NextSong':'Howdy'},'priority':0}]}";          
+                myPollResponse = JSON.stringify({set:[{items:{NextSong:"Howdy"},priority:0},{items:{NextSong:"Howdy"},priority:0}]});          
+                    var rsp   = JSON.parse(myPollResponse);
+                    var u8 = new Uint8Array(rsp.NextSong.length); 
+                    
+        var outText = u8[0].toString(16);    // Convert to hex output...
+        for( var i = 1; i < u8.length; i++ )
+        {
+            outText = outText + " " + u8[i].toString(16);
+        }
+        PrintLog(10,  "Dump Tx: " + outText );
+                
+                    // Received a response from the cloud... 
+//                    nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8rsp, u8rsp.length);            
+            
 		 	
 	 	}
 
