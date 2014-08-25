@@ -245,7 +245,7 @@ var tech = {
                     document.getElementById(idTxt).innerHTML = myData.val[i];
                 	outText = outText + "  " + myData.val[i];
                 	
-                	if( i = 0 )
+                	if( i == 0 )
                 	{
                 	   cloudText = "'P" + myData.page + "_head:'" + myData.head + "'";
                 	}
