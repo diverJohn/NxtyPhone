@@ -142,20 +142,12 @@ var reg = {
 
 PrintLog(1, "myPollResponse.set[0].items.NextSong " + myPollResponse.set[0].items.NextSong );      
 				
-//PrintLog(1, "myPollRespone is " + JSON.stringify(myPollResponse) );				
-//PrintLog(1, "NextSong is " + myPollResponse.NextSong );
-    
-//				    var rsp   = JSON.parse(JSON.stringify(myPollResponse));
-	
-//PrintLog(1, "NextSong is " + rsp.NextSong );	
-				    
-/*				    
-				    var u8rsp = bluetoothle.stringToBytes(rsp.NextSong); 
+				    var u8rsp = bluetoothle.stringToBytes(myPollResponse.set[0].items.NextSong); 
 				    
                 
 				    // Received a response from the cloud... 
                     nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8rsp, u8rsp.length);
-*/                    
+                    
                     
                     UpdateStatusLine("Authenticating...");
                     navigator.notification.activityStart("Registering...", "Authenticating...");
