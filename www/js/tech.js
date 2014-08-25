@@ -255,8 +255,8 @@ var tech = {
                     	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
                     }
                             
-PrintLog(1, cloudText );    
-//SendCloudData(cloudText);
+//PrintLog(1, cloudText );    
+SendCloudData(cloudText);
                 }
     
     
