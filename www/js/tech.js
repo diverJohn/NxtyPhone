@@ -7,7 +7,7 @@ var u8Buff                     = new Uint8Array(10);
 var bLookForRsp                = false;
 var userPageInc                = 0;
 var maxPageRows                = 11;
-
+var currentLabels[20];
 
 var tech = {
 
@@ -192,14 +192,15 @@ var tech = {
             else if( window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
             {
     			var outText = "Tech: Process Page Rsp...";
+    			var cloudText;
                 
                 // JSON data from device looks like...
                 //     { 
                 //       “page”:0,
                 //       “head”:”This is the heading”,
-                //       “lbl”: ["5 GHz DL Freq", "5 GHz UL Freq", ...],
-                //       “val”: [“5000 Hz”, “4000 Hz”, ...],
-                //       "unit":["dBm", "Hz"...]
+                //       “lbl”: ["5 GHz DL Freq", "5 GHz UL Freq", ...],    // Sent once...
+                //       “val”: [5000, 4000, ...],                          // Sent periodically...
+                //       "unit":["dBm", "Hz"...]                            // Sent once...
                 //     }
                 
                 // Grab the JSON string from the Rx buffer...
@@ -222,28 +223,44 @@ var tech = {
     
                	outText = outText + " Page: " + myData.page + "  Heading: " + myData.head + " Label: ";
                	
+               	// Update the heading........
                	document.getElementById("myH1").innerHTML = myData.head;
                        
+                // See if any labels have been included, if so then update...       
                 for( i = 0; i < myData.lbl.length; i++ )
                 {
                 	idTxt = "d" + i;
                     document.getElementById(idTxt).innerHTML = myData.lbl[i];
                 	outText = outText + "  " + myData.lbl[i];
+                	
+                	// Store the labels to send to the cloud as "P1_label"...
+                	currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
                 }        
     
                	outText = outText + " Val: ";
                        
+                // See if any values have been included, if so then update...       
                 for( i = 0; i < myData.val.length; i++ )
                 {
                 	idTxt = "v" + i;
                     document.getElementById(idTxt).innerHTML = myData.val[i];
                 	outText = outText + "  " + myData.val[i];
+                	
+                	if( i = 0 )
+                	{
+                	   cloudText = "P" + myData.page + "_";
+                	}
+                	
+                	cloudText += "'" + currentLabels[i] + "':" + myData.val[i];
                 }        
     
+    
+PrintLog(1, cloudText );    
 //    SendCloudData(myData.val[0]);
     
                 outText = outText + " Unit: ";
                        
+                // See if any units have been included, if so then update...
                 for( i = 0; i < myData.unit.length; i++ )
                 {
                     idTxt = "u" + i;
