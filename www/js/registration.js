@@ -140,9 +140,10 @@ var reg = {
 				if( myPollResponse != null )
 				{
 
+PrintLog(1, "myPollResponse.set[0].items.NextSong " + myPollResponse.set[0].items.NextSong );      
 				
-PrintLog(1, "myPollRespone is " + JSON.stringify(myPollResponse) );				
-PrintLog(1, "NextSong is " + myPollResponse.NextSong );
+//PrintLog(1, "myPollRespone is " + JSON.stringify(myPollResponse) );				
+//PrintLog(1, "NextSong is " + myPollResponse.NextSong );
     
 //				    var rsp   = JSON.parse(JSON.stringify(myPollResponse));
 	
