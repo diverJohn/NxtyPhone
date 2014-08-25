@@ -27,7 +27,6 @@ var MainLoopIntervalHandle = null;
 // Level  1: Flow and errors.
 // Level  2: Raw bluetooth data
 // Level  3: Timing loops
-// Level  4: Cloud data
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
 var PrintLogLevel = 3;
