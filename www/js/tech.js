@@ -185,9 +185,8 @@ var tech = {
     			            
                 // Immediately grab a page of data...
                 u8Buff[0] = 0;
-                u8Buff[1] = 0;
-                u8Buff[2] = 1;	// Grab the description... 
-                nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 3);               
+                u8Buff[1] = 1;	// Grab the description... 
+                nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 2);               
             }
             else if( window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP )
             {
