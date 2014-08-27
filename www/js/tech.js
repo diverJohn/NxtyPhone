@@ -200,7 +200,7 @@ var tech = {
                 // JSON data from device looks like...
                 //     { 
                 //       “page”:0,
-                //       “head”:”This is the heading”,
+                //       “head”:”This is the heading”,                      // Only with labels
                 //       “lbl”: ["5 GHz DL Freq", "5 GHz UL Freq", ...],    // Sent once...
                 //       “val”: [5000, 4000, ...],                          // Sent periodically...
                 //       "unit":["dBm", "Hz"...]                            // Sent once...
@@ -224,32 +224,38 @@ var tech = {
     			var myString = bluetoothle.bytesToString(u8Sub);
     			var myData   = JSON.parse(myString);
     
-               	outText = outText + " Page: " + myData.page + "  Heading: " + myData.head + " Label: ";
+               	outText += " Page: " + myData.page;
                	
-               	// Update the heading........
-               	document.getElementById("myH1").innerHTML = myData.head;
-                       
-                // See if any labels have been included, if so then update...       
-                for( i = 0; i < myData.lbl.length; i++ )
+                // See if any labels have been included, if so then update...
+                if( myData.lbl.length != 0 )
                 {
-                	idTxt = "d" + i;
-                    document.getElementById(idTxt).innerHTML = myData.lbl[i];
-                	outText = outText + "  " + myData.lbl[i];
-                	
-                	// Store the labels to send to the cloud as "P1_label"...
-                	currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
+                    outText += "  Heading: " + myData.head + " Label: ";
+                
+                    // Update the heading........
+                    document.getElementById("myH1").innerHTML = myData.head;
+                       
+                    for( i = 0; i < myData.lbl.length; i++ )
+                    {
+                    	idTxt = "d" + i;
+                        document.getElementById(idTxt).innerHTML = myData.lbl[i];
+                    	outText += " " + myData.lbl[i];
+                    	
+                    	// Store the labels to send to the cloud as "P1_label"...
+                    	currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
+                    }
                 }        
     
-               	outText = outText + " Val: ";
+
                        
                 // See if any values have been included, if so then update...   
                 if( myData.val.length != 0 )
-                {    
+                {
+                    outText += " Val: ";    
                     for( i = 0; i < myData.val.length; i++ )
                     {
                     	idTxt = "v" + i;
                         document.getElementById(idTxt).innerHTML = myData.val[i];
-                    	outText = outText + "  " + myData.val[i];
+                    	outText = outText + " " + myData.val[i];
                     	
                     	if( i == 0 )
                     	{
@@ -260,19 +266,22 @@ var tech = {
                     }
                             
 //PrintLog(1, cloudText );    
-SendCloudData(cloudText);
+SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                 }
     
     
-                outText = outText + " Unit: ";
                        
                 // See if any units have been included, if so then update...
-                for( i = 0; i < myData.unit.length; i++ )
+                if( myData.unit.length != 0 )
                 {
-                    idTxt = "u" + i;
-                    document.getElementById(idTxt).innerHTML = myData.unit[i];
-                    outText = outText + "  " + myData.unit[i];
-                } 
+                    outText += " Unit: ";
+                    for( i = 0; i < myData.unit.length; i++ )
+                    {
+                        idTxt = "u" + i;
+                        document.getElementById(idTxt).innerHTML = myData.unit[i];
+                        outText += " " + myData.unit[i];
+                    } 
+                }
                 
     			PrintLog(1, outText );
                 bLookForRsp = false;               
