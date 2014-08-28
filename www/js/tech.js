@@ -109,7 +109,7 @@ var tech = {
 
     GetFreshPageLoop: function() 
     {
-        PrintLog(3, "Tech: Get Fresh Page loop..." );
+        PrintLog(4, "Tech: Get Fresh Page loop..." );
        
         if( document.getElementById('d0').innerHTML.length == 0 )
         {

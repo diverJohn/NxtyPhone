@@ -25,8 +25,9 @@ var MainLoopIntervalHandle = null;
 
 // Determine which messages get sent to the console.  1 normal, 10 verbose.
 // Level  1: Flow and errors.
-// Level  2: Raw bluetooth data
-// Level  3: Timing loops
+// Level  2: Raw bluetooth Tx data
+// Level  3: Raw bluetooth Rx Data
+// Level  4: Timing loops
 // Level 10: Bluetooth processing.
 // Level 99: Error, print in red.
 var PrintLogLevel = 2;
@@ -509,7 +510,7 @@ PrintLog(1, "What is next song " + rsp.set[0].items.NextSong );
 	mainLoop: function() 
 	{
         var u8TempBuff = new Uint8Array(5);  
-		PrintLog(3, "App: Main loop..." );
+		PrintLog(4, "App: Main loop..." );
 		
         if( isBluetoothCnx )
         {

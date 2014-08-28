@@ -66,7 +66,7 @@ var reg = {
 
 	RegLoop: function() 
 	{
-		PrintLog(3, "Reg: Reg loop..." );
+		PrintLog(4, "Reg: Reg loop..." );
 		
 		switch( regState )
 		{

@@ -234,12 +234,12 @@ var nxty = {
 		if( uRxBuffIdx != u8RxBuff[0] )
 		{
             outText = outText + " [Cnt(" + uRxBuffIdx  + ") != len(" + u8RxBuff[0] + ") exit]";
-		    PrintLog(2,  "Msg Rx: " + outText );
+		    PrintLog(3,  "Msg Rx: " + outText );
 			return;
 		}
 
         outText = outText + " [Cnt(" + uRxBuffIdx  + ") == len(" + u8RxBuff[0] + ") process]";
-        PrintLog(2,  "Msg Rx: " + outText );
+        PrintLog(3,  "Msg Rx: " + outText );
 
 
 		// Process message................................
