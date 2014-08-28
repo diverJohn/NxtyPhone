@@ -8,6 +8,7 @@ var bLookForRsp                = false;
 var userPageInc                = 0;
 var maxPageRows                = 11;
 var currentLabels              = [];            // Create an array
+var FreshLoopCounter           = 0;
 
 var tech = {
 
@@ -109,42 +110,48 @@ var tech = {
 
     GetFreshPageLoop: function() 
     {
-        PrintLog(4, "Tech: Get Fresh Page loop..." );
-       
-        if( document.getElementById('d0').innerHTML.length == 0 )
+        if( (window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP) || (FreshLoopCounter > 10) )
         {
-            u8Buff[1] = 1;  // Request descriptions if nothing there
+            PrintLog(4, "Tech: Get Fresh Page loop..." );
+           
+            if( document.getElementById('d0').innerHTML.length == 0 )
+            {
+                u8Buff[1] = 1;  // Request descriptions if nothing there
+            }
+            else
+            {
+                u8Buff[1] = 0;  // Request values only...
+            } 
+           
+            if( userPageInc > 0 )
+            {
+                u8Buff[0] = userPageInc;
+                u8Buff[1] = 1;              // Request descriptions if changing pages
+            }
+            else if( userPageInc < 0 )
+            {
+                // Set negative page count...
+                u8Buff[0] = 0xFF - (userPageInc + 1);   // -1 = 0xFF, -2 = 0xFE
+                u8Buff[1] = 1;                          // Request descriptions if changing pages
+            }
+            else
+            {
+                u8Buff[0] = 0;
+            }
+            
+            userPageInc = 0;
+            
+            // u8Buff[0] = +/- 15 page increment
+            // u8Buff[1] = descriptions or value flag
+            nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 2);
+            bLookForRsp      = true;
+            FreshLoopCounter = 0;
         }
         else
         {
-            u8Buff[1] = 0;  // Request values only...
-        } 
-       
-        if( userPageInc > 0 )
-        {
-            u8Buff[0] = userPageInc;
-            u8Buff[1] = 1;              // Request descriptions if changing pages
-        }
-        else if( userPageInc < 0 )
-        {
-            // Set negative page count...
-            u8Buff[0] = 0xFF - (userPageInc + 1);   // -1 = 0xFF, -2 = 0xFE
-            u8Buff[1] = 1;                          // Request descriptions if changing pages
-        }
-        else
-        {
-            u8Buff[0] = 0;
-        }
-        
-        userPageInc = 0;
-        
-        
-
-        
-        // u8Buff[0] = +/- 15 page increment
-        // u8Buff[1] = descriptions or value flag
-        nxty.SendNxtyMsg(NXTY_GET_MON_MODE_PAGE_REQ, u8Buff, 2);
-        bLookForRsp = true;               
+            PrintLog(4, "Tech: Get Fresh Page loop not ready..." );
+            FreshLoopCounter += 1;
+        }               
     },
 
 
