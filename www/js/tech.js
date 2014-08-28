@@ -70,17 +70,17 @@ var tech = {
             "<br><br><br><h1 id=myH1>Heading</h1><br><br>" +
             "<table align='center'>" +
             "<tr> <th>Description</th>  <th>Value</th> <th>Units</th> </tr>" +
-            "<tr> <td id='d0'></td>  <td id='v0'>0</td>  <td id='u0'>0</td></tr>" +
-            "<tr> <td id='d1'></td>  <td id='v1'>0</td>  <td id='u1'>0</td></tr>" +
-            "<tr> <td id='d2'></td>  <td id='v2'>0</td>  <td id='u2'>0</td></tr>" +
-            "<tr> <td id='d3'></td>  <td id='v3'>0</td>  <td id='u3'>0</td></tr>" +
-            "<tr> <td id='d4'></td>  <td id='v4'>0</td>  <td id='u4'>0</td></tr>" +
-            "<tr> <td id='d5'></td>  <td id='v5'>0</td>  <td id='u5'>0</td></tr>" +
-            "<tr> <td id='d6'></td>  <td id='v6'>0</td>  <td id='u6'>0</td></tr>" +
-            "<tr> <td id='d7'></td>  <td id='v7'>0</td>  <td id='u7'>0</td></tr>" +
-            "<tr> <td id='d8'></td>  <td id='v8'>0</td>  <td id='u8'>0</td></tr>" +
-            "<tr> <td id='d9'></td>  <td id='v9'>0</td>  <td id='u9'>0</td></tr>" +
-            "<tr> <td id='d10'></td> <td id='v10'>0</td> <td id='u10'>0</td></tr>" +
+            "<tr> <td id='d0'>-</td>  <td id='v0'></td>  <td id='u0'></td></tr>" +
+            "<tr> <td id='d1'>-</td>  <td id='v1'></td>  <td id='u1'></td></tr>" +
+            "<tr> <td id='d2'>-</td>  <td id='v2'></td>  <td id='u2'></td></tr>" +
+            "<tr> <td id='d3'>-</td>  <td id='v3'></td>  <td id='u3'></td></tr>" +
+            "<tr> <td id='d4'>-</td>  <td id='v4'></td>  <td id='u4'></td></tr>" +
+            "<tr> <td id='d5'>-</td>  <td id='v5'></td>  <td id='u5'></td></tr>" +
+            "<tr> <td id='d6'>-</td>  <td id='v6'></td>  <td id='u6'></td></tr>" +
+            "<tr> <td id='d7'>-</td>  <td id='v7'></td>  <td id='u7'></td></tr>" +
+            "<tr> <td id='d8'>-</td>  <td id='v8'></td>  <td id='u8'></td></tr>" +
+            "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
+            "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>" +
             "</table>" +
             "<button id='left_arrow_id'  type='button' class='myLeftArrow' onclick='tech.handleLeftKey()'><img src='img/arrow_left.png' /></button>" +
             "<button id='right_arrow_id' type='button' class='myRightArrow' onclick='tech.handleRightKey()'><img src='img/arrow_right.png' /></button>";
@@ -250,6 +250,19 @@ var tech = {
                     	// Store the labels to send to the cloud as "P1_label"...
                     	currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
                     }
+
+                    // Clear the remaining rows...
+                    for( ; i < 11; i++ )
+                    {
+                        idTxt = "d" + i;
+                        document.getElementById(idTxt).innerHTML = "-";
+                        idTxt = "v" + i;
+                        document.getElementById(idTxt).innerHTML = " ";
+                        idTxt = "u" + i;
+                        document.getElementById(idTxt).innerHTML = " ";
+                    }
+                    
+                    
                 }        
     
 
