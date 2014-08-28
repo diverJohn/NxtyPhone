@@ -114,7 +114,12 @@ var nxty = {
         
         if( uTxMsgNotReadyCnt < 5 )
         {
-            PrintLog(99,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " abort" );
+            var outText = uCmdByte.toString(16);    // Convert to hex output...
+            for( i = 0; i < pMsgData.length; i++ )
+            {
+                outText = outText + " " + pMsgData[i].toString(16);
+            }
+            PrintLog(99,  "Msg: Tx requested before Rx received. TxNotReadyCnt = " + uTxMsgNotReadyCnt + " abort msg: " + outText );
             return;
         }
         else
