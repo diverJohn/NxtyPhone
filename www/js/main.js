@@ -526,6 +526,10 @@ PrintLog(1, "What is next song " + rsp.set[0].items.NextSong );
                 // but if we get the Status msg from above then we are almost 
                 // guaranteed to get the Sn and other msgs below.
                 
+                // Since we received the status message, lets crank it up to get the other messages...
+                clearInterval(MainLoopIntervalHandle);
+                MainLoopIntervalHandle = setInterval(app.mainLoop, 500 ); 
+                
                 // We now have the status message response so look at the registered bit...
                 if( isRegistered == false )
                 {

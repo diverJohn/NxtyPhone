@@ -238,6 +238,10 @@ var tech = {
                 {
                     outText += "  Heading: " + myData.head + " Label: ";
                 
+                    // Send the heading to the cloud...
+                    cloudText = "'P" + myData.page + "_head':'" + myData.head + "'";
+                    SendCloudData(cloudText); 
+                    
                     // Update the heading........
                     document.getElementById("myH1").innerHTML = myData.head;
                        
@@ -279,7 +283,8 @@ var tech = {
                     	
                     	if( i == 0 )
                     	{
-                    	   cloudText = "'P" + myData.page + "_head':'" + myData.head + "'";
+                    	   // Let the cloud know what page this data is for...
+                    	   cloudText = "'currentPage':" + myData.page;
                     	}
                     	
                     	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
