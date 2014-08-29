@@ -9,7 +9,22 @@ var userPageInc                = 0;
 var maxPageRows                = 11;
 var currentLabels              = [];            // Create an array
 var FreshLoopCounter           = 0;
+var LastPageDisplayed          = 0;
 
+var ThreeColTable = 
+    "<tr> <th>Description</th>  <th>Value</th> <th>Units</th> </tr>" +
+    "<tr> <td id='d0'>-</td>  <td id='v0'></td>  <td id='u0'></td></tr>" +
+    "<tr> <td id='d1'>-</td>  <td id='v1'></td>  <td id='u1'></td></tr>" +
+    "<tr> <td id='d2'>-</td>  <td id='v2'></td>  <td id='u2'></td></tr>" +
+    "<tr> <td id='d3'>-</td>  <td id='v3'></td>  <td id='u3'></td></tr>" +
+    "<tr> <td id='d4'>-</td>  <td id='v4'></td>  <td id='u4'></td></tr>" +
+    "<tr> <td id='d5'>-</td>  <td id='v5'></td>  <td id='u5'></td></tr>" +
+    "<tr> <td id='d6'>-</td>  <td id='v6'></td>  <td id='u6'></td></tr>" +
+    "<tr> <td id='d7'>-</td>  <td id='v7'></td>  <td id='u7'></td></tr>" +
+    "<tr> <td id='d8'>-</td>  <td id='v8'></td>  <td id='u8'></td></tr>" +
+    "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
+    "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>";
+                            
 var tech = {
 
 	 
@@ -69,12 +84,11 @@ var tech = {
 
             "<br><br><br><h1 id=myH1>Heading</h1><br><br>" +
             "<table id='tech_table' align='center'>" +
-
+            ThreeColTable +
             "</table>" +
             "<button id='left_arrow_id'  type='button' class='myLeftArrow' onclick='tech.handleLeftKey()'><img src='img/arrow_left.png' /></button>" +
             "<button id='right_arrow_id' type='button' class='myRightArrow' onclick='tech.handleRightKey()'><img src='img/arrow_right.png' /></button>";
             
-
 		$('body').html(myHtml);
 		
 		document.getElementById("left_arrow_id").addEventListener('touchstart', HandleButtonDown );
@@ -221,6 +235,8 @@ var tech = {
     			var myString = bluetoothle.bytesToString(u8Sub);
     			var myData   = JSON.parse(myString);
     
+   PrintLog(1, JSON.stringify(myData) );
+    
                 // Cell Info:   Pages 1~4
                 // Sys Info:    Pages 5~8
                 // UNII:        Page  9
@@ -230,29 +246,19 @@ var tech = {
                	outText += " Page: " + myData.page;
 
                                	
-               	if( myData.page < 10 )
+               	if( myData.page <= 9 )
                	{
                	    // Cell Info, Sys Info and UNII tables
                	
                     // See if any labels have been included, if so then update...
                     if( myData.lbl.length != 0 )
                     {
-                        var ThreeColTable = 
-                            "<tr> <th>Description</th>  <th>Value</th> <th>Units</th> </tr>" +
-                            "<tr> <td id='d0'>-</td>  <td id='v0'></td>  <td id='u0'></td></tr>" +
-                            "<tr> <td id='d1'>-</td>  <td id='v1'></td>  <td id='u1'></td></tr>" +
-                            "<tr> <td id='d2'>-</td>  <td id='v2'></td>  <td id='u2'></td></tr>" +
-                            "<tr> <td id='d3'>-</td>  <td id='v3'></td>  <td id='u3'></td></tr>" +
-                            "<tr> <td id='d4'>-</td>  <td id='v4'></td>  <td id='u4'></td></tr>" +
-                            "<tr> <td id='d5'>-</td>  <td id='v5'></td>  <td id='u5'></td></tr>" +
-                            "<tr> <td id='d6'>-</td>  <td id='v6'></td>  <td id='u6'></td></tr>" +
-                            "<tr> <td id='d7'>-</td>  <td id='v7'></td>  <td id='u7'></td></tr>" +
-                            "<tr> <td id='d8'>-</td>  <td id='v8'></td>  <td id='u8'></td></tr>" +
-                            "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
-                            "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>";
-                        
-                        document.getElementById("tech_table").innerHTML = ThreeColTable;  
-                                
+                        if( LastPageDisplayed > 9 )
+                        {
+                            document.getElementById("tech_table").innerHTML = ThreeColTable;
+                        }  
+                         
+                        LastPageDisplayed = myData.page;        
                         outText += "  Heading: " + myData.head + " Label: ";
                     
                         // Send the heading to the cloud...
@@ -325,7 +331,8 @@ var tech = {
                 }
                                 
     			PrintLog(1, outText );
-                bLookForRsp = false;               
+                bLookForRsp = false;
+              
             }
         }
         
