@@ -93,21 +93,6 @@ var tech = {
 		// Start the timer to request fresh page data. 
         TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
         
-        var ThreeColTable = 
-            "<tr> <th>Description</th>  <th>Value</th> <th>Units</th> </tr>" +
-            "<tr> <td id='d0'>-</td>  <td id='v0'></td>  <td id='u0'></td></tr>" +
-            "<tr> <td id='d1'>-</td>  <td id='v1'></td>  <td id='u1'></td></tr>" +
-            "<tr> <td id='d2'>-</td>  <td id='v2'></td>  <td id='u2'></td></tr>" +
-            "<tr> <td id='d3'>-</td>  <td id='v3'></td>  <td id='u3'></td></tr>" +
-            "<tr> <td id='d4'>-</td>  <td id='v4'></td>  <td id='u4'></td></tr>" +
-            "<tr> <td id='d5'>-</td>  <td id='v5'></td>  <td id='u5'></td></tr>" +
-            "<tr> <td id='d6'>-</td>  <td id='v6'></td>  <td id='u6'></td></tr>" +
-            "<tr> <td id='d7'>-</td>  <td id='v7'></td>  <td id='u7'></td></tr>" +
-            "<tr> <td id='d8'>-</td>  <td id='v8'></td>  <td id='u8'></td></tr>" +
-            "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
-            "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>";
-            
-          document.getElementById("tech_table").innerHTML = ThreeColTable;  
 		  			
 	},
 
@@ -154,8 +139,8 @@ var tech = {
         }
         else
         {
-            PrintLog(4, "Tech: Get Fresh Page loop not ready..." );
             FreshLoopCounter += 1;
+            PrintLog(4, "Tech: Get Fresh Page loop not ready. Cnt: " + FreshLoopCounter );
         }               
     },
 
@@ -236,83 +221,109 @@ var tech = {
     			var myString = bluetoothle.bytesToString(u8Sub);
     			var myData   = JSON.parse(myString);
     
+                // Cell Info:   Pages 1~4
+                // Sys Info:    Pages 5~8
+                // UNII:        Page  9
+                // Cell Detail: Pages 10~13
+                // LTE Detail:  Pages 14~17
+    
                	outText += " Page: " + myData.page;
+
+                               	
+               	if( myData.page < 10 )
+               	{
+               	    // Cell Info, Sys Info and UNII tables
                	
-                // See if any labels have been included, if so then update...
-                if( myData.lbl.length != 0 )
-                {
-                    outText += "  Heading: " + myData.head + " Label: ";
-                
-                    // Send the heading to the cloud...
-                    cloudText = "'P" + myData.page + "_head':'" + myData.head + "'";
-                    SendCloudData(cloudText); 
-                    
-                    // Update the heading........
-                    document.getElementById("myH1").innerHTML = myData.head;
-                       
-                    for( i = 0; i < myData.lbl.length; i++ )
+                    // See if any labels have been included, if so then update...
+                    if( myData.lbl.length != 0 )
                     {
-                    	idTxt = "d" + i;
-                        document.getElementById(idTxt).innerHTML = myData.lbl[i];
-                    	outText += " " + myData.lbl[i];
-                    	
-                    	// Store the labels to send to the cloud as "P1_label"...
-                    	currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
-                    }
-
-                    // Clear the remaining rows...
-                    for( ; i < 11; i++ )
-                    {
-                        idTxt = "d" + i;
-                        document.getElementById(idTxt).innerHTML = "-";
-                        idTxt = "v" + i;
-                        document.getElementById(idTxt).innerHTML = " ";
-                        idTxt = "u" + i;
-                        document.getElementById(idTxt).innerHTML = " ";
-                    }
+                        var ThreeColTable = 
+                            "<tr> <th>Description</th>  <th>Value</th> <th>Units</th> </tr>" +
+                            "<tr> <td id='d0'>-</td>  <td id='v0'></td>  <td id='u0'></td></tr>" +
+                            "<tr> <td id='d1'>-</td>  <td id='v1'></td>  <td id='u1'></td></tr>" +
+                            "<tr> <td id='d2'>-</td>  <td id='v2'></td>  <td id='u2'></td></tr>" +
+                            "<tr> <td id='d3'>-</td>  <td id='v3'></td>  <td id='u3'></td></tr>" +
+                            "<tr> <td id='d4'>-</td>  <td id='v4'></td>  <td id='u4'></td></tr>" +
+                            "<tr> <td id='d5'>-</td>  <td id='v5'></td>  <td id='u5'></td></tr>" +
+                            "<tr> <td id='d6'>-</td>  <td id='v6'></td>  <td id='u6'></td></tr>" +
+                            "<tr> <td id='d7'>-</td>  <td id='v7'></td>  <td id='u7'></td></tr>" +
+                            "<tr> <td id='d8'>-</td>  <td id='v8'></td>  <td id='u8'></td></tr>" +
+                            "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
+                            "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>";
+                        
+                        document.getElementById("tech_table").innerHTML = ThreeColTable;  
+                                
+                        outText += "  Heading: " + myData.head + " Label: ";
                     
-                    
-                }        
+                        // Send the heading to the cloud...
+                        cloudText = "'P" + myData.page + "_head':'" + myData.head + "'";
+                        SendCloudData(cloudText); 
+                        
+                        // Update the heading........
+                        document.getElementById("myH1").innerHTML = myData.head;
+                           
+                        for( i = 0; i < myData.lbl.length; i++ )
+                        {
+                        	idTxt = "d" + i;
+                            document.getElementById(idTxt).innerHTML = myData.lbl[i];
+                        	outText += " " + myData.lbl[i];
+                        	
+                        	// Store the labels to send to the cloud as "P1_label"...
+                        	currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
+                        }
     
-
-                       
-                // See if any values have been included, if so then update...   
-                if( myData.val.length != 0 )
-                {
-                    outText += " Val: ";    
-                    for( i = 0; i < myData.val.length; i++ )
+                        // Clear the remaining rows...
+                        for( ; i < 11; i++ )
+                        {
+                            idTxt = "d" + i;
+                            document.getElementById(idTxt).innerHTML = "-";
+                            idTxt = "v" + i;
+                            document.getElementById(idTxt).innerHTML = " ";
+                            idTxt = "u" + i;
+                            document.getElementById(idTxt).innerHTML = " ";
+                        }
+                        
+                        
+                    }        
+                           
+                    // See if any values have been included, if so then update...   
+                    if( myData.val.length != 0 )
                     {
-                    	idTxt = "v" + i;
-                        document.getElementById(idTxt).innerHTML = myData.val[i];
-                    	outText = outText + " " + myData.val[i];
-                    	
-                    	if( i == 0 )
-                    	{
-                    	   // Let the cloud know what page this data is for...
-                    	   cloudText = "'currentPage':" + myData.page;
-                    	}
-                    	
-                    	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
+                        outText += " Val: ";    
+                        for( i = 0; i < myData.val.length; i++ )
+                        {
+                        	idTxt = "v" + i;
+                            document.getElementById(idTxt).innerHTML = myData.val[i];
+                        	outText = outText + " " + myData.val[i];
+                        	
+                        	if( i == 0 )
+                        	{
+                        	   // Let the cloud know what page this data is for...
+                        	   cloudText = "'currentPage':" + myData.page;
+                        	}
+                        	
+                        	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
+                        }
+                                
+    //PrintLog(1, cloudText );    
+                        SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                     }
-                            
-//PrintLog(1, cloudText );    
-SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
+        
+        
+                           
+                    // See if any units have been included, if so then update...
+                    if( myData.unit.length != 0 )
+                    {
+                        outText += " Unit: ";
+                        for( i = 0; i < myData.unit.length; i++ )
+                        {
+                            idTxt = "u" + i;
+                            document.getElementById(idTxt).innerHTML = myData.unit[i];
+                            outText += " " + myData.unit[i];
+                        } 
+                    }
                 }
-    
-    
-                       
-                // See if any units have been included, if so then update...
-                if( myData.unit.length != 0 )
-                {
-                    outText += " Unit: ";
-                    for( i = 0; i < myData.unit.length; i++ )
-                    {
-                        idTxt = "u" + i;
-                        document.getElementById(idTxt).innerHTML = myData.unit[i];
-                        outText += " " + myData.unit[i];
-                    } 
-                }
-                
+                                
     			PrintLog(1, outText );
                 bLookForRsp = false;               
             }
