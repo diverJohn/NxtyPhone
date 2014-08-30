@@ -25,9 +25,17 @@ var ThreeColTable =
     "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
     "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>";
                             
-var tech = {
+                            
+var FourColTable = 
+    "<tr> <th id='a0'>-</th>  <th id='a1'></th>  <th id='a2'></th>  <th id='a3'></th></tr>" +
+    "<tr> <td id='b0'>-</td>  <td id='b1'></td>  <td id='b2'></td>  <td id='b3'></td></tr>" +
+    "<tr> <td id='c0'>-</td>  <td id='c1'></td>  <td id='c2'></td>  <td id='c3'></td></tr>" +
+    "<tr> <td id='d0'>-</td>  <td id='d1'></td>  <td id='d2'></td>  <td id='d3'></td></tr>" +
+    "<tr> <td id='e0'>-</td>  <td id='e1'></td>  <td id='e2'></td>  <td id='e3'></td></tr>" +
+    "<tr> <td id='f0'>-</td>  <td id='f1'></td>  <td id='f2'></td>  <td id='f3'></td></tr>";
 
-	 
+
+var tech = {
 
 	// Handle the Tech Mode key
 	handleBackKey: function()
@@ -164,6 +172,7 @@ var tech = {
     ProcessTechDataLoop: function() 
     {
     	var i;
+    	var j;
     	var idTxt;
 
         if( bLookForRsp )
@@ -235,7 +244,7 @@ var tech = {
     			var myString = bluetoothle.bytesToString(u8Sub);
     			var myData   = JSON.parse(myString);
     
-   PrintLog(1, JSON.stringify(myData) );
+//   PrintLog(1, JSON.stringify(myData) );
     
                 // Cell Info:   Pages 1~4
                 // Sys Info:    Pages 5~8
@@ -310,6 +319,95 @@ var tech = {
                         	
                         	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
                         }
+    
+                        SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
+                    }
+        
+        
+                           
+                    // See if any units have been included, if so then update...
+                    if( myData.unit.length != 0 )
+                    {
+                        outText += " Unit: ";
+                        for( i = 0; i < myData.unit.length; i++ )
+                        {
+                            idTxt = "u" + i;
+                            document.getElementById(idTxt).innerHTML = myData.unit[i];
+                            outText += " " + myData.unit[i];
+                        } 
+                    }
+                }
+                else if( myData.page <= 13 )
+                {
+                    // Cell Detail
+                
+                    // See if any labels have been included, if so then update...
+                    if( myData.lbl.length != 0 )
+                    {
+                        if( (LastPageDisplayed < 10) || (LastPageDisplayed > 13) )
+                        {
+                            document.getElementById("tech_table").innerHTML = FourColTable;
+                        }  
+                         
+                        LastPageDisplayed = myData.page;        
+                        outText += "  Heading: " + myData.head + " Label: ";
+                    
+                        // Send the heading to the cloud...
+                        cloudText = "'P" + myData.page + "_head':'" + myData.head + "'";
+                        SendCloudData(cloudText); 
+                        
+                        // Update the heading........
+                        document.getElementById("myH1").innerHTML = myData.head;
+                           
+                        for( i = 0; i < myData.lbl.length; i++ )
+                        {
+                            idTxt = "a" + i;
+                            document.getElementById(idTxt).innerHTML = myData.lbl[i];
+                            outText += " " + myData.lbl[i];
+                            
+                            // Store the labels to send to the cloud as "P1C0_label"...
+                            currentLabels[i] = "P" + myData.page + "C" + i + "_" + myData.lbl[i];
+                        }
+    
+                        
+                        
+                    }        
+                           
+                    // See if any values have been included, if so then update...   
+                    if( myData.val.length != 0 )
+                    {
+                        outText += " Val: ";
+
+                        // Let the cloud know what page this data is for...
+                        cloudText = "'currentPage':" + myData.page;
+                            
+                        for( i = 0; i < 20; i += 4 )
+                        {
+                            for( j = 0; j < 4; j++ )
+                            {
+                                switch( i )
+                                {
+                                    case 0:  idTxt = "b" + j;    break; 
+                                    case 4:  idTxt = "c" + j;    break; 
+                                    case 8:  idTxt = "d" + j;    break; 
+                                    case 12: idTxt = "e" + j;    break; 
+                                    case 16: idTxt = "f" + j;    break; 
+                                }
+                                
+                                if( i < myData.val.length )
+                                {
+                                    document.getElementById(idTxt).innerHTML = myData.val[i];
+                                    outText = outText + " " + myData.val[i];
+                                    cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
+                                }
+                                else
+                                {
+                                    // Clear the remaining rows...
+                                    document.getElementById(idTxt).innerHTML = "-";
+                                }
+                            }
+                        }
+                        
                                 
     //PrintLog(1, cloudText );    
                         SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
@@ -329,6 +427,8 @@ var tech = {
                         } 
                     }
                 }
+                
+                
                                 
     			PrintLog(1, outText );
                 bLookForRsp = false;
