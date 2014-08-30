@@ -110,7 +110,7 @@ var tech = {
 		bLookForRsp = true;
 		
 		// Start the timer to process Rx data
-		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 1000 );
+		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 250 );
 		
 		// Start the timer to request fresh page data. 
         TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
@@ -367,10 +367,7 @@ var tech = {
                             
                             // Store the labels to send to the cloud as "P1_label"...
                             currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
-                        }
-    
-                        
-                        
+                        }                        
                     }        
                            
                     // See if any values have been included, if so then update...   
@@ -381,10 +378,11 @@ var tech = {
                         // Let the cloud know what page this data is for...
                         cloudText = "'currentPage':" + myData.page;
                         
-                        var row = 1;    
+                        var row = 0;    
                         for( i = 0; i < 20; i += 4 )
                         {   
-                        
+                            row++;
+                            
                             // Write a single row, 4 columns...
                             for( j = 0; j < 4; j++ )
                             {
@@ -402,8 +400,8 @@ var tech = {
                                     document.getElementById(idTxt).innerHTML = myData.val[i+j];
                                     outText = outText + " " + myData.val[i+j];
                                     
-                                    // Labels should look like "P13_ID_R0"...
-                                    cloudText += ", '" + currentLabels[j] + "R" + row + "':" + myData.val[i+j];
+                                    // Labels should look like "P13_ID_R1"...
+                                    cloudText += ", '" + currentLabels[j] + "_R" + row + "':" + myData.val[i+j];
                                 }
                                 else
                                 {
@@ -413,8 +411,6 @@ var tech = {
                             }
                         }
                         
-                                
-    //PrintLog(1, cloudText );    
                         SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                     }
         
