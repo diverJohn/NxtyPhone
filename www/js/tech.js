@@ -365,8 +365,8 @@ var tech = {
                             document.getElementById(idTxt).innerHTML = myData.lbl[i];
                             outText += " " + myData.lbl[i];
                             
-                            // Store the labels to send to the cloud as "P1C0_label"...
-                            currentLabels[i] = "P" + myData.page + "C" + i + "_" + myData.lbl[i];
+                            // Store the labels to send to the cloud as "P1_label"...
+                            currentLabels[i] = "P" + myData.page + "_" + myData.lbl[i];
                         }
     
                         
@@ -380,9 +380,12 @@ var tech = {
 
                         // Let the cloud know what page this data is for...
                         cloudText = "'currentPage':" + myData.page;
-                            
+                        
+                        var row = 1;    
                         for( i = 0; i < 20; i += 4 )
-                        {
+                        {   
+                        
+                            // Write a single row, 4 columns...
                             for( j = 0; j < 4; j++ )
                             {
                                 switch( i )
@@ -396,9 +399,11 @@ var tech = {
                                 
                                 if( i < myData.val.length )
                                 {
-                                    document.getElementById(idTxt).innerHTML = myData.val[i];
-                                    outText = outText + " " + myData.val[i];
-                                    cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
+                                    document.getElementById(idTxt).innerHTML = myData.val[i+j];
+                                    outText = outText + " " + myData.val[i+j];
+                                    
+                                    // Labels should look like "P13_ID_R0"...
+                                    cloudText += ", '" + currentLabels[j] + "R" + row + "':" + myData.val[i+j];
                                 }
                                 else
                                 {
