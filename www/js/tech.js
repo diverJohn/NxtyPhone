@@ -340,6 +340,9 @@ var tech = {
                 else if( myData.page <= 13 )
                 {
                     // Cell Detail
+                    //  ID   DLFreqMHz  RSCP  ECIO        (WCDMA)
+                    //  ID   DLFreqMHz  RSRP  RSRQ        (LTE)
+                    //  92    739.0     -93     -8
                 
                     // See if any labels have been included, if so then update...
                     if( myData.lbl.length != 0 )
@@ -378,11 +381,9 @@ var tech = {
                         // Let the cloud know what page this data is for...
                         cloudText = "'currentPage':" + myData.page;
                         
-                        var row = 0;    
+                        // At most 5 rows with 4 columns for 20 data items total...    
                         for( i = 0; i < 20; i += 4 )
                         {   
-                            row++;
-                            
                             // Write a single row, 4 columns...
                             for( j = 0; j < 4; j++ )
                             {
@@ -400,8 +401,8 @@ var tech = {
                                     document.getElementById(idTxt).innerHTML = myData.val[i+j];
                                     outText = outText + " " + myData.val[i+j];
                                     
-                                    // Labels should look like "P13_ID_R1"...
-                                    cloudText += ", '" + currentLabels[j] + "_R" + row + "':" + myData.val[i+j];
+                                    // Labels should look like "P13_ID_92" or "P13_DLFreqMHz_92"...where 92 is the ID value
+                                    cloudText += ", '" + currentLabels[j] + "_" + myData.val[i] + "':" + myData.val[i+j];
                                 }
                                 else
                                 {
