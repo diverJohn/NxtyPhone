@@ -75,6 +75,7 @@ var tech = {
     handleRightKey: function()
     {
         userPageInc = 1;
+        navigator.notification.activityStart("", "");
 //        tech.clearPage();
     },
 
@@ -320,7 +321,8 @@ var tech = {
                         	
                         	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
                         }
-    
+                        
+                        navigator.notification.activityStop();
                         SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                     }
         
@@ -412,7 +414,8 @@ var tech = {
                                 }
                             }
                         }
-                        
+
+                        navigator.notification.activityStop();
                         SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                     }
         
