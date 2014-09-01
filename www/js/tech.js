@@ -42,7 +42,7 @@ var tech = {
 	handleBackKey: function()
 	{
 	    clearInterval(TechLoopRxIntervalHandle);
-//	    clearInterval(TechLoopTxIntervalHandle);
+	    clearInterval(TechLoopTxIntervalHandle);
 	 	PrintLog(1, "Tech: Tech Mode Back key pressed");
 	 	app.renderHomeView();
 	},
@@ -114,14 +114,15 @@ var tech = {
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 250 );
 		
 		// Start the timer to request fresh page data. 
-//        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
+        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
 	},
 
 
 
     GetFreshPageLoop: function() 
     {
-        if( (window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP) || (FreshLoopCounter > 10) )
+//        if( (window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP) || (FreshLoopCounter > 10) )
+        if( (bLookForRsp == false) || (FreshLoopCounter > 10) )
         {
             PrintLog(4, "Tech: Get Fresh Page loop..." );
            
@@ -437,11 +438,6 @@ var tech = {
             }  // End get page
         }   // End if( bLookForRsp )   
         
-        if( bLookForRsp == false )
-        {
-            // Get a fresh page immediately after processing rsp...
-            tech.GetFreshPageLoop();
-        }
         
     },
 
