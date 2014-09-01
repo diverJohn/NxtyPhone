@@ -9,7 +9,7 @@ var REG_STATE_OPER_REG_RSP  	= 4;
 var REG_STATE_REGISTRATION_RSP 	= 5;
 
 var myPlmnid                    = "no plmind";
-var regDataToOp                 = "registration data to operator";
+var myRegDataToOp               = "registration data to operator";
 var regTimeoutCount             = 0;
 
 var reg = {
@@ -101,8 +101,8 @@ var reg = {
 				{
                     // We have received the response from the Cel-Fi unit..
                     // Send the data from the Cel-Fi unit to the cloud...
-                    var myText = "'plmnid':'"        + myPlmnid    + "', " +
-                                 "'regDataToOp':'"   + regDataToOp + "', " +
+                    var myText = "'plmnid':'"        + myPlmnid      + "', " +
+                                 "'regDataToOp':'"   + myRegDataToOp + "', " +
                                  "'regDataFromOp':'0', "                   +        // Fill return with 0
                                  "'regAction':'true'";                              // Fire the event.
                     

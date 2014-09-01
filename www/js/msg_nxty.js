@@ -279,7 +279,40 @@ var nxty = {
 	        }
 	        
 	        
-	        case NXTY_CELL_INFO_RSP:                  PrintLog(1,  "Msg: Cell Info Rsp" );                break;
+	        case NXTY_CELL_INFO_RSP:
+	        {
+	           PrintLog(1,  "Msg: Cell Info Rsp" );
+	           
+                // JSON data from device looks like...
+                //     { 
+                //       “plmnid”:'0x310-0x240',
+                //       "regDataToOp": "cell info response data",
+                //     }
+                
+                // Grab the JSON string from the Rx buffer...
+                // u8RxBuff[0] = len  (should be 255)
+                // u8RxBuff[1] = cmd  (should be cell info response, 0x44)
+                // u8RxBuff[2] to u8RxBuff[253] should be the JSON string data...
+                
+                // Find the end of the JSON string data...
+                for( i = 2; i < 255; i++ )
+                {
+                    if( u8RxBuff[i] == 0 )
+                    {
+                        break;
+                    }
+                }
+    
+                var u8Sub    = u8RxBuff.subarray(2, i);     // u8RxBuff[2] to [i-1].
+                var myString = bluetoothle.bytesToString(u8Sub);
+                var myData   = JSON.parse(myString);
+	           
+	            // Fill in the global variables...
+	            myPlmnid       = myData.plmnid;
+                myRegDataToOp  = myData.regDataToOp;
+	           break;
+	        }
+	        
 	        
 	        case NXTY_SW_VERSION_RSP:
 	        {
