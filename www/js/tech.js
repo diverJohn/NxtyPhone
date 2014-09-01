@@ -42,7 +42,7 @@ var tech = {
 	handleBackKey: function()
 	{
 	    clearInterval(TechLoopRxIntervalHandle);
-	    clearInterval(TechLoopTxIntervalHandle);
+//	    clearInterval(TechLoopTxIntervalHandle);
 	 	PrintLog(1, "Tech: Tech Mode Back key pressed");
 	 	app.renderHomeView();
 	},
@@ -75,11 +75,6 @@ var tech = {
     handleRightKey: function()
     {
         userPageInc = 1;
-
-        // Crank up the messages to get the labels, units and 1st set of values...
-        clearInterval();
-        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 100 );
-        
 //        tech.clearPage();
     },
 
@@ -119,7 +114,7 @@ var tech = {
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 250 );
 		
 		// Start the timer to request fresh page data. 
-        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 100 );
+//        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
 	},
 
 
@@ -308,10 +303,6 @@ var tech = {
                     // See if any values have been included, if so then update...   
                     if( myData.val.length != 0 )
                     {
-                        // Once we start getting the values slow down to 1 req per second...
-                        clearInterval();
-                        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
-                        
                         outText += " Val: ";    
                         for( i = 0; i < myData.val.length; i++ )
                         {
@@ -384,10 +375,6 @@ var tech = {
                     // See if any values have been included, if so then update...   
                     if( myData.val.length != 0 )
                     {
-                        // Once we start getting the values slow down to 1 req per second...
-                        clearInterval();
-                        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
-
                         outText += " Val: ";
 
                         // Let the cloud know what page this data is for...
@@ -447,7 +434,13 @@ var tech = {
     			PrintLog(1, outText );
                 bLookForRsp = false;
               
-            }
+            }  // End get page
+        }   // End if( bLookForRsp )   
+        
+        if( bLookForRsp == false )
+        {
+            // Get a fresh page immediately after processing rsp...
+            GetFreshPageLoop();
         }
         
     },
