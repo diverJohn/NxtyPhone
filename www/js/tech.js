@@ -440,7 +440,7 @@ var tech = {
         if( bLookForRsp == false )
         {
             // Get a fresh page immediately after processing rsp...
-            GetFreshPageLoop();
+            tech.GetFreshPageLoop();
         }
         
     },
