@@ -139,7 +139,7 @@ function SendCloudData(dataText)
         
         PrintLog( 1, "SendCloudData: " + myDataUrl + "  " + myData );
         
-/*        
+        
         $.ajax({
             type       : "POST",
             url        : myDataUrl,
@@ -155,7 +155,7 @@ function SendCloudData(dataText)
                             PrintLog( 99, JSON.stringify(response) );
                         }
         });
-*/
+
 
         
     }
@@ -221,8 +221,8 @@ function SendCloudPoll()
         }
 
 
-//        var myAssetUrl = myUrl + "assets/1/" + myModel + "!" + mySn;
-        var myAssetUrl = myUrl + "assets/1/modelTest!12345";
+        var myAssetUrl = myUrl + "assets/1/" + myModel + "!" + mySn;
+//        var myAssetUrl = myUrl + "assets/1/modelTest!12345";
         PrintLog( 1, "SendCloudPoll: " + myAssetUrl );
         
         
