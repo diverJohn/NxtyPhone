@@ -75,7 +75,11 @@ var tech = {
     handleRightKey: function()
     {
         userPageInc = 1;
-        navigator.notification.activityStart("", "");
+
+        // Crank up the messages to get the labels, units and 1st set of values...
+        clearInterval();
+        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 100 );
+        
 //        tech.clearPage();
     },
 
@@ -115,9 +119,7 @@ var tech = {
 		TechLoopRxIntervalHandle = setInterval(tech.ProcessTechDataLoop, 250 );
 		
 		// Start the timer to request fresh page data. 
-        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
-        
-		  			
+        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 100 );
 	},
 
 
@@ -306,6 +308,10 @@ var tech = {
                     // See if any values have been included, if so then update...   
                     if( myData.val.length != 0 )
                     {
+                        // Once we start getting the values slow down to 1 req per second...
+                        clearInterval();
+                        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
+                        
                         outText += " Val: ";    
                         for( i = 0; i < myData.val.length; i++ )
                         {
@@ -322,7 +328,6 @@ var tech = {
                         	cloudText += ", '" + currentLabels[i] + "':" + myData.val[i];
                         }
                         
-                        navigator.notification.activityStop();
                         SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                     }
         
@@ -379,6 +384,10 @@ var tech = {
                     // See if any values have been included, if so then update...   
                     if( myData.val.length != 0 )
                     {
+                        // Once we start getting the values slow down to 1 req per second...
+                        clearInterval();
+                        TechLoopTxIntervalHandle = setInterval(tech.GetFreshPageLoop, 1000 );
+
                         outText += " Val: ";
 
                         // Let the cloud know what page this data is for...
@@ -415,7 +424,6 @@ var tech = {
                             }
                         }
 
-                        navigator.notification.activityStop();
                         SendCloudData(cloudText);   // The cloud does not get units or should I append to label?
                     }
         
