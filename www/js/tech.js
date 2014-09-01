@@ -23,7 +23,8 @@ var ThreeColTable =
     "<tr> <td id='d7'>-</td>  <td id='v7'></td>  <td id='u7'></td></tr>" +
     "<tr> <td id='d8'>-</td>  <td id='v8'></td>  <td id='u8'></td></tr>" +
     "<tr> <td id='d9'>-</td>  <td id='v9'></td>  <td id='u9'></td></tr>" +
-    "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>";
+    "<tr> <td id='d10'>-</td> <td id='v10'></td> <td id='u10'></td></tr>" +    
+    "<tr> <td id='d11'>-</td> <td id='v11'></td> <td id='u11'></td></tr>";
                             
                             
 var FourColTable = 
@@ -255,9 +256,9 @@ var tech = {
                	outText += " Page: " + myData.page;
 
                                	
-               	if( myData.page <= 9 )
+               	if( (myData.page <= 9) || (myData.page >= 14) )
                	{
-               	    // Cell Info, Sys Info and UNII tables
+               	    // Cell Info, Sys Info, UNII and LTE Detail tables...
                	
                     // See if any labels have been included, if so then update...
                     if( myData.lbl.length != 0 )
@@ -288,7 +289,7 @@ var tech = {
                         }
     
                         // Clear the remaining rows...
-                        for( ; i < 11; i++ )
+                        for( ; i < 12; i++ )
                         {
                             idTxt = "d" + i;
                             document.getElementById(idTxt).innerHTML = "-";
@@ -337,7 +338,7 @@ var tech = {
                         } 
                     }
                 }
-                else if( myData.page <= 13 )
+                else if( (myData.page >= 10) && (myData.page <= 13) )
                 {
                     // Cell Detail
                     //  ID   DLFreqMHz  RSCP  ECIO        (WCDMA)
