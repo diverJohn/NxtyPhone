@@ -31,13 +31,14 @@ var  NXTY_DOWNLOAD_END_REQ             = 0x0A;
 var  NXTY_DOWNLOAD_END_RSP             = 0x4A;
 var  NXTY_STATUS_REQ                   = 0x0B;
 var  NXTY_STATUS_RSP                   = 0x4B;
-
+var  NXTY_NAK_RSP                      = 0xBB;
 
 
 var	msgRxLastCmd      = NXTY_INIT;
-var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);	
-
- 
+var u8RxBuff          = new Uint8Array(NXTY_BIG_MSG_SIZE);
+var uLastStdBuff      = new Uint8Array(NXTY_STD_MSG_SIZE);	
+var uLastBigBuff      = new Uint8Array(NXTY_BIG_MSG_SIZE);
+var uSendCount        = 0; 
 
 var uRxBuffIdx		  = 0;
 var uTxMsgNotReadyCnt = 0;
@@ -175,6 +176,12 @@ var nxty = {
         // Send the data..
         WriteBluetoothDevice(uStdBuff);
         
+        // Save to resend...
+        for( i = 0; i < uStdBuff.length; i++ )
+        {
+            uLastStdBuff[i] = uStdBuff[i];
+        }
+        
       }
       else
       {
@@ -197,11 +204,18 @@ var nxty = {
         uBigBuff[NXTY_BIG_MSG_SIZE-1] = uCrc;
     
         WriteBluetoothDevice(uBigBuff);
+        
+        // Save to resend...
+        for( i = 0; i < uBigBuff.length; i++ )
+        {
+            uLastBigBuff[i] = uBigBuff[i];
+        }
       }
     
       // Get ready to receive...
       uRxBuffIdx   = 0;
       msgRxLastCmd = NXTY_WAITING_FOR_RSP;
+      uSendCount   = 1; 
     },
      
      
@@ -406,6 +420,31 @@ var nxty = {
 	    	    break;
 	    	}
 	        
+	        
+	        case NXTY_NAK_RSP:
+            {   
+                PrintLog(1,  "Msg: NAK Rsp" );
+                
+                if( uSendCount < 3 )
+                {
+                    uSendCount++;
+                    msgRxLastCmd = NXTY_WAITING_FOR_RSP; 
+                    
+                    // If the NAK'd command was a big one then use last big buffer.
+                    if( (u8RxBuff[2] == NXTY_REGISTRATION_REQ) || (u8RxBuff[2] == NXTY_DOWNLOAD_TRANSFER_REQ) )
+                    {
+                        WriteBluetoothDevice(uLastBigBuff);
+                    }
+                    else
+                    {
+                        WriteBluetoothDevice(uLastStdBuff);
+                    }
+                    
+                }
+                
+                break;
+            }
+            
 	        default:
 	        {
 	           PrintLog(99,  "Msg: Undefined command: " + uCmd.toString(16) );
