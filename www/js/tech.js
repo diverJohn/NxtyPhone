@@ -122,7 +122,7 @@ var tech = {
     GetFreshPageLoop: function() 
     {
 //        if( (window.msgRxLastCmd == NXTY_GET_MON_MODE_PAGE_RSP) || (FreshLoopCounter > 10) )
-        if( (bLookForRsp == false) || (FreshLoopCounter > 10) )
+        if( (bLookForRsp == false) || (FreshLoopCounter > 4) )
         {
             PrintLog(4, "Tech: Get Fresh Page loop..." );
            
