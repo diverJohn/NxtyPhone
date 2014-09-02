@@ -425,7 +425,8 @@ var nxty = {
             {   
                 PrintLog(1,  "Msg: NAK Rsp" );
                 
-                if( uSendCount < 3 )
+                // Allow a total of 2 retries...
+                if( uSendCount < 4 )
                 {
                     uSendCount++;
                     msgRxLastCmd = NXTY_WAITING_FOR_RSP; 
