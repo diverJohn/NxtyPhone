@@ -151,16 +151,22 @@ td {background-color:white; text-align: center; opacity: 0.75; border: 1px solid
 }
 
 .myLeftArrow {
+    position: fixed;
+    bottom: 30px;
+    left: 5px;
     background-color: Transparent;
     border-color: Transparent;
-    float: left;
+//    float: left;
     opacity: 0.50;
 }
 
 .myRightArrow {
+    position: fixed;
+    bottom: 30px;
+    right: 5px;
     background-color: Transparent;
     border-color: Transparent;
-    float: right;
+//    float: right;
     opacity: 0.50;
 }
 
