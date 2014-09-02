@@ -114,7 +114,17 @@ var nxty = {
         
         if( uTxMsgNotReadyCnt < 5 )
         {
-            var outText = uLenByte.toString(16) + uCmdByte.toString(16);    // Convert to hex output...
+
+            if( (uLenByte + 3) <= NXTY_STD_MSG_SIZE )
+            {
+                var outText = NXTY_STD_MSG_SIZE + " " + uCmdByte.toString(16);    // Convert to hex output...
+            }
+            else
+            {
+                var outText = NXTY_BIG_MSG_SIZE + " " + uCmdByte.toString(16);    // Convert to hex output...
+            }
+            
+
             for( i = 0; i < pMsgData.length; i++ )
             {
                 outText = outText + " " + pMsgData[i].toString(16);
