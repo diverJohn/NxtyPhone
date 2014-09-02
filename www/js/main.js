@@ -349,39 +349,8 @@ SendCloudAsset();
 	 	}
 	 	else
 	 	{
-//SendCloudData( "'5_GHz_UL_Freq':" + 209 ); 	
-//SendCloudAsset();
-   
-
-//nxty.SendNxtyMsg(NXTY_STATUS_REQ, null, 0);  	
-//            showAlert("SW Update mode not allowed...", "Bluetooth not connected.");
-  
-//                myPollResponse = '{"set":[{"items":{"NextSong":"Howdy"},"priority":0},{"items":{"NextSong":"Howdy"},"priority":0}]}';          
-//                myPollResponse = '{"NextSong":"Howdy", "priority":0}';          
-                myPollResponse = '{"set":[{"items":{"NextSong":"Howdy"},"priority":0}]}';          
-          
-                    var rsp   = JSON.parse(myPollResponse);
-                    
-PrintLog(1, "What is next song " + rsp.set[0].items.NextSong );                     
-                    
-        var u8 = new Uint8Array(rsp.set[0].items.NextSong.length); 
-
-        for( var i = 0; i < rsp.set[0].items.NextSong.length; i++ )
-        {
-            u8[i] = rsp.set[0].items.NextSong.charCodeAt(i);
-        }
-        
-//    48 6f 77 64 79
-                    
-        var outText = u8[0].toString(16);    // Convert to hex output...
-        for( var i = 1; i < u8.length; i++ )
-        {
-            outText = outText + " " + u8[i].toString(16);
-        }
-        PrintLog(1,  "Dump Tx: " + outText );
-                
-                    // Received a response from the cloud... 
-//                    nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8rsp, u8rsp.length);            
+	 	
+                	 	
             
 		 	
 	 	}

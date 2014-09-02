@@ -432,6 +432,7 @@ var nxty = {
 			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOn )
 			{
 				document.getElementById("reg_icon_id").innerHTML = szRegIconOn;
+                $('body').css("background","white url('../img/background_reg.png') no-repeat fixed center bottom");
 			}
 			isRegistered = true;
 		}
@@ -440,6 +441,7 @@ var nxty = {
 			if( document.getElementById("reg_icon_id").innerHTML != szRegIconOff )
 			{
 				document.getElementById("reg_icon_id").innerHTML = szRegIconOff;
+                $('body').css("background","white url('../img/background.png') no-repeat fixed center bottom");
 			}
 			isRegistered = false;
 		}
