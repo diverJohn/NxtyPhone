@@ -162,7 +162,7 @@ var tech = {
         else
         {
             FreshLoopCounter += 1;
-            PrintLog(4, "Tech: Get Fresh Page loop not ready. Cnt: " + FreshLoopCounter );
+            PrintLog(1, "Tech: Get Fresh Page loop not ready. Cnt: " + FreshLoopCounter );
         }               
     },
 
