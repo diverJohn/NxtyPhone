@@ -157,6 +157,7 @@ var reg = {
 				{
 	                regTimeoutCount += 1;
 
+/*
 // jdo dummy response since no operator response
         if( regTimeoutCount >= 5 )
         {
@@ -169,7 +170,7 @@ var reg = {
             navigator.notification.activityStart("Registering...", "Authenticating...");
             regState        = REG_STATE_REGISTRATION_RSP;
     }
-
+*/
 
 
                     
