@@ -117,11 +117,11 @@ var nxty = {
 
             if( (uLenByte + 3) <= NXTY_STD_MSG_SIZE )
             {
-                var outText = NXTY_STD_MSG_SIZE + " " + uCmdByte.toString(16);    // Convert to hex output...
+                var outText = "c " + uCmdByte.toString(16);    // Convert to hex output...
             }
             else
             {
-                var outText = NXTY_BIG_MSG_SIZE + " " + uCmdByte.toString(16);    // Convert to hex output...
+                var outText = "ff " + uCmdByte.toString(16);    // Convert to hex output...
             }
             
 
