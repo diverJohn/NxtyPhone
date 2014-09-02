@@ -114,7 +114,7 @@ var nxty = {
         
         if( uTxMsgNotReadyCnt < 5 )
         {
-            var outText = uCmdByte.toString(16);    // Convert to hex output...
+            var outText = uLenByte.toString(16) + uCmdByte.toString(16);    // Convert to hex output...
             for( i = 0; i < pMsgData.length; i++ )
             {
                 outText = outText + " " + pMsgData[i].toString(16);
