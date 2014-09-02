@@ -430,6 +430,7 @@ var nxty = {
                 {
                     uSendCount++;
                     msgRxLastCmd = NXTY_WAITING_FOR_RSP; 
+                    uRxBuffIdx   = 0;
                     
                     // If the NAK'd command was a big one then use last big buffer.
                     if( (u8RxBuff[2] == NXTY_REGISTRATION_REQ) || (u8RxBuff[2] == NXTY_DOWNLOAD_TRANSFER_REQ) )
