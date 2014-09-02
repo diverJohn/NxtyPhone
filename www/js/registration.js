@@ -140,13 +140,9 @@ var reg = {
 				if( myPollResponse != null )
 				{
                     // Grab the data from the operator...
-//                    PrintLog(1, "myPollResponse.set[0].items.regDataFromOp = " + myPollResponse.set[0].items.regDataFromOp );      
-//                    var u8rsp = bluetoothle.stringToBytes(myPollResponse.set[0].items.regDataFromOp); 
+                    PrintLog(1, "myPollResponse.set[0].items.regDataFromOp = " + myPollResponse.set[0].items.regDataFromOp );      
+                    var u8rsp = bluetoothle.stringToBytes(myPollResponse.set[0].items.regDataFromOp); 
 
-                    // from modelTest
-                    PrintLog(1, "myPollResponse.set[0].items.NextSong " + myPollResponse.set[0].items.NextSong );      
-				    var u8rsp = bluetoothle.stringToBytes(myPollResponse.set[0].items.NextSong); 
-                
 				    // Received a response from the cloud... 
                     nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8rsp, u8rsp.length);
                     
@@ -160,6 +156,22 @@ var reg = {
 				else
 				{
 	                regTimeoutCount += 1;
+
+// jdo dummy response since no operator response
+        if( regTimeoutCount >= 5 )
+        {
+            // Received a response from the cloud... 
+            nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, "Hello", 5 );
+            
+            
+            SendCloudData(  "'regAction':'false'" );
+            UpdateStatusLine("Authenticating...");
+            navigator.notification.activityStart("Registering...", "Authenticating...");
+            regState        = REG_STATE_REGISTRATION_RSP;
+    }
+
+
+
                     
                     if( regTimeoutCount >= 10 )
                     {
