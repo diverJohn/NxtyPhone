@@ -143,6 +143,8 @@ var reg = {
                     PrintLog(1, "myPollResponse.set[0].items.regDataFromOp = " + myPollResponse.set[0].items.regDataFromOp );      
                     var u8rsp = bluetoothle.stringToBytes(myPollResponse.set[0].items.regDataFromOp); 
 
+PrintLog(1, "Length of myPollResponse.set[0].items.regDataFromOp = " + u8rsp.length ); 
+                    
 				    // Received a response from the cloud... 
                     nxty.SendNxtyMsg(NXTY_REGISTRATION_REQ, u8rsp, u8rsp.length);
                     
