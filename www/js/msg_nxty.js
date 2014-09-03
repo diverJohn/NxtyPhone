@@ -304,7 +304,7 @@ var d = new Date();
 var n = d.getTime();  	           
 
 PrintLog(1, "Time: " + n.toString(16) );
-for( i = nxtySn.length-1; i >= 0; i++ )
+for( i = nxtySn.length-1; i >= 0; i-- )
 {
     nxtySn[i] = n & 0xFF;
     n >>= 8;
