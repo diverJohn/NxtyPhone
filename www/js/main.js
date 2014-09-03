@@ -547,7 +547,7 @@ SendCloudAsset();
             else if( nxtySwVerCuPic == null )
             {
                 // We now have the NU PIC SW version so send the data to the cloud
-                SendCloudData( "'SwVer_NU_PIC':'" + nxtySwVerNuPic + "'" );
+                SendCloudData( "'SwVerNU_PIC':'" + nxtySwVerNuPic + "'" );
 
                 // Get the CU PIC software version...
                 nxtyCurrentVerReq = NXTY_SW_CU_PIC_TYPE;
@@ -557,7 +557,7 @@ SendCloudAsset();
             else if( nxtySwVerBt == null )
             {
                 // We now have the CU PIC SW version so send the data to the cloud
-                SendCloudData( "'SwVer_CU_PIC':'" + nxtySwVerCuPic + "'" );
+                SendCloudData( "'SwVerCU_PIC':'" + nxtySwVerCuPic + "'" );
             
                 // Get the BT software version...
                 nxtyCurrentVerReq = NXTY_SW_BT_TYPE;
