@@ -304,12 +304,15 @@ var d = new Date();
 var n = d.getTime();  	           
 
 PrintLog(1, "Time: " + n.toString(16) );
-for( i = nxtySn.length-1; i >= 0; i-- )
+for( i = nxtySn.length-1; i >= 2; i-- )
 {
     nxtySn[i] = n & 0xFF;
-    n >>= 8;
+    n >>= 8;                        // shift operation decreases to 32-bit number
 PrintLog(1, "i=" + i + " n=" + n.toString(16) );    
 }
+
+    nxtySn[0] = 0x90;
+    nxtySn[1] = 0x09;
 
 var outText = nxtySn[0].toString(16);
 for( i = 1; i < nxtySn.length; i++ )
