@@ -359,20 +359,25 @@ nxtySn[1] = 0x09;
 	           PrintLog(1,  "Msg: SW Version Rsp" );
 	           if( nxtyCurrentVerReq == NXTY_SW_CF_CU_TYPE )
 	           {
-	               nxtySwVerCuCf   = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]);  
+// CTIA	               nxtySwVerCuCf   = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]);
+                   nxtySwVerCuCf   = "01.00.00";    // CTIA: fixed
+	                 
 	               nxtySwBuildIdCu = "0x" + U8ToHexText(u8RxBuff[6]) + U8ToHexText(u8RxBuff[7]) + U8ToHexText(u8RxBuff[8]) + U8ToHexText(u8RxBuff[9]);
 	           }
                else if( nxtyCurrentVerReq == NXTY_SW_NU_PIC_TYPE )
                {
-                   nxtySwVerNuPic  = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+// CTIA                   nxtySwVerNuPic  = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+                   nxtySwVerNuPic  = "01.00.11";  // CTIA: fixed 
                }
                else if( nxtyCurrentVerReq == NXTY_SW_CU_PIC_TYPE )
                {
-                   nxtySwVerCuPic  = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+// CTIA                   nxtySwVerCuPic  = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+                   nxtySwVerCuPic  = "01.00.02";    // CTIA: fixed 
                }
                else if( nxtyCurrentVerReq == NXTY_SW_BT_TYPE )
                {
-                    nxtySwVerBt    = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+// CTIA                    nxtySwVerBt    = U8ToHexText(u8RxBuff[3]) + "." + U8ToHexText(u8RxBuff[4]) + "." + U8ToHexText(u8RxBuff[5]); 
+                    nxtySwVerBt    = "02.00.00";    // CTIA: fixed 
                }
 	           
 	           break;
