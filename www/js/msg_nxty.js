@@ -303,7 +303,7 @@ var nxty = {
 var d = new Date();
 var n = d.getTime();  	           
 
-
+PrintLog(1, "Time: " + n.toString(16) );
 for( i = 0; i < nxtySn.length; i++ )
 {
     nxtySn[i] = n & 0xFF;
