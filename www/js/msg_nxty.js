@@ -293,10 +293,30 @@ var nxty = {
 	        case NXTY_SYS_SN_RSP: 
 	        {
 	           PrintLog(1,  "Msg: System SN Rsp" );
+	           
 	           for( i = 0; i < nxtySn.length; i++ )
 	           {
 	               nxtySn[i] = u8RxBuff[2+i];
 	           }
+
+// jdo - fill the SN with the number of seconds since 1971 to create a unique SN
+var d = new Date();
+var n = d.getTime();  	           
+
+
+for( i = 0; i < nxtySn.length; i++ )
+{
+    nxtySn[i] = n & 0xFF;
+    n >>= 8;
+}
+
+var outText = nxtySn[0].toString(16);
+for( i = 1; i < nxtySn.length; i++ )
+{
+    outText += " " + nxtySn[i].toString(16);
+}
+PrintLog(1, "SN time: " + outText );
+
 	           
                isNxtySnCurrent = true;
 	           break;

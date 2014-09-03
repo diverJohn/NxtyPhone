@@ -74,7 +74,7 @@ var reg = {
 			case REG_STATE_INIT:
 			{
 				regState              = REG_STATE_CELL_INFO_REQ;
-	 			RegLoopIntervalHandle = setInterval(reg.RegLoop, 1000 );
+	 			RegLoopIntervalHandle = setInterval(reg.RegLoop, 2000 );
                 regTimeoutCount       = 0;
 
 	 			
