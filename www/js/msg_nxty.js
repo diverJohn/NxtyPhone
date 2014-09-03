@@ -308,6 +308,7 @@ for( i = nxtySn.length-1; i >= 0; i-- )
 {
     nxtySn[i] = n & 0xFF;
     n >>= 8;
+PrintLog(1, "i=" + i + " n=" + n.toString(16) );    
 }
 
 var outText = nxtySn[0].toString(16);
