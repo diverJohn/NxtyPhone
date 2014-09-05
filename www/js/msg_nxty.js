@@ -428,7 +428,8 @@ nxtySn[1] = 0x09;
 	        	// u8RxBuff[2] and [3] = u16[1]
                 // u8RxBuff[4] and [5] = u16[2]
                 // u8RxBuff[6] and [7] = u16[3]  --> BuildConfig
-                nxtyRxStatusBuildConfig = u16[3];
+// CTIA                nxtyRxStatusBuildConfig = u16[3];
+                nxtyRxStatusBuildConfig = 8;                    // CTIA force model number to be MN8
 	        	
 	        	isNxtyStatusCurrent = true;
 	        	break;
