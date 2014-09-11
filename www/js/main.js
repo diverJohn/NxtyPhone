@@ -21,7 +21,7 @@ var myLong         = -117.074195;           // Nextivity long
 var myPollResponse = null;
 
 
-var MainLoopIntervalHandle = null;
+var MainLoopIntervalHandle = null; 
 
 // Determine which messages get sent to the console.  1 normal, 10 verbose.
 // Level  1: Flow and errors.
